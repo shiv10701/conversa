@@ -231,7 +231,7 @@ Margin Bottom
 /*----------------------------------------------
 Card
 ------------------------------------------------*/
-.iq-card { background: var(--iq-card-bg); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; margin-bottom: 30px; border: none; -webkit-box-shadow: 0px 2px 8px var(--iq-card-shadow-1), 0px 8px 16px var(--iq-card-shadow-2); box-shadow: 0px 2px 8px var(--iq-card-shadow-1), 0px 8px 16px var(--iq-card-shadow-2); }
+.iq-card { background: var(--iq-card-bg); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; border: none; -webkit-box-shadow: 0px 2px 8px var(--iq-card-shadow-1), 0px 8px 16px var(--iq-card-shadow-2); box-shadow: 0px 2px 8px var(--iq-card-shadow-1), 0px 8px 16px var(--iq-card-shadow-2); }
 .iq-card-transparent { background: transparent;  -webkit-border-radius: 8px; -moz-border-radius: 5px; border-radius: 5px; margin-bottom: 30px; }
 .iq-card-body { padding: 20px; }
 .iq-card .iq-card-header { padding: 20px 20px 0px; min-height: 60px; -ms-flex-align: center !important; align-items: center !important; }
