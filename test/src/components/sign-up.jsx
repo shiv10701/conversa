@@ -1,8 +1,23 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
+import {Country} from 'country-state-city'
+import axios from 'axios'
 
 
 function SignUpPage() {
+
+    let name,email,password,phone_no,username,gender,dob,type,country,profile_pic,cnf_password;
+    function submit_signup(e){
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const formDataObject = Object.fromEntries(formData.entries());
+        save_data(formDataObject)
+    }
+
+    async function save_data(form_data){
+        const result=await  axios.post('http://localhost:5000/api/auth/signup',{...form_data},{headers: {'Content-Type': 'multipart/form-data'}});
+        console.log(result);
+    }
     return (
         <div>
             <div>
@@ -18,84 +33,82 @@ function SignUpPage() {
                             <div className="col-sm-6 align-self-center" style={{ maxHeight: '90vh', overflow: 'auto', paddingBottom: '10vh' }}>
                                 <div className="sign-in-from">
                                     <h1 className="mb-0">Sign Up</h1>
-                                    <form className="mt-4">
+                                    <form className="mt-4" onSubmit={submit_signup} encType="multipart/form-data">
                                         <div className="form-group">
                                             <label htmlFor="fname_id">Your Full Name</label>
-                                            <input type="email" className="form-control mb-0" id="fname_id" placeholder="Your Full Name" />
+                                            <input type="email" className="form-control mb-0" id="fname_id" placeholder="Your Full Name" name="name" ref={node=>(name=node)}/>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="email_id">Email address</label>
-                                            <input type="email" className="form-control mb-0" id="email_id" placeholder="Enter email" />
+                                            <input type="email" className="form-control mb-0" id="email_id" placeholder="Enter email" name="email" ref={node=>(email=node)}/>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="genderRadio">Gender</label><br />
                                             <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="maleRadio" name="gender" className="custom-control-input" value="male" />
+                                                <input type="radio" id="maleRadio" name="gender" className="custom-control-input" value="male" ref={node=>(gender=node)}/>
                                                 <label className="custom-control-label" htmlFor="maleRadio">Male</label>
                                             </div>
                                             <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="femaleRadio" name="gender" className="custom-control-input" value="female" />
+                                                <input type="radio" id="femaleRadio" name="gender" className="custom-control-input" value="female" ref={node=>(gender=node)}/>
                                                 <label className="custom-control-label" htmlFor="femaleRadio">Female</label>
                                             </div>
                                             <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="otherRadio" name="gender" className="custom-control-input" value="other" />
+                                                <input type="radio" id="otherRadio" name="gender" className="custom-control-input" value="other" ref={node=>(gender=node)}/>
                                                 <label className="custom-control-label" htmlFor="otherRadio">Other</label>
                                             </div>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="dobInput">Date of Birth</label>
-                                            <input type="date" className="form-control" id="dobInput" name="dob" />
+                                            <input type="date" className="form-control" id="dobInput" name="dob" ref={node=>(dob=node)}/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="country_id">Country</label>
-                                            <select className="form-control" id="country_id">
-                                                <option value="USA">United States</option>
-                                                <option value="Canada">Canada</option>
-                                                <option value="UK">United Kingdom</option>
-                                                {/* Add more options for other countries as needed */}
+                                            <select className="form-control" id="country_id" defaultValue={""} name="country" ref={node=>(country=node)}>
+                                                <option value="" disabled>Select Country</option>
+                                                {Country.getAllCountries().map((country)=>{return <option value={country.isoCode}>{country.name}</option>})}
                                             </select>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="phone_id">Phone</label>
-                                            <input type="tel" className="form-control mb-0" id="phone_id" placeholder="Enter email" />
+                                            <input type="tel" className="form-control mb-0" id="phone_id" placeholder="Enter email" name="phone_no" ref={node=>(phone_no=node)}/>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="accountTypeRadio">Account Type</label><br />
                                             <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="personalRadio" name="accountType" className="custom-control-input" value="personal" />
+                                                <input type="radio" id="personalRadio" name="type" className="custom-control-input" value="personal" ref={node=>(type=node)}/>
                                                 <label className="custom-control-label" htmlFor="personalRadio">Personal</label>
                                             </div>
                                             <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="buisnessRadio" name="accountType" className="custom-control-input" value="organization" />
+                                                <input type="radio" id="buisnessRadio" name="type" className="custom-control-input" value="organization" ref={node=>(type=node)}/>
                                                 <label className="custom-control-label" htmlFor="buisnessRadio">Business</label>
                                             </div>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="profilePhoto">Profile Photo</label>
-                                            <input type="file" className="form-control-file" id="profilePhoto" accept="image/*" />
+                                            <input type="file" className="form-control-file" id="profilePhoto" accept="image/*" name="profile_img" ref={node=>(profile_pic=node)}/>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="usernameInput">Username</label>
-                                            <input type="text" className="form-control" id="usernameInput" name="username" placeholder="Username" />
+                                            <input type="text" className="form-control" id="usernameInput" name="username" placeholder="Username" ref={node=>(username=node)}/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="password_id">Password</label>
-                                            <input type="password" className="form-control mb-0" id="password_id" placeholder="Password" />
+                                            <input type="password" className="form-control mb-0" id="password_id" placeholder="Password" name="password" ref={node=>(password=node)}/>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="conf_pass_id">Confirm Password</label>
-                                            <input type="password" className="form-control mb-0" id="conf_pass_id" placeholder="Confirm Password" />
+                                            <input type="password" className="form-control mb-0" id="conf_pass_id" placeholder="Confirm Password" name="confirm_password" ref={node=>(cnf_password=node)}/>
                                         </div>
                                         <div className="d-inline-block w-100">
                                             <div className="custom-control custom-checkbox d-inline-block mt-2 pt-1">
                                                 <input type="checkbox" className="custom-control-input" id="customCheck1" />
                                                 <label className="custom-control-label" htmlFor="customCheck1">I accept <a href="#">Terms and Conditions</a></label>
                                             </div>
-                                            <button type="submit" className="btn btn-primary float-right">Sign Up</button>
+                                            <button type="submit" className="btn btn-primary float-right" >Sign Up</button>
                                         </div>
                                         <div className="sign-info pb-5">
                                             <span className="dark-color d-inline-block line-height-2">Already Have Account ?  <Link to="/sign-in">Log in </Link></span>

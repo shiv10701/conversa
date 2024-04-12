@@ -1,5 +1,6 @@
 import Mongoose, { Schema } from 'mongoose';
 
+let user;
 const user_schema=new Mongoose.Schema({
     name:{
         type:String,
@@ -10,7 +11,7 @@ const user_schema=new Mongoose.Schema({
         required:true,
         unique:true,
     },
-    pass:{
+    password:{
         type:String,
         required:true,
     },
@@ -27,8 +28,8 @@ const user_schema=new Mongoose.Schema({
     gender:{
         type:String,
         required:true,
-        enum:["Male","Female","Others"],
-        default:"Others"
+        enum:["male","female","others"],
+        default:"others"
     },
     dob:{
         type:Date,
@@ -37,8 +38,8 @@ const user_schema=new Mongoose.Schema({
     status:{
         type:String,
         required:true,
-        enum:["Online","Offline"],
-        default:"Offline"
+        enum:["online","offline"],
+        default:"offline"
     },
     profile_img:{
         type:String,
@@ -53,8 +54,8 @@ const user_schema=new Mongoose.Schema({
     },
     type:{
         type:String,
-        enum:["Personal","Business"],
-        default:"Personal"
+        enum:["personal","business"],
+        default:"personal"
     },
     blocked_by:[{
         type:Schema.Types.ObjectId,
@@ -62,6 +63,6 @@ const user_schema=new Mongoose.Schema({
     }]
 },{timestamps:true})
 
-const user=Mongoose.model("user",user_schema);
+user=Mongoose.model("user",user_schema);
 
 export default user;

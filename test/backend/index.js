@@ -3,6 +3,7 @@ import express from 'express'
 const app = express()
 import bodyParser from "body-parser";
 import cors from "cors";
+import authRoute from './routes/auth.routes.js'
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -16,6 +17,8 @@ const port = 5000
 app.get('/', (req, res) => {
   res.send('Hello World!!!!!!!!!!!')
 })
+
+app.use("/api/auth",authRoute)
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`)
