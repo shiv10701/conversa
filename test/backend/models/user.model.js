@@ -28,7 +28,7 @@ const user_schema=new Mongoose.Schema({
     gender:{
         type:String,
         required:true,
-        enum:["male","female","others"],
+        enum:["male","female","other"],
         default:"others"
     },
     dob:{

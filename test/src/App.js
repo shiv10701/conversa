@@ -17,6 +17,7 @@ function App() {
           <Route exact path='/' element={<Chat />} />
           <Route exact path='/sign-in' element={<SignInPage />} />
           <Route exact path='/sign-up' element={<SignUpPage />} />
+          <Route path='*' element={<SignInPage />} />
         </Routes>
       </Router>
     </>

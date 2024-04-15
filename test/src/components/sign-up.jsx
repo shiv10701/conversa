@@ -1,10 +1,28 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {Link} from 'react-router-dom'
 import {Country} from 'country-state-city'
 import axios from 'axios'
 
 
 function SignUpPage() {
+
+
+    useEffect(() => {
+        // Fade out the loading element after a delay when the component mounts
+        const loadingElement = document.getElementById('loading');
+        setTimeout(() => {
+            if (loadingElement) {
+                loadingElement.style.transition = 'opacity 1s ease';
+                loadingElement.style.opacity = '0'; // Fade out
+                setTimeout(() => {
+                    if (loadingElement) {
+                        loadingElement.style.display = 'none'; // Hide after fading out
+                    }
+                }, 200); // Adjust the duration of the fade-out animation as needed
+            }
+        }, 200); // Adjust the delay before fading out as needed
+    }, []); // Empty dependency array ensures this effect runs only once after the component mounts
+
 
     let name,email,password,phone_no,username,gender,dob,type,country,profile_pic,cnf_password;
     function submit_signup(e){
@@ -36,7 +54,7 @@ function SignUpPage() {
                                     <form className="mt-4" onSubmit={submit_signup} encType="multipart/form-data">
                                         <div className="form-group">
                                             <label htmlFor="fname_id">Your Full Name</label>
-                                            <input type="email" className="form-control mb-0" id="fname_id" placeholder="Your Full Name" name="name" ref={node=>(name=node)}/>
+                                            <input type="text" className="form-control mb-0" id="fname_id" placeholder="Your Full Name" name="name" ref={node=>(name=node)}/>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="email_id">Email address</label>
@@ -81,7 +99,7 @@ function SignUpPage() {
                                                 <label className="custom-control-label" htmlFor="personalRadio">Personal</label>
                                             </div>
                                             <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="buisnessRadio" name="type" className="custom-control-input" value="organization" ref={node=>(type=node)}/>
+                                                <input type="radio" id="buisnessRadio" name="type" className="custom-control-input" value="business" ref={node=>(type=node)}/>
                                                 <label className="custom-control-label" htmlFor="buisnessRadio">Business</label>
                                             </div>
                                         </div>

@@ -1,8 +1,71 @@
-import React from 'react';
-import {Link} from 'react-router-dom'
+import React, { Children, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from "axios";
+
+
 
 
 function SignInPage() {
+
+    useEffect(() => {
+        // Fade out the loading element after a delay when the component mounts
+        const loadingElement = document.getElementById('loading');
+        setTimeout(() => {
+            if (loadingElement) {
+                loadingElement.style.transition = 'opacity 1s ease';
+                loadingElement.style.opacity = '0'; // Fade out
+                setTimeout(() => {
+                    if (loadingElement) {
+                        loadingElement.style.display = 'none'; // Hide after fading out
+                    }
+                }, 200); // Adjust the duration of the fade-out animation as needed
+            }
+        }, 200); // Adjust the delay before fading out as needed
+    }, []); // Empty dependency array ensures this effect runs only once after the component mounts
+
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const [error_msg, set_error_msg] = useState();
+    const [success_msg, set_success_msg] = useState();
+
+    const isValidUser = async (e) => {
+        e.preventDefault();
+        try {
+            set_error_msg(''); 
+            const response = await axios.post("http://localhost:5000/api/auth/login", formData);
+            set_success_msg(response.data)
+        } catch (error) {
+            set_success_msg('')
+            set_error_msg(error.response.data.error);
+        }
+    };
+
+
+    
+  const handleGoogleSignIn = async (e) => {
+    try {
+        e.preventDefault();
+        console.log("***************")
+        window.open('http://localhost:5000/auth/google/callback','_self')        
+    } catch (error) {
+      console.error('Error occurred while signing in with Google:', error);
+      // Handle sign-in with Google error, e.g., display error message to the user
+    }
+  };
+
+
     return (
         <div>
 
@@ -19,23 +82,33 @@ function SignInPage() {
                             <div className="col-sm-6 align-self-center">
                                 <div className="sign-in-from">
                                     <h1 className="mb-0 dark-signin">Sign in</h1>
-                                    <p>Enter your email address and password to access admin panel.</p>
+                                    <h3 className="text-danger text-center" >{error_msg}</h3>
+                                    <h3 className="text-success  text-lg  text-center" >{success_msg}</h3>
+                                    <p >Enter your email address and password to access admin panel.</p>
                                     <form className="mt-4">
                                         <div className="form-group">
                                             <label htmlFor="exampleInputEmail1">Email address</label>
-                                            <input type="email" className="form-control mb-0" id="exampleInputEmail1" placeholder="Enter email" />
+                                            <input type="email" className="form-control mb-0" id="exampleInputEmail1" placeholder="Enter email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleInputChange} />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="exampleInputPassword1">Password</label>
                                             <a href="/" className="float-right">Forgot password?</a>
-                                            <input type="password" className="form-control mb-0" id="exampleInputPassword1" placeholder="Password" />
+                                            <input type="password" className="form-control mb-0" id="exampleInputPassword1" placeholder="Password" name="password"
+                                                value={formData.password}
+                                                onChange={handleInputChange}
+                                            />
                                         </div>
                                         <div className="d-inline-block w-100">
                                             <div className="custom-control custom-checkbox d-inline-block mt-2 pt-1">
-                                                <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                                                <label className="custom-control-label" htmlFor="customCheck1">Remember Me</label>
+                                                {/* <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                                                <label className="custom-control-label" htmlFor="customCheck1">Remember Me</label> */}
+                                                 <button onClick={handleGoogleSignIn}>Sign In with Google</button>
                                             </div>
-                                            <button type="submit" className="btn btn-primary float-right">Sign in</button>
+                                            <button type="submit" onClick={isValidUser} className="btn btn-primary float-right" >Sign in</button>
+                                            <Link to="/">To Chat app</Link>
                                         </div>
                                         <div className="sign-info">
                                             {/* <span className="dark-color d-inline-block line-height-2">Don't have an account? <a href="./sign-up.html">Sign up</a></span> */}
@@ -75,7 +148,7 @@ function SignInPage() {
                         </div>
                     </div>
                 </section>
-                
+
             </div>
         </div>
     );

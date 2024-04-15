@@ -8,7 +8,7 @@ function mydb(){
     console.log("connection established")
 })
 .catch((err)=>{
-    console.log("No connection"+err.message)
+    console.log("No connection "+err.message)
 })
 
 }
