@@ -12,7 +12,8 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/api/au
         sessionData = req.user             //session stored
         try {
             if (req.isAuthenticated()) {
-                res.send("You're Logged In ")
+                res.send(sessionData)
+                //res.send("You're Logged In ")
             }
         } catch (error) {
             res.send(error);
@@ -20,8 +21,13 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/api/au
     });
 
 router.get('/login', (req, res) => {
-    console.log(messages.message); 
     res.status(400).send({ error: "Something went wrong !!!" });
+})
+
+router.post('/get_user_data',async (req,res)=>{
+    let user_data= sessionData;
+    console.log(user_data);
+    res.send(sessionData)
 })
 
 router.post("/signup", async (req, res) => {

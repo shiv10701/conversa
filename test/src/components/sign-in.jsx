@@ -1,11 +1,16 @@
-import React, { Children, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link,useNavigate } from 'react-router-dom';
 import axios from "axios";
+import {connect} from 'react-redux';
+import { init_user } from './actions/actions';
+import AssignUserData from './local_storage_function';
 
 
 
 
-function SignInPage() {
+function SignInPage({dispatch}) {
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Fade out the loading element after a delay when the component mounts
@@ -23,7 +28,9 @@ function SignInPage() {
         }, 200); // Adjust the delay before fading out as needed
     }, []); // Empty dependency array ensures this effect runs only once after the component mounts
 
-
+    useEffect(()=>{
+        assign_user_data();
+    },[])
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -45,12 +52,25 @@ function SignInPage() {
         try {
             set_error_msg(''); 
             const response = await axios.post("http://localhost:5000/api/auth/login", formData);
-            set_success_msg(response.data)
+            console.log(response.data.name);
+            dispatch(init_user(response.data))
+            localStorage.setItem("user_data",JSON.stringify(response.data))
+            navigate("/")
+            //set_success_msg(response.data)
         } catch (error) {
             set_success_msg('')
             set_error_msg(error.response.data.error);
         }
     };
+
+    async function assign_user_data(){
+        const user_data=JSON.parse(localStorage.getItem("user_data"))||null;
+        if(user_data!==null){
+            dispatch(init_user(user_data))
+            navigate("/");
+        }
+    }
+     
 
 
     
@@ -154,4 +174,4 @@ function SignInPage() {
     );
 }
 
-export default SignInPage;
+export default connect()(SignInPage);
