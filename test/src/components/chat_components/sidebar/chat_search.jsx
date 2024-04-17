@@ -5,7 +5,7 @@ import {init_user} from '../../actions/actions.js';
 import axios from 'axios';
 
 function Chat_Search(){
-    const result=useSelector(state=>state)
+  const result=useSelector(state=>state.user_data)
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -37,7 +37,7 @@ function Chat_Search(){
                               />
                             </div>
                             <div className="chat-caption align-self-center">
-                              <h5>{result[0].user_data.name}</h5>
+                              <h5>{result.name}</h5>
                             </div>
                           </div>
                           <button type="submit" className="close-btn-res p-3">

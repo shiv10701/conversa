@@ -17,10 +17,13 @@ import AssignUserData from './components/local_storage_function';
 
 function App() {
 
-  const user=useSelector(state=>state);
+  const user=useSelector(state=>state.user_data);
+  let [loading,setLoading]=useState(true)
+  useEffect(()=>{setTimeout(()=>{setLoading(false)},1000)},[])
 
+  
   return (
-      <>
+    !loading?<>
       <Router>
       
         <Routes> 
@@ -30,6 +33,12 @@ function App() {
           <Route path='*' element={<SignInPage />} />
         </Routes>
       </Router>
+    </>:<>
+    <div className='d-flex justify-content-center align-items-center w-100' style={{height:"90vh"}}>
+    <div id="loading">
+    <div id="loading-center"></div>
+  </div>
+    </div>
     </>
   );
 }

@@ -1,6 +1,5 @@
 import mydb from "./db.js"
 import express from 'express'
-const app = express()
 import bodyParser from "body-parser";
 import cors from "cors";
 import authRoute from './routes/auth.routes.js';
@@ -11,6 +10,9 @@ import expressSession from 'express-session';
 import { initializingPassport, isAuthenticated } from './routes/passportConfig.js';
 // ---------Flash---------
 import flash from "express-flash";
+import { app, server } from "./socket/server.js";
+
+
 // ---------Passport---------
 app.use(expressSession({  //this  MV(middleweare) should be before below  two
   secret: "secret", resave: false, saveUninitialized: false
@@ -37,6 +39,6 @@ app.get('/', (req, res) => {
 app.use("/api/auth", authRoute)
 app.use("/api/is-login", msgRoute)
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`http://localhost:${port}`)
 })
