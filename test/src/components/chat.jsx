@@ -1,13 +1,18 @@
 import React, {useEffect} from 'react';
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
+import {useSelector,useDispatch  } from 'react-redux';
 import User_Chat from './chat_components/userchat';
 import Empty_Chat from './chat_components/userchat/empty';
 import Sidebar from './chat_components/sidebar';
 import axios  from 'axios';
-import {useSelector } from 'react-redux';
+import {init_user} from '../components/actions/actions.js';
+
 
 
 function Chat() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const user=useSelector(state=>state);
   
@@ -91,23 +96,7 @@ function Chat() {
       </div>
     </div>
   </footer>
-  {/* Footer END */}
-  {/* Optional JavaScript */}
-  {/* jQuery first, then Popper.js, then Bootstrap JS */}
-  {/* Rtl and Darkmode */}
-  {/* Appear JavaScript */}
-  {/* Countdown JavaScript */}
-  {/* Counterup JavaScript */}
-  {/* Wow JavaScript */}
-  {/* Apexcharts JavaScript */}
-  {/* Slick JavaScript */}
-  {/* Select2 JavaScript */}
-  {/* Owl Carousel JavaScript */}
-  {/* Magnific Popup JavaScript */}
-  {/* Smooth Scrollbar JavaScript */}
-  {/* lottie JavaScript */}
-  {/* Chart Custom JavaScript */}
-  {/* Custom JavaScript */}
+ 
   </div>)};
 
 

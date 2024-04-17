@@ -148,7 +148,7 @@ function SignUpPage() {
                                             <h4 className="mb-1 text-white">Manage your orders</h4>
                                             <p>It is a long established fact that a reader will be distracted by the readable content.</p>
                                         </div>
-                                        <div className="item">
+                                        {/* <div className="item">
                                             <img src="images/login/1.png" className="img-fluid mb-4" alt="logo" />
                                             <h4 className="mb-1 text-white">Manage your orders</h4>
                                             <p>It is a long established fact that a reader will be distracted by the readable content.</p>
@@ -157,7 +157,7 @@ function SignUpPage() {
                                             <img src="images/login/1.png" className="img-fluid mb-4" alt="logo" />
                                             <h4 className="mb-1 text-white">Manage your orders</h4>
                                             <p>It is a long established fact that a reader will be distracted by the readable content.</p>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>

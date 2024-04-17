@@ -4,19 +4,17 @@ import formidable from 'formidable';
 const router = express.Router();
 import passport from 'passport';
 import bcrypt from 'bcrypt';
+import generateTokenAndSetCookie from './generateToken.js';
 
-let sessionData;
 
-router.post('/login', passport.authenticate('local', { failureRedirect: '/api/auth/login' }),
-    async (req, res) => {
-        sessionData = req.user             //session stored
+
+router.post('/login', async (req, res) => {
         try {
-            if (req.isAuthenticated()) {
-                res.send(sessionData)
-                //res.send("You're Logged In ")
-            }
+            const is_user = await user.findOne({ email: req.body.email });
+            generateTokenAndSetCookie(is_user,res)
+           
         } catch (error) {
-            res.send(error);
+            res.json({'Error in auth.routes.js ':error});
         }
     });
 
@@ -24,11 +22,16 @@ router.get('/login', (req, res) => {
     res.status(400).send({ error: "Something went wrong !!!" });
 })
 
-router.post('/get_user_data',async (req,res)=>{
-    let user_data= sessionData;
-    console.log(user_data);
-    res.send(sessionData)
+router.get('/log-out', (req, res) => {
+    try {
+        res.cookie('jwt','',{maxAge: 0})
+        res.status(200).json({message: '*******Youre logged out *******'})
+    } catch (error) {
+        console.log('error in auth.roiutes.js==>',error)
+        res.status(500).json({"error in auth.roiutes.js==>" :error});
+    }
 })
+
 
 router.post("/signup", async (req, res) => {
     var form = formidable({

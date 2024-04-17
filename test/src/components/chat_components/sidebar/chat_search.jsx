@@ -1,9 +1,29 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import {useSelector} from 'react-redux';
+import {Link,useNavigate} from 'react-router-dom'
+import {useSelector,useDispatch  } from 'react-redux';
+import {init_user} from '../../actions/actions.js';
+import axios from 'axios';
 
 function Chat_Search(){
     const result=useSelector(state=>state)
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+  async function log_out(){
+    const user_data=JSON.parse(localStorage.getItem("user_data"))||null;
+    if(user_data!==null){
+       try {
+         dispatch(init_user(user_data))
+         localStorage.removeItem("user_data"); // Remove user data from local storage
+         const response = await axios.get("http://localhost:5000/api/auth/log-out");
+         console.log(response);
+         navigate("/sign-in");
+       } catch (error) {
+        console.log('error at chat_search.jsx', error);
+       }
+    }
+}
 
     return (
         <div className="chat-search pt-3 pl-3">
@@ -91,7 +111,7 @@ function Chat_Search(){
                                     </a>
                                     <div className="d-inline-block w-100 text-center p-3">
                                       
-                                        <Link className="btn btn-primary dark-btn-primary" role="button" to="/sign-in">Sign out
+                                        <Link className="btn btn-primary dark-btn-primary" onClick={log_out}role="button" to="/sign-in">Sign out
                                         
                                         <i className="ri-login-box-line ml-2" />
                                         </Link>

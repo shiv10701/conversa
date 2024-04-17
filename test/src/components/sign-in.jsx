@@ -45,21 +45,19 @@ function SignInPage({dispatch}) {
     };
 
     const [error_msg, set_error_msg] = useState();
-    const [success_msg, set_success_msg] = useState();
 
     const isValidUser = async (e) => {
         e.preventDefault();
         try {
             set_error_msg(''); 
             const response = await axios.post("http://localhost:5000/api/auth/login", formData);
-            console.log(response.data.name);
-            dispatch(init_user(response.data))
-            localStorage.setItem("user_data",JSON.stringify(response.data))
+            console.log(response.data.user_data);
+
+            dispatch(init_user(response.data.user_data))
+            localStorage.setItem("user_data",JSON.stringify(response.data.user_data))
             navigate("/")
-            //set_success_msg(response.data)
         } catch (error) {
-            set_success_msg('')
-            set_error_msg(error.response.data.error);
+            set_error_msg(error.response);
         }
     };
 
@@ -71,21 +69,6 @@ function SignInPage({dispatch}) {
         }
     }
      
-
-
-    
-  const handleGoogleSignIn = async (e) => {
-    try {
-        e.preventDefault();
-        console.log("***************")
-        window.open('http://localhost:5000/auth/google/callback','_self')        
-    } catch (error) {
-      console.error('Error occurred while signing in with Google:', error);
-      // Handle sign-in with Google error, e.g., display error message to the user
-    }
-  };
-
-
     return (
         <div>
 
@@ -103,7 +86,6 @@ function SignInPage({dispatch}) {
                                 <div className="sign-in-from">
                                     <h1 className="mb-0 dark-signin">Sign in</h1>
                                     <h3 className="text-danger text-center" >{error_msg}</h3>
-                                    <h3 className="text-success  text-lg  text-center" >{success_msg}</h3>
                                     <p >Enter your email address and password to access admin panel.</p>
                                     <form className="mt-4">
                                         <div className="form-group">
@@ -125,7 +107,6 @@ function SignInPage({dispatch}) {
                                             <div className="custom-control custom-checkbox d-inline-block mt-2 pt-1">
                                                 {/* <input type="checkbox" className="custom-control-input" id="customCheck1" />
                                                 <label className="custom-control-label" htmlFor="customCheck1">Remember Me</label> */}
-                                                 <button onClick={handleGoogleSignIn}>Sign In with Google</button>
                                             </div>
                                             <button type="submit" onClick={isValidUser} className="btn btn-primary float-right" >Sign in</button>
                                             <Link to="/">To Chat app</Link>
@@ -152,16 +133,7 @@ function SignInPage({dispatch}) {
                                             <h4 className="mb-1 text-white">Manage your orders</h4>
                                             <p>It is a long established fact that a reader will be distracted by the readable content.</p>
                                         </div>
-                                        <div className="item">
-                                            <img src="images/login/1.png" className="img-fluid mb-4" alt="logo" />
-                                            <h4 className="mb-1 text-white">Manage your orders</h4>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content.</p>
-                                        </div>
-                                        <div className="item">
-                                            <img src="images/login/1.png" className="img-fluid mb-4" alt="logo" />
-                                            <h4 className="mb-1 text-white">Manage your orders</h4>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content.</p>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>
