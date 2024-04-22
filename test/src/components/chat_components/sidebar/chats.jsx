@@ -1,7 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SingleChat from "./single_chat";
+import { useDispatch, useSelector } from "react-redux";
+import { SocketContextProvider, useSocketContext } from "../../../socket/socketConnection";
+import { load_chats } from "../../actions/actions";
 
 function Chats(){
+  const search_users=useSelector(state=>state.search_user);
+  const user_data=useSelector(state=>state.user_data);
+  const {socket}=useSocketContext();
+  const dispatch=useDispatch();
+  const chats=useSelector(state=>state.chats);
+
+  useEffect(()=>{console.log(chats)},[chats])
+
+useEffect(()=>{
+  socket.emit("get_chats",user_data._id);
+  socket.on("get_user_chats",data=>{dispatch(load_chats(data))})
+},[user_data])
+
+  useEffect(()=>{},[search_users])
+
+  if(Object.keys(search_users).length!==0){
+    return (
+      <div className="chat-sidebar-channel scroller mt-4 pl-3">
+        <ul className="iq-chat-ui nav flex-column nav-pills">
+          {Object.values(search_users).map((item)=>{return <SingleChat item={item} user={user_data}/>})}
+        </ul>
+      </div>
+    );
+  }
+  else if(chats.length!==0){
+    return (
+      <div className="chat-sidebar-channel scroller mt-4 pl-3">
+        <ul className="iq-chat-ui nav flex-column nav-pills">
+          {chats.map((item)=>{return <SingleChat item={item} user={user_data}/>})}
+        </ul>
+      </div>
+    );
+  }
+  else{
     return (
         <div className="chat-sidebar-channel scroller mt-4 pl-3">
                         <h5 className="">Public Channels</h5>
@@ -59,69 +96,7 @@ function Chats(){
                             </a>
                           </li>
                         </ul>
-                        <h5 className="mt-3">Private Channels</h5>
-                        <ul className="iq-chat-ui nav flex-column nav-pills">
-                          <li>
-                            <a data-toggle="pill" href="#chatbox3">
-                              <div className="d-flex align-items-center">
-                                <div className="avatar mr-3">
-                                  <img
-                                    src="images/user/07.jpg"
-                                    alt="chatuserimage"
-                                    className="avatar-50 "
-                                  />
-                                  <span className="avatar-status">
-                                    <i className="ri-checkbox-blank-circle-fill text-warning" />
-                                  </span>
-                                </div>
-                                <div className="chat-sidebar-name">
-                                  <h6 className="mb-0">Designer</h6>
-                                  <span>There are many </span>
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a data-toggle="pill" href="#chatbox4">
-                              <div className="d-flex align-items-center">
-                                <div className="avatar mr-3">
-                                  <img
-                                    src="images/user/08.jpg"
-                                    alt="chatuserimage"
-                                    className="avatar-50 "
-                                  />
-                                  <span className="avatar-status">
-                                    <i className="ri-checkbox-blank-circle-fill text-success" />
-                                  </span>
-                                </div>
-                                <div className="chat-sidebar-name">
-                                  <h6 className="mb-0">Developer</h6>
-                                  <span>passages of Lorem</span>
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a data-toggle="pill" href="#chatbox5">
-                              <div className="d-flex align-items-center">
-                                <div className="avatar mr-3">
-                                  <img
-                                    src="images/user/09.jpg"
-                                    alt="chatuserimage"
-                                    className="avatar-50 "
-                                  />
-                                  <span className="avatar-status">
-                                    <i className="ri-checkbox-blank-circle-fill text-info" />
-                                  </span>
-                                </div>
-                                <div className="chat-sidebar-name">
-                                  <h6 className="mb-0">Testing Team</h6>
-                                  <span>Lorem Ipsum used</span>
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                        </ul>
+                        
                         <h5 className="mt-3">Direct Message</h5>
                         <ul className="iq-chat-ui nav flex-column nav-pills">
                           <li>
@@ -207,7 +182,7 @@ function Chats(){
                           </li>
                         </ul>
                       </div>
-    );
+    );}
 }
 
 export default Chats;

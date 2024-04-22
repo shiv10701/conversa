@@ -7,6 +7,7 @@ function AssignUserData(props) {
     const dispatch = useDispatch();
     useEffect( () => {
          assign_user_data();
+         setTimeout(()=>{},500)
     },);
     console.log()
 
@@ -14,7 +15,6 @@ function AssignUserData(props) {
         const user_data= await JSON.parse(localStorage.getItem("user_data"))||null;
         if(user_data!==null){
             dispatch(init_user(user_data))
-            console.log("inside assign user data")
         }
     }
     return null; 

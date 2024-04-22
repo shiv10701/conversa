@@ -1,6 +1,49 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import Message from "./message";
 
-function Chat_Content(){
+function Chat_Content(props){
+  const current_chat=useSelector(state=>state.selected_chat_id)
+  const messages=useSelector(state=>state.messages)
+  const lastmessage=useRef();
+  const current_user=props.login_user;
+  useEffect(()=>{console.log("current chatid:",current_chat)},[current_chat])
+  useEffect(()=>{console.log("messages for currect chat_id",messages[current_chat])},[messages])
+  useEffect(()=>{
+    setTimeout(()=>{lastmessage.current?.scrollIntoView({behaviour:"smooth"})},500)
+    
+  },[messages])
+
+
+  if(Object.keys(messages).length!==0){
+    if(current_chat!==null){
+      console.log("inside of ")
+
+      return (
+        <div className="chat-content scroller">
+          {messages[current_chat].length!==0 && messages[current_chat].map(message=>{
+            return <div ref={lastmessage}>
+            <Message item={message} current_user={current_user}/>
+          </div>
+        })}
+          
+        </div>
+    );
+
+    }
+    return (
+      <div className="chat-content scroller">
+        {/* {messages.length!==0 && messages.map(message=>{
+          return <div ref={lastmessage}>
+          <Message item={message} current_user={current_user}/>
+        </div>
+      })} */}
+        
+      </div>
+  );
+  }
+  else{
+
     return (
         <div className="chat-content scroller">
                             <div className="chat">
@@ -134,6 +177,9 @@ function Chat_Content(){
                             </div>
                           </div>
     );
+  }
+  
+
 }
 
 export default Chat_Content;

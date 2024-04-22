@@ -10,13 +10,12 @@ import AssignUserData from './components/local_storage_function';
 import { SocketContextProvider } from './socket/socketConnection';
 
 const store=createStore(reduce);
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+    <AssignUserData />
       <SocketContextProvider>
-        <AssignUserData />
         <App />
       </SocketContextProvider>
     </Provider>

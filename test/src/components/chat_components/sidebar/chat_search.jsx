@@ -1,14 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {Link,useNavigate} from 'react-router-dom'
 import {useSelector,useDispatch  } from 'react-redux';
-import {init_user} from '../../actions/actions.js';
+import {init_user,search_user, set_selected_chat} from '../../actions/actions.js';
 import axios from 'axios';
+import { useSocketContext } from "../../../socket/socketConnection.jsx";
 
 function Chat_Search(){
   const result=useSelector(state=>state.user_data)
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+  const {socket}=useSocketContext();
+
+  let [searchVal,setSearchVal]=useState("")
+
+  function submit_search(e){
+    e.preventDefault();
+    setSearchVal(()=>{return e.target.value})
+    
+  }
+
+  useEffect(()=>{
+    if(searchVal.length>2){
+      console.log(result._id)
+      const data=[searchVal,result._id]
+      socket.emit("search_val",data)
+      socket.on("search_user",data=>{dispatch(search_user(data))});
+    }
+    if(searchVal.length===0){
+      dispatch(search_user());
+    }
+  },[searchVal])
+
 
   async function log_out(){
     const user_data=JSON.parse(localStorage.getItem("user_data"))||null;
@@ -174,6 +198,8 @@ function Chat_Search(){
                               className="form-control round"
                               id="chat-search"
                               placeholder="Search"
+                              onChange={submit_search}
+                              value={searchVal}
                             />
                             <i className="ri-search-line" />
                           </div>

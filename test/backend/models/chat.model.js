@@ -1,5 +1,5 @@
 import Mongoose, { Schema }  from "mongoose";
-import user from "./user.model";
+import user from "./user.model.js";
 
 const chat_schema=new Mongoose.Schema({
     group_name:{
