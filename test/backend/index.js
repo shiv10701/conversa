@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import authRoute from './routes/auth.routes.js';
 import msgRoute from './routes/is_logged_in.routes.js';
+import forgotPassword from './routes/forgotpass.routes.js';
 // ---------Passport---------
 import passport from 'passport';
 import expressSession from 'express-session';
@@ -42,6 +43,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/auth", authRoute)
 app.use("/api/is-login", msgRoute)
+app.use("/api/forgot-pass", forgotPassword)
 
 server.listen(port, () => {
   console.log(`http://localhost:${port}`)

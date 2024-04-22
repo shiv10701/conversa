@@ -1,27 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link,useNavigate ,useLocation  } from 'react-router-dom';
 import axios from "axios";
 import {connect} from 'react-redux';
 import { init_user } from './actions/actions';
 import AssignUserData from './local_storage_function';
 
-
-function SignInPage({dispatch}) {
-
-    const ipaddress1=process.env.REACT_APP_IPADDRESS;
-    console.log("this is ip address variable",ipaddress1)
-    console.log("This is env file :",JSON.stringify(process.env))
+function ResetPassword({dispatch}) {
     const navigate = useNavigate();
-    let [ipaddress,setIpAddress]=useState("")
-    useEffect(()=>{
-        const response=async ()=>{
-            const response = await axios.get('https://api.ipify.org?format=json');
-            console.log(JSON.stringify(response))
-            setIpAddress(response.data.ip)
-        }
-        response()
-    },[])
+    const location = useLocation();
 
+    const resetToken = new URLSearchParams(location.search).get('resettoken');
+    console.log('resetToken=>',resetToken)
     useEffect(() => {
         // Fade out the loading element after a delay when the component mounts
         const loadingElement = document.getElementById('loading');
@@ -38,12 +27,9 @@ function SignInPage({dispatch}) {
         }, 200); // Adjust the delay before fading out as needed
     }, []); // Empty dependency array ensures this effect runs only once after the component mounts
 
-    useEffect(()=>{
-        assign_user_data();
-    },[])
     const [formData, setFormData] = useState({
-        email: '',
         password: '',
+        confirm_pass: '',
     });
 
     const handleInputChange = (e) => {
@@ -54,32 +40,27 @@ function SignInPage({dispatch}) {
         }));
     };
 
-    const [error_msg, set_error_msg] = useState();
+    const [error_msg, set_error_msg] = useState('');
+    const [success_msg, set_success_msg] = useState('');
 
-    const isValidUser = async (e) => {
+    const resetPass = async (e) => {
         e.preventDefault();
-        console.log("tried logging in ")
         try {
             set_error_msg(''); 
-            const response = await axios.post(`http://localhost:5000/api/auth/login`, formData);
-            console.log(response.data.user_data);
-
-            dispatch(init_user(response.data.user_data))
-            localStorage.setItem("user_data",JSON.stringify(response.data.user_data))
-            navigate("/")
+            set_success_msg('')
+            const response = await axios.post("http://localhost:5000/api/forgot-pass/reset", {
+                password: formData.password,
+                confirm_pass: formData.confirm_pass,
+                resetToken: resetToken // Include the reset token in the request body
+            });
+            set_success_msg(response.data)
+            console.log('response =', response)
         } catch (error) {
-            set_error_msg(error.response);
+            console.log(error.response.data)
+            set_error_msg(error.response.data);
         }
     };
 
-    async function assign_user_data(){
-        const user_data=JSON.parse(localStorage.getItem("user_data"))||null;
-        if(user_data!==null){
-            dispatch(init_user(user_data))
-            navigate("/");
-        }
-    }
-     
     return (
         <div>
 
@@ -95,22 +76,22 @@ function SignInPage({dispatch}) {
                         <div className="row no-gutters">
                             <div className="col-sm-6 align-self-center">
                                 <div className="sign-in-from">
-                                    <h1 className="mb-0 dark-signin">Sign in</h1>
+                                    <h1 className="mb-0 dark-signin"> Reset Password </h1>
                                     <h3 className="text-danger text-center" >{error_msg}</h3>
-                                    <p >Enter your email address and password to access admin panel.</p>
+                                    <h3 className="text-success text-center" >{success_msg}</h3>
+                                    <p >Enter your new password and confirm-password </p>
                                     <form className="mt-4">
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputEmail1">Email address</label>
-                                            <input type="email" className="form-control mb-0" id="exampleInputEmail1" placeholder="Enter email"
-                                                name="email"
-                                                value={formData.email}
+                                            <label htmlFor="exampleInputEmail1"> New Password </label>
+                                            <input type="password" className="form-control mb-0" id="exampleInputEmail1" placeholder="password"
+                                                name="password"
+                                                value={formData.password} 
                                                 onChange={handleInputChange} />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Password</label>
-                                            <Link to="/forget-pass" className="float-right">Forgot password?</Link>
-                                            <input type="password" className="form-control mb-0" id="exampleInputPassword1" placeholder="Password" name="password"
-                                                value={formData.password}
+                                            <label htmlFor="exampleInputPassword1"> Confirm Password </label>
+                                            <input type="password" className="form-control mb-0" id="exampleInputPassword1" placeholder="Confirm password" name="confirm_pass"
+                                                value={formData.confirm_pass}
                                                 onChange={handleInputChange}
                                             />
                                         </div>
@@ -119,12 +100,11 @@ function SignInPage({dispatch}) {
                                                 {/* <input type="checkbox" className="custom-control-input" id="customCheck1" />
                                                 <label className="custom-control-label" htmlFor="customCheck1">Remember Me</label> */}
                                             </div>
-                                            <button type="submit" onClick={isValidUser} className="btn btn-primary float-right" >Sign in</button>
-                                            
+                                            <button type="submit" onClick={resetPass} className="btn btn-primary float-right" > Reset Password </button>
                                         </div>
                                         <div className="sign-info">
                                             {/* <span className="dark-color d-inline-block line-height-2">Don't have an account? <a href="./sign-up.html">Sign up</a></span> */}
-                                            <span className="dark-color d-inline-block line-height-2">Don't have an account?  <Link to="/sign-up">Sign Up</Link> </span>
+                                            <span className="dark-color d-inline-block line-height-2"> <Link to="/sign-in">Go to sign In</Link> </span>
                                             <ul className="iq-social-media">
                                                 <li><a href="/"><i className="ri-facebook-box-line"></i></a></li>
                                                 <li><a href="/"><i className="ri-twitter-line"></i></a></li>
@@ -157,4 +137,4 @@ function SignInPage({dispatch}) {
     );
 }
 
-export default connect()(SignInPage);
+export default ResetPassword;
