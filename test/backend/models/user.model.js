@@ -60,7 +60,11 @@ const user_schema=new Mongoose.Schema({
     blocked_by:[{
         type:Schema.Types.ObjectId,
         ref:user
-    }]
+    }],
+    resetToken: {
+        type: String,
+        default: null,
+    },
 },{timestamps:true})
 
 user=Mongoose.model("user",user_schema);

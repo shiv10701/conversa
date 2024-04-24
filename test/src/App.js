@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux'
 import { Link,useNavigate } from 'react-router-dom';
 import AssignUserData from './components/local_storage_function';
+import ForgetPassword from './components/forget_pass';
+import ResetPassword from './components/reset_pass';
 
 
 
@@ -30,6 +32,8 @@ function App() {
           <Route exact path='/' element={Object.keys(user).length!=0?<Chat />:<Navigate to="/sign-in" />} />
           <Route exact path='/sign-in' element={<SignInPage />} />
           <Route exact path='/sign-up' element={<SignUpPage />} />
+          <Route exact path='/forget-pass' element={<ForgetPassword />} />
+          <Route exact path='/reset-pass' element={<ResetPassword />} />
           <Route path='*' element={<SignInPage />} />
         </Routes>
       </Router>

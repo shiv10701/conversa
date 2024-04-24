@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { init_user } from './actions/actions';
 import AssignUserData from './local_storage_function';
 
-
-
-function SignInPage({dispatch}) {
-
+function ForgetPassword() {
     const navigate = useNavigate();
-    
 
     useEffect(() => {
         // Fade out the loading element after a delay when the component mounts
@@ -28,12 +24,10 @@ function SignInPage({dispatch}) {
         }, 200); // Adjust the delay before fading out as needed
     }, []); // Empty dependency array ensures this effect runs only once after the component mounts
 
-    useEffect(()=>{
-        assign_user_data();
-    },[])
+    
     const [formData, setFormData] = useState({
         email: '',
-        password: '',
+        // password: '',
     });
 
     const handleInputChange = (e) => {
@@ -43,33 +37,24 @@ function SignInPage({dispatch}) {
             [name]: value,
         }));
     };
+    const [error_msg, set_error_msg] = useState('');
+    const [succ_msg, set_succ_msg] = useState('');
 
-    const [error_msg, set_error_msg] = useState();
-
-    const isValidUser = async (e) => {
+    const sendLink = async (e) => {
         e.preventDefault();
-        console.log("tried logging in ")
         try {
-            set_error_msg(''); 
-            const response = await axios.post(`https://1f03-103-180-210-86.ngrok-free.app/api/auth/login`, formData);
-            console.log(response.data.user_data);
+            set_error_msg('');
+            set_succ_msg('')            
+            const response = await axios.post("http://localhost:5000/api/forgot-pass/link", formData);
+            set_succ_msg(response.data.ans)
+            console.log('response => ',response);
 
-            dispatch(init_user(response.data.user_data))
-            localStorage.setItem("user_data",JSON.stringify(response.data.user_data))
-            navigate("/")
         } catch (error) {
-            set_error_msg(error.response);
+            set_error_msg(error.response.data.err);
+            console.log('error.response =>',error);
         }
     };
 
-    async function assign_user_data(){
-        const user_data=JSON.parse(localStorage.getItem("user_data"))||null;
-        if(user_data!==null){
-            dispatch(init_user(user_data))
-            navigate("/");
-        }
-    }
-     
     return (
         <div>
 
@@ -85,9 +70,10 @@ function SignInPage({dispatch}) {
                         <div className="row no-gutters">
                             <div className="col-sm-6 align-self-center">
                                 <div className="sign-in-from">
-                                    <h1 className="mb-0 dark-signin">Sign in</h1>
+                                    <h1 className="mb-0 dark-signin">Forgot your password</h1>
                                     <h3 className="text-danger text-center" >{error_msg}</h3>
-                                    <p >Enter your email address and password to access admin panel.</p>
+                                    <h3 className="text-success text-center" >{succ_msg}</h3>
+                                    <p >Enter your email address To send link for reset password .</p>
                                     <form className="mt-4">
                                         <div className="form-group">
                                             <label htmlFor="exampleInputEmail1">Email address</label>
@@ -96,25 +82,15 @@ function SignInPage({dispatch}) {
                                                 value={formData.email}
                                                 onChange={handleInputChange} />
                                         </div>
-                                        <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Password</label>
-                                            <Link to="/forget-pass" className="float-right">Forgot password?</Link>
-                                            <input type="password" className="form-control mb-0" id="exampleInputPassword1" placeholder="Password" name="password"
-                                                value={formData.password}
-                                                onChange={handleInputChange}
-                                            />
-                                        </div>
+                                       
                                         <div className="d-inline-block w-100">
                                             <div className="custom-control custom-checkbox d-inline-block mt-2 pt-1">
-                                                {/* <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                                                <label className="custom-control-label" htmlFor="customCheck1">Remember Me</label> */}
                                             </div>
-                                            <button type="submit" onClick={isValidUser} className="btn btn-primary float-right" >Sign in</button>
-                                            
+                                            <button type="submit" onClick={sendLink} className="btn btn-primary float-right" >Request reset link</button>
                                         </div>
                                         <div className="sign-info">
                                             {/* <span className="dark-color d-inline-block line-height-2">Don't have an account? <a href="./sign-up.html">Sign up</a></span> */}
-                                            <span className="dark-color d-inline-block line-height-2">Don't have an account?  <Link to="/sign-up">Sign Up</Link> </span>
+                                            <span className="dark-color d-inline-block line-height-2"> <Link to="/sign-in">Back to sign in</Link> </span>
                                             <ul className="iq-social-media">
                                                 <li><a href="/"><i className="ri-facebook-box-line"></i></a></li>
                                                 <li><a href="/"><i className="ri-twitter-line"></i></a></li>
@@ -134,17 +110,15 @@ function SignInPage({dispatch}) {
                                             <h4 className="mb-1 text-white">Manage your orders</h4>
                                             <p>It is a long established fact that a reader will be distracted by the readable content.</p>
                                         </div>
-                                       
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-
             </div>
         </div>
     );
 }
 
-export default connect()(SignInPage);
+export default ForgetPassword;
