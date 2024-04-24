@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSocketContext } from "../../../socket/socketConnection";
 
 function Chat_Header(props){
+
+  const {online_users}=useSocketContext();
+
+  let this_user_id;
+  let [isOnline,setIsOnline]=useState(false)
+  useEffect(()=>{
+    if(online_users.includes(this_user_id)){
+      setIsOnline(true)
+    }
+    else{
+      setIsOnline(false)
+    }
+  },[online_users])
+
   if(props.item){
+    this_user_id=props.item._id;
     return (
       <div className="chat-head">
                           <header className="d-flex justify-content-between align-items-center bg-white pt-3 pr-3 pb-3">
@@ -18,11 +34,15 @@ function Chat_Header(props){
                                   alt="avatar"
                                   className="avatar-50 "
                                 />
-                                <span className="avatar-status">
+                                {/* <span className="avatar-status">
                                   <i className="ri-checkbox-blank-circle-fill text-success" />
-                                </span>
+                                </span> */}
                               </div>
+                              <div className="d-flex flex-column">
                               <h5 className="mb-0">{props.item.name}</h5>
+                              {isOnline? <span className="text-success">Online</span>:""}
+                              </div>
+
                             </div>
                             <div className="chat-user-detail-popup scroller">
                               <div className="user-profile text-center">

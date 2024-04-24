@@ -2,28 +2,18 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 export default function Message(props) {
-    if(props.item){
-        if(props.item.sender===props.current_user)
+    if(props.item && props.item.message){
+        if(props.item.sender===props.current_user )
         {
             return (
                 <div className="chat">
-                                        <div className="chat-user">
-                                          <a className="avatar m-0">
-                                            <img
-                                              src="images/user/05.jpg"
-                                              alt="avatar"
-                                              className="avatar-35 "
-                                            />
-                                          </a>
-                                          <span className="chat-time mt-1">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
-                                        </div>
+                                        
                                         <div className="chat-detail">
                                           <div className="chat-message">
                                             <p>
                                               {props.item.message}
+                                            <span className="chat-time">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
                                             </p>
-                                            
-                                            
                                           </div>
                                         </div>
                                       </div>
@@ -32,25 +22,16 @@ export default function Message(props) {
         else{
             return (
                 <div className="chat chat-left">
-                                        <div className="chat-user ">
-                                          <a className="avatar m-0">
-                                            <img
-                                              src="images/user/05.jpg"
-                                              alt="avatar"
-                                              className="avatar-35 "
-                                            />
-                                          </a>
-                                          <span className="chat-time mt-1">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
-                                        </div>
+                                          
                                         <div className="chat-detail">
                                           <div className="chat-message">
                                             <p>
                                               {props.item.message}
+                                              <span className="chat-time text-start w-100 text-start">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
                                             </p>
                                             
-                                            
-                                          </div>
-                                        </div>
+                                            </div>
+                                      </div>
                                       </div>
               )
         }

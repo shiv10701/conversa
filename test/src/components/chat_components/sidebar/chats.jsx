@@ -1,22 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SingleChat from "./single_chat";
 import { useDispatch, useSelector } from "react-redux";
 import { SocketContextProvider, useSocketContext } from "../../../socket/socketConnection";
-import { load_chats } from "../../actions/actions";
+import { load_chats, set_messages, set_selected_chatid } from "../../actions/actions";
 
 function Chats(){
   const search_users=useSelector(state=>state.search_user);
   const user_data=useSelector(state=>state.user_data);
-  const {socket}=useSocketContext();
+  const {socket,online_users}=useSocketContext();
   const dispatch=useDispatch();
   const chats=useSelector(state=>state.chats);
+   
+  let [messages,setMessages]=useState("")
+  let[chat_id,setChatID]=useState("")
 
-  useEffect(()=>{console.log(chats)},[chats])
+  useEffect(()=>{},[chats])
 
 useEffect(()=>{
   socket.emit("get_chats",user_data._id);
   socket.on("get_user_chats",data=>{dispatch(load_chats(data))})
 },[user_data])
+
+useEffect(()=>{
+  if(chats.length!==0){
+    chats.forEach((item)=>{
+      const details={login_user:user_data._id,chat_id:item._id}
+      socket.emit("get_messages_user",details)
+      socket.on("receive_messsages",data=>{if(data!==null){setChatID(data.chat_id);setMessages(data.messages)}});
+    });
+  }
+},[chats])
+
+useEffect(()=>{
+    dispatch(set_messages(messages,chat_id))
+},[messages])
 
   useEffect(()=>{},[search_users])
 

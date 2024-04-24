@@ -6,9 +6,10 @@ import mongoose from "mongoose";
 
 async function getMessages(details){
 
-    const ids=Object.values(details).map(id=>new mongoose.Types.ObjectId(id))
+    //const ids=Object.values(details).map(id=>new mongoose.Types.ObjectId(id))
+    // const chat_data=await chat.findOne({users:{$all:ids}})
 
-    const chat_data=await chat.findOne({users:{$all:ids}})
+    const chat_data=await chat.findOne({_id:details.chat_id})
     if(chat_data){
         const messages=await message.find({chat_id:chat_data.id})
         return {messages:messages,chat_id:chat_data._id};
@@ -16,9 +17,7 @@ async function getMessages(details){
     else
     {
         return null;
-    }
-    
-
+    }    
 }
 
 export default getMessages;

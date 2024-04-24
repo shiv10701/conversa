@@ -29,3 +29,8 @@ export const set_selected_chatid=chat_id=>({
     type:'SELECTEDCHATID',
     chat_id
 })
+
+export const set_seen=chat_id=>({
+    type:'SETSEEN',
+    chat_id
+})

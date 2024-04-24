@@ -7,24 +7,25 @@ function Chat_Content(props){
   const messages=useSelector(state=>state.messages)
   const lastmessage=useRef();
   const current_user=props.login_user;
-  useEffect(()=>{console.log("current chatid:",current_chat)},[current_chat])
-  useEffect(()=>{console.log("messages for currect chat_id",messages[current_chat])},[messages])
+
   useEffect(()=>{
     setTimeout(()=>{lastmessage.current?.scrollIntoView({behaviour:"smooth"})},500)
-    
-  },[messages])
+  },[messages,current_chat])
 
 
+let a=0;
   if(Object.keys(messages).length!==0){
-    if(current_chat!==null){
-      console.log("inside of ")
-
+    if(current_chat!==null && messages[current_chat]){
       return (
         <div className="chat-content scroller">
-          {messages[current_chat].length!==0 && messages[current_chat].map(message=>{
-            return <div ref={lastmessage}>
+          {messages[current_chat] && messages[current_chat].map(message=>{
+            if(message.message!==undefined){
+
+            {a++}
+            return (<div ref={lastmessage}>
             <Message item={message} current_user={current_user}/>
-          </div>
+          </div>)
+            }
         })}
           
         </div>

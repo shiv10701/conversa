@@ -6,6 +6,16 @@ import axios from 'axios'
 
 function SignUpPage() {
 
+    const config = {
+        headers: {
+          // Include the custom header with its value
+          'ngrok-skip-browser-warning': 'true',
+          // Add other headers if needed
+          // Example:
+          // 'Authorization': 'Bearer your_access_token',
+          // 'Content-Type': 'application/json'
+        }
+      };
 
     useEffect(() => {
         // Fade out the loading element after a delay when the component mounts
@@ -33,7 +43,7 @@ function SignUpPage() {
     }
 
     async function save_data(form_data){
-        const result=await  axios.post('http://localhost:5000/api/auth/signup',{...form_data},{headers: {'Content-Type': 'multipart/form-data'}});
+        const result=await  axios.post('https://1f03-103-180-210-86.ngrok-free.app/api/auth/signup',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
         console.log(result);
     }
     return (

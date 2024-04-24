@@ -6,21 +6,11 @@ import { init_user } from './actions/actions';
 import AssignUserData from './local_storage_function';
 
 
+
 function SignInPage({dispatch}) {
 
-    const ipaddress1=process.env.REACT_APP_IPADDRESS;
-    console.log("this is ip address variable",ipaddress1)
-    console.log("This is env file :",JSON.stringify(process.env))
     const navigate = useNavigate();
-    let [ipaddress,setIpAddress]=useState("")
-    useEffect(()=>{
-        const response=async ()=>{
-            const response = await axios.get('https://api.ipify.org?format=json');
-            console.log(JSON.stringify(response))
-            setIpAddress(response.data.ip)
-        }
-        response()
-    },[])
+    
 
     useEffect(() => {
         // Fade out the loading element after a delay when the component mounts
@@ -61,7 +51,7 @@ function SignInPage({dispatch}) {
         console.log("tried logging in ")
         try {
             set_error_msg(''); 
-            const response = await axios.post(`http://localhost:5000/api/auth/login`, formData);
+            const response = await axios.post(`https://1f03-103-180-210-86.ngrok-free.app/api/auth/login`, formData);
             console.log(response.data.user_data);
 
             dispatch(init_user(response.data.user_data))

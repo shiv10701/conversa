@@ -40,7 +40,7 @@ function Chat_Search(){
        try {
          dispatch(init_user(user_data))
          localStorage.removeItem("user_data"); // Remove user data from local storage
-         const response = await axios.get("http://localhost:5000/api/auth/log-out");
+         const response = await axios.get("https://1f03-103-180-210-86.ngrok-free.app/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
          console.log(response);
          navigate("/sign-in");
        } catch (error) {

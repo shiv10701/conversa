@@ -6,6 +6,7 @@ import { send } from 'process';
 import send_message from '../utils/sendMessage.js';
 import getMessages from '../utils/getMessages.js';
 import GetChats from '../utils/getChats.js';
+import setseenmessage from '../utils/setSeen.js'
 
 
 const app=express();
@@ -13,7 +14,7 @@ const app=express();
 const server=http.createServer(app);
 const io=new Server(server,{
     cors:{
-        origin:["http://localhost:3000"],
+        origin:'*',
         methods:["GET","POST"],
     }
 });
@@ -31,6 +32,7 @@ io.on('connection',(socket)=>{
 
     socket.on("search_val",data=>{sendSearchUser(data)})
     socket.emit("return_greet","Hello there!!!")
+    io.emit("online_users",Object.keys(userSocketMap))
 
     socket.on("send_message",(data)=>{
         sendmsg(data);
@@ -44,9 +46,14 @@ io.on('connection',(socket)=>{
         getchats(data);
     })
 
+    socket.on("set_seen_message",data=>{
+        setchatseen(data);
+    })
+
     socket.on("disconnect",()=>{
         delete userSocketMap[UserID];
         console.log("User Disconnected");
+        io.emit("online_users",Object.keys(userSocketMap))
     })
 })
 
@@ -65,7 +72,6 @@ async function sendmsg(data){
 
 async function getmsg(data){
     const messages=await getMessages(data);
-    console.log("get messages ddata :",messages)
     const id=data.login_user;
     io.to(userSocketMap[id]).emit("receive_messsages",messages);
 
@@ -73,9 +79,13 @@ async function getmsg(data){
 
 async function getchats(data){
     const chats=await GetChats(data);
-    console.log(chats.length)
     io.to(userSocketMap[data]).emit("get_user_chats",chats)
 
+}
+
+async function setchatseen(data){
+    const msg=await setseenmessage(data);
+    console.log(msg);
 }
 
 
