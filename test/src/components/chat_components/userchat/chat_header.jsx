@@ -18,6 +18,13 @@ function Chat_Header(props){
 
   if(props.item){
     this_user_id=props.item._id;
+    let profile_img;
+        if(props.item.profile_img){
+          profile_img="http://192.168.0.173:5000/uploads/"+props.item._id+"/"+props.item.profile_img
+        }
+        else{
+          profile_img="http://192.168.0.173:5000/uploads/avatar.jpg"
+        }
     return (
       <div className="chat-head">
                           <header className="d-flex justify-content-between align-items-center bg-white pt-3 pr-3 pb-3">
@@ -30,7 +37,7 @@ function Chat_Header(props){
                               </div>
                               <div className="avatar chat-user-profile m-0 mr-3">
                                 <img
-                                  src="images/user/05.jpg"
+                                  src={profile_img}
                                   alt="avatar"
                                   className="avatar-50 "
                                 />
@@ -55,8 +62,10 @@ function Chat_Header(props){
                                 <div className="user mb-4">
                                   <a className="avatar m-0">
                                     <img
-                                      src="images/user/05.jpg"
+                                      src={profile_img}
                                       alt="avatar"
+                                      height={"125px"}
+                                      width={"125px"}
                                     />
                                   </a>
                                   <div className="user-name mt-4">

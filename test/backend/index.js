@@ -14,6 +14,9 @@ import expressSession from 'express-session';
 import { initializingPassport, isAuthenticated } from './routes/passportConfig.js';
 // ---------Flash---------
 import flash from "express-flash";
+import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { app, server } from "./socket/server.js";
 
 // ---------Passport---------
@@ -22,15 +25,20 @@ app.use(expressSession({  //this  MV(middleweare) should be before below  two
 }))
 
 
+
 console.log(process.env.IPADDRESS);
 app.use(passport.initialize());
 app.use(passport.session());
+
 initializingPassport(passport);//PASSPORT=this function working as middleware check it out
 
 // ---------Parsers----------
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({origin:'*'}))
+const base_url=path.join(dirname(fileURLToPath(import.meta.url)),"../backend/")
+console.log(base_url)
+app.use('/uploads', express.static(path.join(base_url, 'uploads')));
 app.use(flash());
 mydb();
 const port = 5000;

@@ -100,7 +100,7 @@ function SignUpPage() {
 
                                         <div className="form-group">
                                             <label htmlFor="phone_id">Phone</label>
-                                            <input type="tel" className="form-control mb-0" id="phone_id" placeholder="Enter email" name="phone_no" ref={node=>(phone_no=node)}/>
+                                            <input type="tel" className="form-control mb-0" id="phone_id" placeholder="Enter Phone no." name="phone_no" ref={node=>(phone_no=node)}/>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="accountTypeRadio">Account Type</label><br />

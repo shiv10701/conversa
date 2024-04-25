@@ -22,12 +22,14 @@ useEffect(()=>{
 },[user_data])
 
 useEffect(()=>{
-  if(chats.length!==0){
-    chats.forEach((item)=>{
-      const details={login_user:user_data._id,chat_id:item._id}
-      socket.emit("get_messages_user",details)
-      socket.on("receive_messsages",data=>{if(data!==null){setChatID(data.chat_id);setMessages(data.messages)}});
-    });
+  if(chats){
+    if(chats.length!==0){
+      chats.forEach((item)=>{
+        const details={login_user:user_data._id,chat_id:item._id}
+        socket.emit("get_messages_user",details)
+        socket.on("receive_messsages",data=>{if(data!==null){setChatID(data.chat_id);setMessages(data.messages)}});
+      });
+    }
   }
 },[chats])
 
@@ -46,7 +48,8 @@ useEffect(()=>{
       </div>
     );
   }
-  else if(chats.length!==0){
+  else if(chats){
+    if(chats.length!==0){
     return (
       <div className="chat-sidebar-channel scroller mt-4 pl-3">
         <ul className="iq-chat-ui nav flex-column nav-pills">
@@ -54,6 +57,7 @@ useEffect(()=>{
         </ul>
       </div>
     );
+    }
   }
   else{
     return (

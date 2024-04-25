@@ -21,6 +21,28 @@ function Chat_Search(){
     
   }
 
+  let [image_dp,setImageDP]=useState("");
+
+  useEffect(()=>{
+    const res=async()=>{
+      let url_of_image;
+      if(result.profile_img){
+        url_of_image="http://192.168.0.173:5000/uploads/"+result._id+"/"+result.profile_img;
+      }
+      else{
+        url_of_image="http://192.168.0.173:5000/uploads/avatar.jpg"
+      }
+      console.log(url_of_image)
+      setImageDP(url_of_image)
+      // the following code is for taking the images from api call but it is not working as of now on 25-apr-24
+      // const res= await axios.get("https://1f03-103-180-210-86.ngrok-free.app/uploads/"+result._id+"/"+result.profile_img);
+      // console.log(res.data);setImageDP(res.data)
+    }
+    if(result._id){
+      res()
+    } 
+  },[result])
+
   useEffect(()=>{
     if(searchVal.length>2){
       console.log(result._id)
@@ -40,7 +62,7 @@ function Chat_Search(){
        try {
          dispatch(init_user(user_data))
          localStorage.removeItem("user_data"); // Remove user data from local storage
-         const response = await axios.get("https://1f03-103-180-210-86.ngrok-free.app/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+         const response = await axios.get("http://192.168.0.173:5000/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
          console.log(response);
          navigate("/sign-in");
        } catch (error) {
@@ -55,7 +77,7 @@ function Chat_Search(){
                           <div className="d-flex ">
                             <div className="chat-profile mr-3">
                               <img
-                                src="images/user/1.jpg"
+                                src={image_dp}
                                 alt="chat-user"
                                 className="avatar-60 "
                               />

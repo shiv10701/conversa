@@ -2,7 +2,7 @@
   "name": "test",
   "version": "0.1.0",
   "private": true,
-  "proxy":"https://f961cb2663277a34c27876111dc323db.serveo.net",
+  "proxy": "https://f961cb2663277a34c27876111dc323db.serveo.net",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -12,6 +12,7 @@
     "country-state-city": "^3.2.1",
     "crypto-browserify": "^3.12.0",
     "dotenv": "^16.4.5",
+    "emoji-picker-react": "^4.9.2",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",

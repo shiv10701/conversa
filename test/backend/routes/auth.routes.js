@@ -1,11 +1,18 @@
 import express from 'express';
 import user from '../models/user.model.js';
 import formidable from 'formidable';
-const router = express.Router();
 import passport from 'passport';
 import bcrypt from 'bcrypt';
 import generateTokenAndSetCookie from './generateToken.js';
+import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs'
 
+const router = express.Router();
+
+
+const base_url=path.join(dirname(fileURLToPath(import.meta.url)),"../")
 
 
 router.post('/login', async (req, res) => {
@@ -35,10 +42,12 @@ router.get('/log-out', (req, res) => {
 
 router.post("/signup", async (req, res) => {
     var form = formidable({
-        allowEmptyFiles: true // Allow empty files
+        allowEmptyFiles: true, // Allow empty files
+        minFileSize:0,
     })
     let fields;
     let files;
+    let filename;
     try {
         [fields, files] = await form.parse(req);
         
@@ -48,6 +57,7 @@ router.post("/signup", async (req, res) => {
     const hexaPass = await bcrypt.hash(fields.password[0], 10);
 
     console.log(hexaPass)
+    
     let new_user = new user({
         name: fields.name[0],
         email: fields.email[0],
@@ -59,7 +69,28 @@ router.post("/signup", async (req, res) => {
         country: fields.country[0],
         type: fields.type[0]
     })
-    new_user.save().then((result) => { res.send("Registration successful") }).catch((err) => res.send(err.message));
+    //new_user.save().then((result) => { res.send("Registration successful") }).catch((err) => res.send(err.message));
+    const reg_user=await new_user.save().catch((err) => res.send(err.message));
+
+    if(files){
+        const old_path=files.profile_img[0].filepath
+        filename=files.profile_img[0].originalFilename
+        const folder_path=base_url+"uploads/"+reg_user._id
+        if (!fs.existsSync(folder_path)) {
+            fs.mkdirSync(folder_path,{ recursive: true });
+        }
+        const file_path=base_url+"uploads/"+reg_user._id+"/"+filename
+        fs.copyFile(old_path,file_path,function(err){
+            if(err) throw err
+        })
+
+        await user.findByIdAndUpdate(reg_user._id,{profile_img:filename}).then((result1)=>{res.send("Registration successful")}).catch((err) => res.send(err.message));
+    }
+    else{
+
+    }
+    
+
 })
 
 export default router;

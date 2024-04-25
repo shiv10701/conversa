@@ -3,6 +3,7 @@ import { useSocketContext } from "../../../socket/socketConnection";
 import { useDispatch } from "react-redux";
 import { set_messages } from "../../actions/actions";
 import pop_sound_nitification from '../../sounds/pop_sound_notification.mp3'
+import EmojiPicker from 'emoji-picker-react'
 
 function New_Message(props){
   const dispatch = useDispatch();
@@ -14,6 +15,14 @@ function New_Message(props){
   let sent_to_user_id=props.chat_user;
   let sent_by_user_id=props.login_user;
   const sound=new Audio(pop_sound_nitification)
+
+  function addEmoji(select_emoji){
+    try {
+      setMessage((state)=>state+select_emoji.emoji)
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   function submit_message(e){
     e.preventDefault();
@@ -37,6 +46,7 @@ function New_Message(props){
                                     className="fa fa-smile-o pr-3"
                                     aria-hidden="true"
                                   />
+                                  {/* <EmojiPicker onEmojiClick={(select_emoji)=>{setMessage((state)=>state+select_emoji.emoji)}} /> */}
                                 </a>
                                 <a href="javascript:void();">
                                   <i
