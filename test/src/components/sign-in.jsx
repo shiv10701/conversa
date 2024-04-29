@@ -51,9 +51,8 @@ function SignInPage({dispatch}) {
         console.log("tried logging in ")
         try {
             set_error_msg(''); 
-            const response = await axios.post(`https://1f03-103-180-210-86.ngrok-free.app/api/auth/login`, formData);
+            const response = await axios.post(`http://192.168.0.195:5000/api/auth/login`, formData);
             console.log(response.data.user_data);
-
             dispatch(init_user(response.data.user_data))
             localStorage.setItem("user_data",JSON.stringify(response.data.user_data))
             navigate("/")
@@ -63,10 +62,12 @@ function SignInPage({dispatch}) {
     };
 
     async function assign_user_data(){
-        const user_data=JSON.parse(localStorage.getItem("user_data"))||null;
-        if(user_data!==null){
-            dispatch(init_user(user_data))
-            navigate("/");
+        if(localStorage.getItem("user_data")!==undefined){
+            const user_data=JSON.parse(localStorage.getItem("user_data"))||null;
+            if(user_data!==null){
+                dispatch(init_user(user_data))
+                navigate("/");
+            }
         }
     }
      

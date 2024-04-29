@@ -3,8 +3,9 @@ import SingleChat from "./single_chat";
 import { useDispatch, useSelector } from "react-redux";
 import { SocketContextProvider, useSocketContext } from "../../../socket/socketConnection";
 import { load_chats, set_messages, set_selected_chatid } from "../../actions/actions";
+import SingleCall from "./single_call";
 
-function Chats(){
+function Calls(){
   const search_users=useSelector(state=>state.search_user);
   const user_data=useSelector(state=>state.user_data);
   const {socket,online_users}=useSocketContext();
@@ -18,7 +19,7 @@ function Chats(){
 
 useEffect(()=>{
   socket.emit("get_chats",user_data._id);
-  socket.on("get_user_chats",data=>{console.log(data);dispatch(load_chats(data))})
+  socket.on("get_user_chats",data=>{dispatch(load_chats(data))})
 },[user_data])
 
 useEffect(()=>{
@@ -43,18 +44,17 @@ useEffect(()=>{
     return (
       <div className="chat-sidebar-channel scroller mt-4 pl-3">
         <ul className="iq-chat-ui nav flex-column nav-pills">
-          {Object.values(search_users).map((item)=>{return <SingleChat item={item} user={user_data}/>})}
+          {Object.values(search_users).map((item)=>{return <SingleCall item={item} user={user_data}/>})}
         </ul>
       </div>
     );
   }
   else if(chats){
     if(chats.length!==0){
-      
     return (
       <div className="chat-sidebar-channel scroller mt-4 pl-3">
         <ul className="iq-chat-ui nav flex-column nav-pills">
-          {chats.map((item)=>{console.log(item);return <SingleChat item={item} user={user_data}/>})}
+          {chats.map((item)=>{return <SingleCall item={item} user={user_data}/>})}
         </ul>
       </div>
     );
@@ -62,20 +62,8 @@ useEffect(()=>{
   }
   else{
     return (
-        <div className="chat-sidebar-channel scroller mt-4 pl-3 d-flex align-items-center justify-content-center">
-                        <ul className="iq-chat-ui nav flex-column nav-pills">
-                          <li className="d-flex flex-column">
-                          <img
-                              src="images/loader.gif"
-                              style={{ height: 80, width: 90 }}
-                              className="img-fluid align-self-center"
-                              alt="logo"
-                            />
-                              <span className="h5">No Chats....</span>
-                          </li>
-                        </ul>
-                      </div>
+        <div></div>
     );}
 }
 
-export default Chats;
+export default Calls;

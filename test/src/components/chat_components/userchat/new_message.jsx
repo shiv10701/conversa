@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSocketContext } from "../../../socket/socketConnection";
 import { useDispatch } from "react-redux";
-import { set_messages } from "../../actions/actions";
+import { add_new_chat, set_messages, set_selected_chatid } from "../../actions/actions";
 import pop_sound_nitification from '../../sounds/pop_sound_notification.mp3'
 import EmojiPicker from 'emoji-picker-react'
 
@@ -11,6 +11,7 @@ function New_Message(props){
 
   let [message,setMessage]=useState("");
   let [new_msg_data,setNewMsgData]=useState("")
+  let [chat_id,setChatID]=useState("")
 
   let sent_to_user_id=props.chat_user;
   let sent_by_user_id=props.login_user;
@@ -28,10 +29,18 @@ function New_Message(props){
     e.preventDefault();
     const details={ids:{sent_by_user_id,sent_to_user_id},msg:message}
     socket.emit("send_message",details);
-    socket.on("send_save_message",data=>{console.log("new message ",data);setNewMsgData(data);sound.play()})
+    socket.on("send_save_message",data=>{
+      if(data.new_chat){
+        dispatch(add_new_chat(data.new_chat))
+        setNewMsgData(data.new_message);
+        setChatID(data.new_chat._id)
+        sound.play();
+
+      }
+      else{console.log("new message ",data.new_message);setNewMsgData(data.new_message);sound.play()}})
     setMessage("")
   }
-  useEffect(()=>{dispatch(set_messages(new_msg_data))},[new_msg_data])
+  useEffect(()=>{dispatch(set_messages(new_msg_data));dispatch(set_selected_chatid(chat_id))},[new_msg_data])
 
     return (
         <div className="chat-footer p-3 bg-white">

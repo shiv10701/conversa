@@ -6,7 +6,7 @@ export default function Message(props) {
         if(props.item.sender===props.current_user )
         {
             return (
-                <div className="chat">
+                <div className="chat" key={props.item._id}>
                                         
                                         <div className="chat-detail">
                                           <div className="chat-message">
@@ -21,7 +21,7 @@ export default function Message(props) {
         }
         else{
             return (
-                <div className="chat chat-left">
+                <div className="chat chat-left" key={props.item._id}>
                                           
                                         <div className="chat-detail">
                                           <div className="chat-message">

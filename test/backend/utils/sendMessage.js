@@ -16,6 +16,19 @@ async function send_message(details){
         }) 
 
         chat_user=await create_chat.save();
+        chat_user=await chat.findOne({users:{$all:ids}}).populate("users");
+        
+        chatid=chat_user._id;
+    const insert_message=new message({
+        chat_id:chatid,
+        sender:details.ids.sent_by_user_id,
+        content_type:"message",
+        message:details.msg,
+        sentAt:cur_date
+    });
+
+    let new_message=await insert_message.save();
+    return {new_message:new_message,new_chat:chat_user}
     }
 
     chatid=chat_user._id;
@@ -28,7 +41,7 @@ async function send_message(details){
     });
 
     let new_message=await insert_message.save();
-    return new_message
+    return {new_message:new_message}
 }
 
 export default send_message;

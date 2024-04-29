@@ -19,6 +19,23 @@ const reduce=(state=initial_state,action)=>{
             return {...state,selected_chat:{...action.selected_chat}}
         case 'LOADCHATS':
             return {...state,chats:action.all_chats}
+        case 'ADDNEWCHAT':
+            let all_chats;
+            if(state.chats){
+                console.log("inside state.chats")
+                if(state.chats.length>0){
+                all_chats=state.chats
+                all_chats.push(action.new_chat)
+                }
+                else{
+                    all_chats=[action.new_chat]
+                }
+            }
+            else{
+                all_chats=[]
+                all_chats.push(action.new_chat)
+            }
+            return {...state,chats:all_chats}
         case 'SELECTEDCHATID':
             return {...state,selected_chat_id:action.chat_id}
         case 'SETSEEN':
@@ -38,22 +55,25 @@ const reduce=(state=initial_state,action)=>{
                 return {...state,messages:{}}
             }
             else{
-                if(state.messages[chat_id]){
+                if(Array.isArray(state.messages[chat_id])){
                     new_unseen_chats=action.set_messages.sender!==state.user_data._id?state.unseen_chats[chat_id]+1:state.unseen_chats[chat_id];
                     state.messages[chat_id].forEach((msg)=>{msgs.push(msg)})
                 msgs.push(action.set_messages)
                 return {...state,messages:{...state.messages,[chat_id]:msgs},unseen_chats:{...state.unseen_chats,[chat_id]:new_unseen_chats}}
             }
-
-            (action.set_messages).forEach(item=>{
-                if(!item.receivedAt){
-                    if(item.sender!==state.user_data._id){
-                        new_unseen_chats=new_unseen_chats+1;
+            console.log("set messages fom action",action.set_messages)
+            if(action.set_messages.length){
+                (action.set_messages).forEach(item=>{
+                    if(!item.receivedAt){
+                        if(item.sender!==state.user_data._id){
+                            new_unseen_chats=new_unseen_chats+1;
+                        }
                     }
-                }
-            })
+                })
+            }
             console.log("new_unseen_message",new_unseen_chats)
-                return {...state,messages:{...state.messages,[chat_id]:action.set_messages},unseen_chats:{...state.unseen_chats,[chat_id]:new_unseen_chats===0?0:new_unseen_chats}}
+            
+                return {...state,messages:{...state.messages,[chat_id]:[action.set_messages]},unseen_chats:{...state.unseen_chats,[chat_id]:new_unseen_chats===0?0:new_unseen_chats}}
             }
         default: return state
     }

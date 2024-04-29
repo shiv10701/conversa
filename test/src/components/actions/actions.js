@@ -34,3 +34,8 @@ export const set_seen=chat_id=>({
     type:'SETSEEN',
     chat_id
 })
+
+export const add_new_chat=new_chat=>({
+    type:'ADDNEWCHAT',
+    new_chat
+})

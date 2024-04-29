@@ -4,6 +4,7 @@ import {useSelector,useDispatch  } from 'react-redux';
 import {init_user,search_user, set_selected_chat} from '../../actions/actions.js';
 import axios from 'axios';
 import { useSocketContext } from "../../../socket/socketConnection.jsx";
+import NewGroup from "../new_group.jsx";
 
 function Chat_Search(){
   const result=useSelector(state=>state.user_data)
@@ -27,10 +28,10 @@ function Chat_Search(){
     const res=async()=>{
       let url_of_image;
       if(result.profile_img){
-        url_of_image="http://192.168.0.173:5000/uploads/"+result._id+"/"+result.profile_img;
+        url_of_image="http://192.168.0.195:5000/uploads/"+result._id+"/"+result.profile_img;
       }
       else{
-        url_of_image="http://192.168.0.173:5000/uploads/avatar.jpg"
+        url_of_image="http://192.168.0.195:5000/uploads/avatar.jpg"
       }
       console.log(url_of_image)
       setImageDP(url_of_image)
@@ -62,7 +63,7 @@ function Chat_Search(){
        try {
          dispatch(init_user(user_data))
          localStorage.removeItem("user_data"); // Remove user data from local storage
-         const response = await axios.get("http://192.168.0.173:5000/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+         const response = await axios.get("http://192.168.0.195:5000/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
          console.log(response);
          navigate("/sign-in");
        } catch (error) {
@@ -125,6 +126,19 @@ function Chat_Search(){
                                         </div>
                                       </div>
                                     </a>
+                                    <div className="iq-sub-card iq-bg-primary-hover" data-toggle="modal" data-target="#exampleModalScrollable">
+                                      <div className="media align-items-center">
+                                        <div className="rounded iq-card-icon iq-bg-primary">
+                                          <i className="ri-user-add-fill" />
+                                        </div>
+                                        <div className="media-body ml-3">
+                                          <h6 className="mb-0 ">
+                                            New Group Chat
+                                              
+                                          </h6>
+                                        </div>
+                                      </div>
+                                    </div>
                                     <a
                                       href="account-setting.html"
                                       className="iq-sub-card iq-bg-primary-hover"
@@ -226,7 +240,29 @@ function Chat_Search(){
                             <i className="ri-search-line" />
                           </div>
                         </div>
+
+                        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                                  <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                          <h5 class="modal-title" id="exampleModalScrollableTitle">New Group Chat</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                          <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <NewGroup />
+                                                          </div>
+                                                        <div class="modal-footer">
+                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i className="ri-close-line"></i>Close</button>
+                                                          <button type="button" class="btn btn-primary"><i className="ri-add-line"></i>Create new Group</button>
+                                                        </div>
+                                                    </div>
+                                                  </div>
+                                              </div>
                       </div>
+
+                      
     );
 }
 

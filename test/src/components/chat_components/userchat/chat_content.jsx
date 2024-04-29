@@ -18,16 +18,14 @@ function Chat_Content(props){
   },[current_chat,messages])
 
 
-let a=0;
   if(Object.keys(messages).length!==0){
     if(current_chat!==null && messages[current_chat]){
       console.log("inside messages found for the currect chat id")
       return (
-        <div className="chat-content scroller">
+        <div className="chat-content scroller" key={current_chat}>
+          {console.log("Mesages for current chat",messages[current_chat])}
           {messages[current_chat] && messages[current_chat].map(message=>{
             if(message.message!==undefined){
-
-            {a++}
             return (<div ref={lastmessage}>
             <Message item={message} current_user={current_user}/>
           </div>)
@@ -38,16 +36,6 @@ let a=0;
     );
 
     }
-  //   return (
-  //     <div className="chat-content scroller">
-  //       {/* {messages.length!==0 && messages.map(message=>{
-  //         return <div ref={lastmessage}>
-  //         <Message item={message} current_user={current_user}/>
-  //       </div>
-  //     })} */}
-        
-  //     </div>
-  // );
   return (
     <div className="chat-content scroller">
       <div className="h-100 d-flex flex-column justify-content-center align-items-center">
