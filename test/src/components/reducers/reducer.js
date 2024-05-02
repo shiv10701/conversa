@@ -51,17 +51,12 @@ const reduce=(state=initial_state,action)=>{
                 chat_id=action.set_messages.chat_id
             }
 
-            if(action.set_messages===""){
-                return {...state,messages:{}}
-            }
-            else{
-                if(Array.isArray(state.messages[chat_id])){
-                    new_unseen_chats=action.set_messages.sender!==state.user_data._id?state.unseen_chats[chat_id]+1:state.unseen_chats[chat_id];
-                    state.messages[chat_id].forEach((msg)=>{msgs.push(msg)})
+            if(Array.isArray(state.messages[chat_id])){
+                new_unseen_chats=action.set_messages.sender!==state.user_data._id?state.unseen_chats[chat_id]+1:state.unseen_chats[chat_id];
+                state.messages[chat_id].forEach((msg)=>{msgs.push(msg)})
                 msgs.push(action.set_messages)
                 return {...state,messages:{...state.messages,[chat_id]:msgs},unseen_chats:{...state.unseen_chats,[chat_id]:new_unseen_chats}}
             }
-            console.log("set messages fom action",action.set_messages)
             if(action.set_messages.length){
                 (action.set_messages).forEach(item=>{
                     if(!item.receivedAt){
@@ -72,9 +67,17 @@ const reduce=(state=initial_state,action)=>{
                 })
             }
             console.log("new_unseen_message",new_unseen_chats)
-            
-                return {...state,messages:{...state.messages,[chat_id]:[action.set_messages]},unseen_chats:{...state.unseen_chats,[chat_id]:new_unseen_chats===0?0:new_unseen_chats}}
+            let new_array;
+            if(!Array.isArray(action.set_messages)){
+                new_array=[]
+                new_array.push(action.set_messages)
             }
+            else{
+                new_array=action.set_messages
+            }
+
+                return {...state,messages:{...state.messages,[chat_id]:new_array},unseen_chats:{...state.unseen_chats,[chat_id]:new_unseen_chats===0?0:new_unseen_chats}}
+            
         default: return state
     }
 }

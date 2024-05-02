@@ -54,7 +54,7 @@ useEffect(()=>{
     return (
       <div className="chat-sidebar-channel scroller mt-4 pl-3">
         <ul className="iq-chat-ui nav flex-column nav-pills">
-          {chats.map((item)=>{console.log(item);return <SingleChat item={item} user={user_data}/>})}
+          {chats.map((item)=>{return <SingleChat item={item} user={user_data}/>})}
         </ul>
       </div>
     );

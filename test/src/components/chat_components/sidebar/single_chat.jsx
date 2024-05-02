@@ -97,8 +97,47 @@ export default function SingleChat(props) {
               {unseen_chats[props.item._id]!==0?<div className="chat-meta float-right text-center mt-2">
                                   <div className="chat-msg-counter bg-primary text-white">
                                     {unseen_chats[props.item._id]}
-                                    {/* {console.log(unseen_chats[props.item._id],props.item._id)} */}
-                                    {console.log("whole unseen chats:",unseen_chats)}
+                                  </div>
+                                </div>:""}
+              
+            </div>
+          </a>
+        </li>
+      );
+    }
+    else if(props.item.chat_type==="Group"){
+      logged_in_user=props.user._id;
+      this_user_id=props.item.users[0]._id===props.user._id?props.item.users[1]._id:props.item.users[0]._id;
+      let profile_img;
+        if(props.item.chat_img)
+         {
+           profile_img="http://192.168.0.195:5000/uploads/"+props.item._id+"/"+props.item.chat_img;
+         }
+         else{
+          profile_img="http://192.168.0.195:5000/uploads/avatar.jpg"
+        }
+      
+      return (
+          <li key={props.item._id} onClick={(e)=>setSelected(props.item.users[0]._id===props.user._id?props.item.users[1]:props.item.users[0],props.item._id,e)}>
+          <a data-toggle="pill" href="#chatbox1" >
+            <div className="d-flex align-items-center">
+              <div className="avatar mr-3">
+                <img
+                  src={profile_img}
+                  alt="chatuserimage"
+                  className="avatar-50 "
+                />
+                {/* {isOnline?<span className="avatar-status">
+                  <i className={`ri-checkbox-blank-circle-fill ${isOnline?"text-success":""}`} />
+                </span>:""} */}
+                
+              </div>
+              <div className="chat-sidebar-name">
+                <h6 className="mb-0">{props.item.group_name}</h6>
+              </div>
+              {unseen_chats[props.item._id]!==0?<div className="chat-meta float-right text-center mt-2">
+                                  <div className="chat-msg-counter bg-primary text-white">
+                                    {unseen_chats[props.item._id]}
                                   </div>
                                 </div>:""}
               

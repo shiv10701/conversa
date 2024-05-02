@@ -18,6 +18,7 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { app, server } from "./socket/server.js";
+import NewGroup from './routes/newGroup.routes.js';
 
 // ---------Passport---------
 app.use(expressSession({  //this  MV(middleweare) should be before below  two
@@ -53,6 +54,7 @@ app.get('/', (req, res) => {
 app.use("/api/auth", authRoute)
 app.use("/api/is-login", msgRoute)
 app.use("/api/forgot-pass", forgotPassword)
+app.use("/api/newgroup",NewGroup)
 
 server.listen(port,'0.0.0.0', () => {
   console.log(`http://0.0.0.0:${port}`)

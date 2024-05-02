@@ -29,18 +29,8 @@ function New_Message(props){
     e.preventDefault();
     const details={ids:{sent_by_user_id,sent_to_user_id},msg:message}
     socket.emit("send_message",details);
-    socket.on("send_save_message",data=>{
-      if(data.new_chat){
-        dispatch(add_new_chat(data.new_chat))
-        setNewMsgData(data.new_message);
-        setChatID(data.new_chat._id)
-        sound.play();
-
-      }
-      else{console.log("new message ",data.new_message);setNewMsgData(data.new_message);sound.play()}})
     setMessage("")
   }
-  useEffect(()=>{dispatch(set_messages(new_msg_data));dispatch(set_selected_chatid(chat_id))},[new_msg_data])
 
     return (
         <div className="chat-footer p-3 bg-white">

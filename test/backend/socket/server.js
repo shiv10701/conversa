@@ -50,6 +50,11 @@ io.on('connection',(socket)=>{
         setchatseen(data);
     })
 
+    socket.on("get_new_group_chat",data=>{
+        get_new_group_chat(data);
+    })
+
+
     socket.on("disconnect",()=>{
         delete userSocketMap[UserID];
         console.log("User Disconnected");
@@ -86,6 +91,15 @@ async function getchats(data){
 async function setchatseen(data){
     const msg=await setseenmessage(data);
     console.log(msg);
+}
+
+async function get_new_group_chat(data){
+console.log(data);
+data.users.forEach((user)=>{
+    if(userSocketMap[user]){
+        io.to(userSocketMap[user]).emit("get_new_group_chat",data)
+    }
+})
 }
 
 

@@ -253,10 +253,10 @@ function Chat_Search(){
                                                         <div class="modal-body">
                                                           <NewGroup />
                                                           </div>
-                                                        <div class="modal-footer">
+                                                        {/* <div class="modal-footer">
                                                           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i className="ri-close-line"></i>Close</button>
                                                           <button type="button" class="btn btn-primary"><i className="ri-add-line"></i>Create new Group</button>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                   </div>
                                               </div>

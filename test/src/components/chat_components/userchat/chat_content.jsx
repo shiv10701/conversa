@@ -23,8 +23,7 @@ function Chat_Content(props){
       console.log("inside messages found for the currect chat id")
       return (
         <div className="chat-content scroller" key={current_chat}>
-          {console.log("Mesages for current chat",messages[current_chat])}
-          {messages[current_chat] && messages[current_chat].map(message=>{
+          {messages[current_chat].map(message=>{
             if(message.message!==undefined){
             return (<div ref={lastmessage}>
             <Message item={message} current_user={current_user}/>
