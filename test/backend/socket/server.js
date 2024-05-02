@@ -7,6 +7,7 @@ import send_message from '../utils/sendMessage.js';
 import getMessages from '../utils/getMessages.js';
 import GetChats from '../utils/getChats.js';
 import setseenmessage from '../utils/setSeen.js'
+import send_message_group from '../utils/sendGroupMessage.js';
 
 
 const app=express();
@@ -52,6 +53,10 @@ io.on('connection',(socket)=>{
 
     socket.on("get_new_group_chat",data=>{
         get_new_group_chat(data);
+    })
+
+    socket.on("send_group_message",data=>{
+        send_group_message(data);
     })
 
 
@@ -100,6 +105,16 @@ data.users.forEach((user)=>{
         io.to(userSocketMap[user]).emit("get_new_group_chat",data)
     }
 })
+}
+
+async function send_group_message(data){
+    const msg=await send_message_group(data);
+    const new_data={new_message:msg.new_message}
+    msg.chat_users.forEach((item)=>{
+        if(userSocketMap[item]){
+            io.to(userSocketMap[item]).emit("send_save_message",new_data)
+        }
+    })
 }
 
 

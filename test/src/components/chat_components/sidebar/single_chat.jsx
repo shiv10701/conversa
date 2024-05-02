@@ -118,7 +118,7 @@ export default function SingleChat(props) {
         }
       
       return (
-          <li key={props.item._id} onClick={(e)=>setSelected(props.item.users[0]._id===props.user._id?props.item.users[1]:props.item.users[0],props.item._id,e)}>
+          <li key={props.item._id} onClick={(e)=>setSelected(props.item,props.item._id,e)}>
           <a data-toggle="pill" href="#chatbox1" >
             <div className="d-flex align-items-center">
               <div className="avatar mr-3">

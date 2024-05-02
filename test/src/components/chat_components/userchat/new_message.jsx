@@ -15,6 +15,7 @@ function New_Message(props){
 
   let sent_to_user_id=props.chat_user;
   let sent_by_user_id=props.login_user;
+  let isGroupChat=props.item?.group_name??"";
   const sound=new Audio(pop_sound_nitification)
 
   function addEmoji(select_emoji){
@@ -27,9 +28,16 @@ function New_Message(props){
 
   function submit_message(e){
     e.preventDefault();
-    const details={ids:{sent_by_user_id,sent_to_user_id},msg:message}
-    socket.emit("send_message",details);
-    setMessage("")
+    if(isGroupChat===""){
+      const details={ids:{sent_by_user_id,sent_to_user_id},msg:message}
+      socket.emit("send_message",details);
+      setMessage("")
+    }
+    else{
+      const details={ids:{sent_by_user_id,sent_to_user_id},msg:message}
+      socket.emit("send_group_message",details);
+      setMessage("")
+    }
   }
 
     return (

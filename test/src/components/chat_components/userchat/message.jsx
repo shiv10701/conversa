@@ -2,8 +2,50 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 export default function Message(props) {
+  console.log(props)
     if(props.item && props.item.message){
-        if(props.item.sender===props.current_user )
+      if(props.group){
+        if(props.item.sender._id===props.current_user )
+        {
+            return (
+                <div className="chat" key={props.item._id}>
+                                        
+                                        <div className="chat-detail">
+                                          <div className="chat-message">
+                                            <p>
+                                              {props.item.message}
+                                            <span className="chat-time">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+              )
+        }
+        else{
+            return (
+                <div className="chat chat-left" key={props.item._id}>
+                                    <div className="chat-user">
+                                        <img
+                                          src={"http://192.168.0.195:5000/uploads/"+props.item.sender._id+"/"+props.item.sender.profile_img}
+                                          alt="avatar"
+                                          className="avatar-35 "
+                                        />
+                                    </div>
+                                        <div className="chat-detail">
+                                          <div className="chat-message">
+                                            <p>
+                                              {props.item.message}
+                                              <span className="chat-time text-start w-100 text-start">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
+                                            </p>
+                                            
+                                            </div>
+                                      </div>
+                                      </div>
+              )
+        }
+      }
+      else{
+        if(props.item.sender._id===props.current_user )
         {
             return (
                 <div className="chat" key={props.item._id}>
@@ -35,6 +77,7 @@ export default function Message(props) {
                                       </div>
               )
         }
+      }
     }
     else{
         return (

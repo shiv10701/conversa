@@ -11,7 +11,7 @@ async function getMessages(details){
 
     const chat_data=await chat.findOne({_id:details.chat_id})
     if(chat_data){
-        const messages=await message.find({chat_id:chat_data.id})
+        const messages=await message.find({chat_id:chat_data.id}).populate('sender')
         return {messages:messages,chat_id:chat_data._id};
     }
     else

@@ -27,7 +27,7 @@ async function send_message(details){
         sentAt:cur_date
     });
 
-    let new_message=await insert_message.save();
+    let new_message=await insert_message.save().then((data)=> {return data.populate('sender').then((data1)=>{return data1})});
     return {new_message:new_message,new_chat:chat_user}
     }
 
@@ -40,7 +40,7 @@ async function send_message(details){
         sentAt:cur_date
     });
 
-    let new_message=await insert_message.save();
+    let new_message=await insert_message.save().then((data)=> {return data.populate('sender').then((data1)=>{return data1})});
     return {new_message:new_message}
 }
 

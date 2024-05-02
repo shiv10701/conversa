@@ -8,7 +8,7 @@ function User_Chat(){
     const userchat=useSelector(state=>state.selected_chat)
     const user_data=useSelector(state=>state.user_data)
 
-
+    console.log(userchat)
     if(Object.keys(userchat).length!==0){
         return (
             <div
@@ -17,8 +17,8 @@ function User_Chat(){
                             role="tabpanel"
                             >
                                 <Chat_Header item={userchat}/>
-                                <Chat_Content login_user={user_data._id}/>
-                                <New_Message chat_user={userchat._id} login_user={user_data._id}/>
+                                <Chat_Content login_user={user_data._id} item={userchat} />
+                                <New_Message chat_user={userchat._id} login_user={user_data._id} item={userchat}/>
                             </div>
         );
     }

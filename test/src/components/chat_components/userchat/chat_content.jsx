@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Message from "./message";
 
@@ -7,15 +7,17 @@ function Chat_Content(props){
   const messages=useSelector(state=>state.messages)
   const lastmessage=useRef();
   const current_user=props.login_user;
+  let isGroupChat=false
 
   useEffect(()=>{
     setTimeout(()=>{lastmessage.current?.scrollIntoView({behaviour:"smooth"})},500)
   },[messages,current_chat])
 
-  useEffect(()=>{
-    console.log(current_chat)
-    console.log(messages)
-  },[current_chat,messages])
+
+  if(props.item?.group_name??false){
+    isGroupChat=true
+  }
+
 
 
   if(Object.keys(messages).length!==0){
@@ -26,7 +28,7 @@ function Chat_Content(props){
           {messages[current_chat].map(message=>{
             if(message.message!==undefined){
             return (<div ref={lastmessage}>
-            <Message item={message} current_user={current_user}/>
+            <Message item={message} current_user={current_user} group={isGroupChat} />
           </div>)
             }
         })}
