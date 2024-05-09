@@ -22,10 +22,10 @@ function Chat_Header(props){
       this_user_id=props.item._id;
       let profile_img;
           if(props.item.chat_img){
-            profile_img="http://192.168.0.195:5000/uploads/"+props.item._id+"/"+props.item.chat_img
+            profile_img="http://192.168.94.210:5000/uploads/"+props.item._id+"/"+props.item.chat_img
           }
           else{
-            profile_img="http://192.168.0.195:5000/uploads/avatar.jpg"
+            profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
           }
       return (
         <div className="chat-head">
@@ -190,10 +190,10 @@ function Chat_Header(props){
       this_user_id=props.item._id;
       let profile_img;
           if(props.item.profile_img){
-            profile_img="http://192.168.0.195:5000/uploads/"+props.item._id+"/"+props.item.profile_img
+            profile_img="http://192.168.94.210:5000/uploads/"+props.item._id+"/"+props.item.profile_img
           }
           else{
-            profile_img="http://192.168.0.195:5000/uploads/avatar.jpg"
+            profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
           }
       return (
         <div className="chat-head">

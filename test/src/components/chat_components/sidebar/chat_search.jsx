@@ -28,12 +28,11 @@ function Chat_Search(){
     const res=async()=>{
       let url_of_image;
       if(result.profile_img){
-        url_of_image="http://192.168.0.195:5000/uploads/"+result._id+"/"+result.profile_img;
+        url_of_image="http://192.168.94.210:5000/uploads/"+result._id+"/"+result.profile_img;
       }
       else{
-        url_of_image="http://192.168.0.195:5000/uploads/avatar.jpg"
+        url_of_image="http://192.168.94.210:5000/uploads/avatar.jpg"
       }
-      console.log(url_of_image)
       setImageDP(url_of_image)
       // the following code is for taking the images from api call but it is not working as of now on 25-apr-24
       // const res= await axios.get("https://1f03-103-180-210-86.ngrok-free.app/uploads/"+result._id+"/"+result.profile_img);
@@ -46,7 +45,6 @@ function Chat_Search(){
 
   useEffect(()=>{
     if(searchVal.length>2){
-      console.log(result._id)
       const data=[searchVal,result._id]
       socket.emit("search_val",data)
       socket.on("search_user",data=>{dispatch(search_user(data))});
@@ -63,8 +61,7 @@ function Chat_Search(){
        try {
          dispatch(init_user(user_data))
          localStorage.removeItem("user_data"); // Remove user data from local storage
-         const response = await axios.get("http://192.168.0.195:5000/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
-         console.log(response);
+         const response = await axios.get("http://192.168.94.210:5000/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
          navigate("/sign-in");
        } catch (error) {
         console.log('error at chat_search.jsx', error);
@@ -93,7 +90,7 @@ function Chat_Search(){
                           <ul className=" iq-top-navbar iq-navbar-custom navbar-list d-flex">
                             <li>
                               <a href="/" className="search-toggle ">
-                                <i className="ri-menu-fill h5" />
+                                <i className="ri-more-fill h3" />
                               </a>
                               <div className="iq-sub-dropdown iq-user-dropdown">
                                 <div className="iq-card shadow-none m-0">

@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 export default function Message(props) {
-  console.log(props)
     if(props.item && props.item.message){
       if(props.group){
         if(props.item.sender._id===props.current_user )
@@ -26,7 +25,7 @@ export default function Message(props) {
                 <div className="chat chat-left" key={props.item._id}>
                                     <div className="chat-user">
                                         <img
-                                          src={"http://192.168.0.195:5000/uploads/"+props.item.sender._id+"/"+props.item.sender.profile_img}
+                                          src={"http://192.168.94.210:5000/uploads/"+props.item.sender._id+"/"+props.item.sender.profile_img}
                                           alt="avatar"
                                           className="avatar-35 "
                                         />

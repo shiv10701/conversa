@@ -6,25 +6,19 @@ import pop_sound_nitification from '../../sounds/pop_sound_notification.mp3'
 import EmojiPicker from 'emoji-picker-react'
 
 function New_Message(props){
-  const dispatch = useDispatch();
   const {socket}=useSocketContext();
 
   let [message,setMessage]=useState("");
-  let [new_msg_data,setNewMsgData]=useState("")
-  let [chat_id,setChatID]=useState("")
+  let [isEmojiShow,setEmojiShow]=useState(false)
+
+  // let [isEmojiSelect,setEmojiSelect]=useState(false)
 
   let sent_to_user_id=props.chat_user;
   let sent_by_user_id=props.login_user;
   let isGroupChat=props.item?.group_name??"";
   const sound=new Audio(pop_sound_nitification)
 
-  function addEmoji(select_emoji){
-    try {
-      setMessage((state)=>state+select_emoji.emoji)
-    } catch (error) {
-      console.log(error.message)
-    }
-  }
+  
 
   function submit_message(e){
     e.preventDefault();
@@ -48,19 +42,24 @@ function New_Message(props){
                               onSubmit={submit_message}
                             >
                               <div className="chat-attagement d-flex">
-                                <a href="javascript:void();">
+                                <a onClick={()=>setEmojiShow(state=>!state)}>
                                   <i
                                     className="fa fa-smile-o pr-3"
                                     aria-hidden="true"
                                   />
-                                  {/* <EmojiPicker onEmojiClick={(select_emoji)=>{setMessage((state)=>state+select_emoji.emoji)}} /> */}
+              
+                                  {isEmojiShow?<EmojiPicker style={{position:"relative"}} onEmojiClick={pickedemoji=>setMessage(state=>state+pickedemoji.emoji)} /> :""} 
                                 </a>
-                                <a href="javascript:void();">
-                                  <i
-                                    className="fa fa-paperclip pr-3"
-                                    aria-hidden="true"
-                                  />
-                                </a>
+                                <div class="dropup">
+                                 <span class="" id="dropdownMenuButton" data-toggle="dropdown" onClick={()=>setEmojiShow(false)}>
+                                 <i className="fa fa-paperclip pr-3" aria-hidden="true"/>
+                                 </span>
+                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" >
+                                    <a class="dropdown-item" ><i class="ri-image-2-fill mr-2"></i>Photo or Video</a>
+                                    <a class="dropdown-item" ><i class="ri-file-text-fill mr-2"></i>Document</a>
+                                 </div>
+                              </div>
+                                
                               </div>
                               <input
                                 type="text"

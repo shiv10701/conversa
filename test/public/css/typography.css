@@ -89,7 +89,7 @@ Input
 .rounded { border-radius: 8px !important; }
 .rounded-circle { border-radius: 50% !important; }
 label { color: var(--iq-dark); }
-input.form-control { height: 45px; line-height: 45px; background: transparent; border: 1px solid var(--iq-dark-border); font-size: 14px; color: var(--iq-body-text); border-radius: 8px; }
+input.form-control { height: 45px; line-height: 45px; background: transparent; border: 1px solid var(--iq-dark-border); font-size: 14px; color: var(--iq-body-text); border-radius: 15px; }
 .form-control:focus { color: var(--iq-dark); border-color: var(--iq-primary); box-shadow: none; }
 .form-control-sm { height: 30px; line-height: 30px; }
 .form-control-lg { height: 50px; line-height: 50px; }

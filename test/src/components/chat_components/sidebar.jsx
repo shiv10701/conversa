@@ -11,10 +11,10 @@ function Sidebar(){
                         <div className="pt-4">
                            <ul class="nav nav-tabs nav-justified" id="myTab-1" role="tablist">
                               <li class="nav-item">
-                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#chats" role="tab" aria-controls="home" aria-selected="true">Chats </a>
+                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#chats" role="tab" aria-controls="home" aria-selected="true"> <i class="ri-message-2-fill h5"></i></a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#calls" role="tab" aria-controls="profile" aria-selected="false">Calls</a>
+                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#calls" role="tab" aria-controls="profile" aria-selected="false"><i class="ri-phone-fill h5"></i>  </a>
                               </li>
                            </ul>
                            <div class="tab-content" id="myTabContent-2">

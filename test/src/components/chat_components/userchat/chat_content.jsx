@@ -22,7 +22,6 @@ function Chat_Content(props){
 
   if(Object.keys(messages).length!==0){
     if(current_chat!==null && messages[current_chat]){
-      console.log("inside messages found for the currect chat id")
       return (
         <div className="chat-content scroller" key={current_chat}>
           {messages[current_chat].map(message=>{

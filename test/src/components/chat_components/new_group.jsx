@@ -20,7 +20,6 @@ function NewGroup(){
     useEffect(()=>{
         if(searchVal.length>2)
         {
-            console.log(user_data._id)
             const data=[searchVal,user_data._id]
             socket.emit("search_val",data)
             socket.on("search_user",data=>{setSearchUser(data)});
@@ -32,7 +31,6 @@ function NewGroup(){
 
 
     function setselchats(item,id){
-        console.log(item,id)
         setSelectedChats(state=>{
             let new_array={...state};
             if(!new_array[id]){
@@ -41,7 +39,6 @@ function NewGroup(){
             else{
                 new_array[id]=""
             }
-            console.log("this is new array:",new_array)
             return new_array;
         })
     }
@@ -51,8 +48,7 @@ function NewGroup(){
         e.preventDefault();
         const formData = new FormData(e.target);
         const formDataObject = Object.fromEntries(formData.entries());
-        console.log(formDataObject)
-        console.log(selected_chats)
+
         const users=Object.keys(selected_chats)
         users.push(user_data._id)
         const data={...formDataObject,users:users}
@@ -61,8 +57,7 @@ function NewGroup(){
     }
 
     async function save_data(form_data){
-        const result=await  axios.post('http://192.168.0.195:5000/api/newgroup/create',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
-        console.log(result);
+        const result=await  axios.post('http://192.168.94.210:5000/api/newgroup/create',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
         socket.emit("get_new_group_chat",result.data.new_chat)
     }
 
@@ -138,34 +133,18 @@ function NewGroup(){
             <div className="chat-sidebar-channel scroller mt-4 pl-3" style={{height:"auto"}}>
                 <span>Your Chats :</span>
             <ul className="iq-chat-ui nav flex-column nav-pills">
-                {console.log(searchUser.length)}
                 {chats.length>0?
                 chats.map((item)=>{
-                    if(item.users[0]._id===user_data._id){
-                        return (<li onClick={()=>setselchats(item,item.users[1]._id)}>
-                        <a data-toggle="pill"  >
-                        <div className="d-flex align-items-center">
-                            <div className="avatar mr-3">
-                            <img
-                                src={"http://192.168.0.195:5000/uploads/"+item.users[1]._id+"/"+item.users[1].profile_img}
-                                alt="chatuserimage"
-                                className="avatar-50 "
-                            />
-                            </div>
-                            <div className="chat-sidebar-name">
-                            <h6 className="mb-0">{item.users[1].name}</h6>
-                            </div>
-                        </div>
-                        </a>
-                    </li>)
-                    }
-                    else{
-                        return (<li onClick={()=>setselchats(item,item.users[1]._id)}>
-                            <a data-toggle="pill" href="#chatbox1" >
+                    if(item.chat_type==="Personal"){
+                        console.log("Item in newGroup:",item)
+
+                        if(item.users[0]._id===user_data._id){
+                            return (<li onClick={()=>setselchats(item,item.users[1]._id)} key={item._id}>
+                            <a data-toggle="pill"  >
                             <div className="d-flex align-items-center">
                                 <div className="avatar mr-3">
                                 <img
-                                    src={"http://192.168.0.195:5000/uploads/"+item.users[0]._id+"/"+item.users[0].profile_img}
+                                    src={"http://192.168.0.195:5000/uploads/"+item.users[1]._id+"/"+item.users[1].profile_img}
                                     alt="chatuserimage"
                                     className="avatar-50 "
                                 />
@@ -176,6 +155,25 @@ function NewGroup(){
                             </div>
                             </a>
                         </li>)
+                        }
+                        else{
+                            return (<li onClick={()=>setselchats(item,item.users[1]._id)}>
+                                <a data-toggle="pill" href="#chatbox1" >
+                                <div className="d-flex align-items-center">
+                                    <div className="avatar mr-3">
+                                    <img
+                                        src={"http://192.168.0.195:5000/uploads/"+item.users[0]._id+"/"+item.users[0].profile_img}
+                                        alt="chatuserimage"
+                                        className="avatar-50 "
+                                    />
+                                    </div>
+                                    <div className="chat-sidebar-name">
+                                    <h6 className="mb-0">{item.users[1].name}</h6>
+                                    </div>
+                                </div>
+                                </a>
+                            </li>)
+                        }
                     }
             })
                 :""}

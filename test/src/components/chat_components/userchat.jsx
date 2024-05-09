@@ -8,7 +8,6 @@ function User_Chat(){
     const userchat=useSelector(state=>state.selected_chat)
     const user_data=useSelector(state=>state.user_data)
 
-    console.log(userchat)
     if(Object.keys(userchat).length!==0){
         return (
             <div

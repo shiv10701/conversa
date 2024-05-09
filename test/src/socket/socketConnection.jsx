@@ -17,37 +17,34 @@ export const SocketContextProvider=({children})=>{
     const dispatch=useDispatch()
     const sound=new Audio(pop_sound_nitification)
     let [new_msg_data,setNewMsgData]=useState("")
-    let [chat_id,setChatID]=useState("")
 
 
     let [online_users,setOnlineUsers]=useState([]);
     useEffect(()=>{
-        console.log("user is :",JSON.stringify(user._id));
         if(Object.keys(user).length!==0){
-            const socket=io("http://192.168.0.195:5000/",{query:{UserID:user._id},extraHeaders: {
+            const socket=io("http://192.168.94.210:5000/",{query:{UserID:user._id},extraHeaders: {
                 'ngrok-skip-browser-warning': 'true' // Example of a custom header
               }});
             setSocket(socket);
             socket.emit("greetings","Hello");
 
-            socket.on("online_users",data=>{setOnlineUsers(data);console.log("online users list:",data);})
+            socket.on("online_users",data=>{setOnlineUsers(data);})
               socket.on("get_new_group_chat",data=>{dispatch(add_new_chat(data))})
 
               socket.on("send_save_message",data=>{
                 if(data.new_chat){
-                  console.log("inside if statement of new_message")
                   dispatch(add_new_chat(data.new_chat))
                   setNewMsgData(data.new_message);
-                  setChatID(data.new_chat._id)
                   dispatch(set_selected_chatid(data.new_chat._id))
                   sound.play();
                 }
                 else{
-                  console.log("new message ",data.new_message);
                   setNewMsgData(data.new_message);
                   sound.play()
                 }
               })
+
+
             
             return ()=>socket.close();
             
@@ -61,7 +58,7 @@ export const SocketContextProvider=({children})=>{
     },[user])
 
     useEffect(()=>{dispatch(set_messages(new_msg_data));},[new_msg_data])
-
+    
     
     return (
         <SocketContext.Provider value={{socket,online_users}}>

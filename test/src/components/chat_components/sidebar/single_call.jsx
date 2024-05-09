@@ -17,19 +17,19 @@ export default function SingleCall(props) {
       let profile_img;
       if(props.item.users[0]._id===props.user._id){
         if(props.item.users[1].profile_img){
-          profile_img="http://192.168.0.195:5000/uploads/"+props.item.users[1]._id+"/"+props.item.users[1].profile_img
+          profile_img="http://192.168.94.210:5000/uploads/"+props.item.users[1]._id+"/"+props.item.users[1].profile_img
         }
         else{
-          profile_img="http://192.168.0.195:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
         }
       }
       else{
         if(props.item.users[0].profile_img)
          {
-           profile_img="http://192.168.0.195:5000/uploads/"+props.item.users[0]._id+"/"+props.item.users[0].profile_img;
+           profile_img="http://192.168.94.210:5000/uploads/"+props.item.users[0]._id+"/"+props.item.users[0].profile_img;
          }
          else{
-          profile_img="http://192.168.0.195:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
         }
       }
       return (
@@ -49,8 +49,42 @@ export default function SingleCall(props) {
                 <span><i className='ri-arrow-right-up-line text-success'></i> { new Date().getDate()+" / "+new Date().getMonth()+" / "+new Date().getFullYear()}</span>
               </div>
               <div className="chat-meta float-right text-center mt-2 d-flex flex-column align-items-center">
-                   {Math.random()*2<1? <span><i className="ri-vidicon-line text-success h6" ></i></span>:
-                    <span><i className="ri-phone-fill text-success h6" ></i></span>}
+                   {Math.random()*2<1? <span><i className="ri-vidicon-line text-success h5" ></i></span>:
+                    <span><i className="ri-phone-fill text-success h5" ></i></span>}
+            </div>
+              
+            </div>
+          </a>
+        </li>
+      );
+    }
+    else if(props.item.chat_type==="Group"){
+      let profile_img;
+        if(props.item.chat_img){
+          profile_img="http://192.168.94.210:5000/uploads/"+props.item._id+"/"+props.item.chat_img
+        }
+        else{
+          profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
+        }
+      return (
+          <li key={props.item._id} >
+          <a data-toggle="pill" href="#chatbox1" >
+            <div className="d-flex align-items-center">
+              <div className="avatar mr-3">
+                <img
+                  src={profile_img}
+                  alt="chatuserimage"
+                  className="avatar-50 "
+                />
+              </div>
+              <div className="chat-sidebar-name">
+                <h6 className="mb-0">{props.item.group_name}</h6>
+                <span><i className='ri-arrow-right-up-line text-success'></i> { new Date().getDate()+" / "+new Date().getMonth()+" / "+new Date().getFullYear()}</span>
+
+              </div>
+              <div className="chat-meta float-right text-center mt-2 d-flex flex-column align-items-center">
+                   {Math.random()*2<1? <span><i className="ri-vidicon-line text-success h5" ></i></span>:
+                    <span><i className="ri-phone-fill text-success h5" ></i></span>}
             </div>
               
             </div>
@@ -61,10 +95,10 @@ export default function SingleCall(props) {
     else{
       let profile_img;
         if(props.item.profile_img){
-          profile_img="http://192.168.0.195:5000/uploads/"+props.item._id+"/"+props.item.profile_img
+          profile_img="http://192.168.94.210:5000/uploads/"+props.item._id+"/"+props.item.profile_img
         }
         else{
-          profile_img="http://192.168.0.195:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
         }
       return (
           <li key={props.item._id} >
