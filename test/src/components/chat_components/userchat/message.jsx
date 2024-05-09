@@ -1,7 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-export default function Message(props) {
+export default function Message(props) {   // props =  all messages present in chat 
+  // console.log(props)
     if(props.item && props.item.message){
       if(props.group){
         if(props.item.sender._id===props.current_user )

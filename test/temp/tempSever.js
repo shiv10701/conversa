@@ -9,6 +9,7 @@ import GetChats from '../utils/getChats.js';
 import setseenmessage from '../utils/setSeen.js'
 import send_message_group from '../utils/sendGroupMessage.js';
 
+
 const app = express();
 
 // ---------------------------------
@@ -41,12 +42,10 @@ io.on('connection', (socket) => {
     io.emit("online_users", Object.keys(userSocketMap))
 
     socket.on("send_message", (data) => {
-        console.log('send_message -> data', data);
         sendmsg(data);
     })
-    
+
     socket.on('get_messages_user', data => {
-        // console.log('get_messages_user -> data', data);
         getmsg(data);
     })
 
@@ -99,39 +98,30 @@ io.on('connection', (socket) => {
     socket.on("make_video_request", (toId, video_url, Local_U_data) => {
         const socketId = userSocketMap[toId];
         io.to(socketId).emit("video_request_from_server", video_url, Local_U_data);
+        console.log(userSocketMap);
     })
 
     socket.on("cut_video_request", (toId) => {
         const socketId = userSocketMap[toId];
         io.to(socketId).emit("cut_video_from_server", socketId);
     })
+    // ----------  Stop audio --------------------
+    socket.on("stop_both_audio", (remoteUId,localUId) => {
+        const toRemoteSocketId = userSocketMap[remoteUId];
+        const toLocalSocketId = userSocketMap[localUId];
+        io.to(toRemoteSocketId).emit("stop_remote_audio", toRemoteSocketId);
+        io.to(toLocalSocketId).emit("stop_Local_audio", toLocalSocketId);
+        console.log('Cut Call **********', 'remoteUId ->', remoteUId, 'localUId ->', localUId);
+        console.log('Cut Call **********', 'toRemoteSocketId ->', toRemoteSocketId, 'toLocalSocketId ->', toLocalSocketId);
+    })
 
     //   -------------------- Disconnect --------------------
+
+
     socket.on("disconnect", () => {
         delete userSocketMap[UserID];
         console.log("User Disconnected");
         io.emit("online_users", Object.keys(userSocketMap))
-
-        // ------------------ Disconnect Video Calling --------------------------------
-
-        var diffTime = Math.abs(timeOnline[socket.id] - new Date())
-        var key
-        for (const [k, v] of JSON.parse(JSON.stringify(Object.entries(connections)))) {
-            for (let a = 0; a < v.length; ++a) {
-                if (v[a] === socket.id) {
-                    key = k
-                    for (let a = 0; a < connections[key].length; ++a) {
-                        io.to(connections[key][a]).emit('user-left', socket.id)
-                    }
-                    var index = connections[key].indexOf(socket.id)
-                    connections[key].splice(index, 1)
-                    if (connections[key].length === 0) {
-                        delete connections[key]
-                    }
-                }
-            }
-        }
-
     })
 })
 
@@ -139,6 +129,26 @@ async function sendSearchUser(data) {
     const user = await getUser(data[0]);
     const id = data[1]
     io.to(userSocketMap[id]).emit("search_user", user);
+
+    // ------------------ Disconnect Video Calling --------------------------------
+
+    var diffTime = Math.abs(timeOnline[socket.id] - new Date())
+    var key
+    for (const [k, v] of JSON.parse(JSON.stringify(Object.entries(connections)))) {
+        for (let a = 0; a < v.length; ++a) {
+            if (v[a] === socket.id) {
+                key = k
+                for (let a = 0; a < connections[key].length; ++a) {
+                    io.to(connections[key][a]).emit('user-left', socket.id)
+                }
+                var index = connections[key].indexOf(socket.id)
+                connections[key].splice(index, 1)
+                if (connections[key].length === 0) {
+                    delete connections[key]
+                }
+            }
+        }
+    }
 }
 
 async function sendmsg(data) {
@@ -166,6 +176,7 @@ async function setchatseen(data) {
 }
 
 async function get_new_group_chat(data) {
+    console.log(data);
     data.users.forEach((user) => {
         if (userSocketMap[user]) {
             io.to(userSocketMap[user]).emit("get_new_group_chat", data)
