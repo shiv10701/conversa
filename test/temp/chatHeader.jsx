@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import ringging from "../../video_components/audio/ring.mp3";
 import tune from "../../video_components/audio/tune.mp3";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from 'uuid'; // Import uuidv4 from uuid
 
 
 function Chat_Header(props) {
@@ -16,11 +15,11 @@ function Chat_Header(props) {
   let [isOnline, setIsOnline] = useState(false)
   // -------------------------------------------------------------
   const navigate = useNavigate();
-  // let video_url = '/room/123';
-  const video_url = `/room/${uuidv4()}`;
+  let video_url = '/room/123';
   const Local_U_data = useSelector(state => state.user_data);   //current Logged in user
   const localRing = new Audio(ringging);
   const remoteTune = new Audio(tune);
+
   // ------------------------------- Video Call ---------------------------------
   const make_video_call = (e) => {
     // e.preventDefault();
@@ -39,12 +38,43 @@ function Chat_Header(props) {
       .catch((error) => console.error('Error playing audio:', error));
   }
 
-  // ------------------- stop Remote audio --------------------
+  // -------------stop Remote audio --------------------
+  function stopRemoteAudio(toRemoteSocketId){
+    try{
+      remoteTune.pause()
+      console.log(' Remote your Id  ---> ', toRemoteSocketId)
+      console.log('remoteTune.pause() ---> ', remoteTune.pause())
+    }
+      catch(error){
+         console.error('Error pausing audio:', error);
+      }
+  }
+  // -------------stop Local audio --------------------
+  function stopLocalAudio(toLocalSocketId){
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>')    
+    try{
+      localRing.pause()
+      console.log(' Local your Id ---> ', toLocalSocketId)
+    }
+      catch(error){
+         console.error('Error pausing audio:', error);
+      }
+  }
 
   useEffect(() => {
+    // console.log('-----------------------------useEffect called ----------------')
     socket.on("video_request_from_server", incommingVideoCallRequest);
+    socket.on("stop_remote_audio",stopRemoteAudio );
+    socket.on("stop_Local_audio",stopLocalAudio );
     return () => {
+    // console.log('-----------------------------useEffect Returned  ----------------')
+
+      // Remove event listeners and perform any necessary cleanup
       socket.off("video_request_from_server", incommingVideoCallRequest);
+      socket.off("stop_remote_audio", stopRemoteAudio);
+      socket.off("stop_Local_audio", stopLocalAudio);
+      
+      // Close the connection
       // socket.disconnect();
   };
   }, [socket]);

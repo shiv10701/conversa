@@ -10,7 +10,6 @@ function mydb(){
 .catch((err)=>{
     console.log("No connection "+err.message)
 })
-
 }
 
 export default mydb;

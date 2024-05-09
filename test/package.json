@@ -2,8 +2,11 @@
   "name": "test",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://f961cb2663277a34c27876111dc323db.serveo.net",
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.4",
+    "@mui/material": "^5.15.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -13,6 +16,7 @@
     "crypto-browserify": "^3.12.0",
     "dotenv": "^16.4.5",
     "emoji-picker-react": "^4.9.2",
+    "http-status": "^1.7.3",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
@@ -22,6 +26,7 @@
     "react-scripts": "5.0.1",
     "redux": "^5.0.1",
     "socket.io-client": "^4.7.5",
+    "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

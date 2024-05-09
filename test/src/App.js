@@ -14,16 +14,14 @@ import AssignUserData from './components/local_storage_function';
 import ForgetPassword from './components/forget_pass';
 import ResetPassword from './components/reset_pass';
 
+import VideoMeetComponent from './components/video_components/VideoMeet';
 
 
 
 function App() {
-
   const user=useSelector(state=>state.user_data);
   let [loading,setLoading]=useState(true)
   useEffect(()=>{setTimeout(()=>{setLoading(false)},1000)},[])
-
-  
   return (
     !loading?<>
       <Router>
@@ -34,6 +32,8 @@ function App() {
           <Route exact path='/sign-up' element={<SignUpPage />} />
           <Route exact path='/forget-pass' element={<ForgetPassword />} />
           <Route exact path='/reset-pass' element={<ResetPassword />} />
+          <Route exact path='/room/:url' element={Object.keys(user).length!=0?<VideoMeetComponent />:<Navigate to="/sign-in" />} />
+
           <Route path='*' element={<SignInPage />} />
         </Routes>
       </Router>

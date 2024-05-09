@@ -25,7 +25,6 @@ function New_Message(props){
       console.log(error.message)
     }
   }
-
   function submit_message(e){
     e.preventDefault();
     if(isGroupChat===""){
