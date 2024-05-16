@@ -6,6 +6,6 @@ let IS_PROD = true;
 
 
 
-const server = "http://192.168.96.110:5000"
+const server = "http://192.168.10.27:5000"
 
 export default server;

@@ -18,11 +18,10 @@ export const SocketContextProvider=({children})=>{
     const sound=new Audio(pop_sound_nitification)
     let [new_msg_data,setNewMsgData]=useState("")
 
-
     let [online_users,setOnlineUsers]=useState([]);
     useEffect(()=>{
         if(Object.keys(user).length!==0){
-            const socket=io("http://192.168.96.110:5000/",{query:{UserID:user._id},extraHeaders: {
+            const socket=io("http://192.168.10.27:5000/",{query:{UserID:user._id},extraHeaders: {
                 'ngrok-skip-browser-warning': 'true' // Example of a custom header
               }});
             setSocket(socket);
@@ -39,6 +38,7 @@ export const SocketContextProvider=({children})=>{
                   sound.play();
                 }
                 else{
+                  console.log(data)
                   setNewMsgData(data.new_message);
                   sound.play()
                 }

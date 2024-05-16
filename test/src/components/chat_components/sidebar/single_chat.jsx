@@ -46,23 +46,23 @@ export default function SingleChat(props) {
   if(props.item ){
     if(props.item.chat_type==="Personal"){
       logged_in_user=props.user._id;
-      this_user_id=props.item.users[0]._id===props.user._id?props.item.users[1]._id:props.item.users[0]._id;
+      this_user_id=props.item.users[0]?._id===props.user?._id?props.item.users[1]?._id:props.item.users[0]?._id;
       let profile_img;
-      if(props.item.users[0]._id===props.user._id){
-        if(props.item.users[1].profile_img){
-          profile_img="http://192.168.94.210:5000/uploads/"+props.item.users[1]._id+"/"+props.item.users[1].profile_img
+      if(props.item.users[0]?._id===props.user._id){
+        if(props.item.users[1]?.profile_img){
+          profile_img="http://192.168.10.27:5000/uploads/"+props.item.users[1]?._id+"/"+props.item.users[1]?.profile_img
         }
         else{
-          profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.10.27:5000/uploads/avatar.jpg"
         }
       }
       else{
         if(props.item.users[0].profile_img)
          {
-           profile_img="http://192.168.94.210:5000/uploads/"+props.item.users[0]._id+"/"+props.item.users[0].profile_img;
+           profile_img="http://192.168.10.27:5000/uploads/"+props.item.users[0]?._id+"/"+props.item.users[0]?.profile_img;
          }
          else{
-          profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.10.27:5000/uploads/avatar.jpg"
         }
 
       }
@@ -84,10 +84,21 @@ export default function SingleChat(props) {
                 
               </div>
               <div className="chat-sidebar-name">
-                <h6 className="mb-0">{props.item.users[0]._id===props.user._id?props.item.users[1].name:props.item.users[0].name}</h6>
-                {messages[props.item._id]?.at(-1).sender?._id!==props.user._id?
-                <span><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-light"}`}></i>{messages[props.item._id]?.at(-1).message}</span>:
-                <span>{messages[props.item._id]?.at(-1).message}</span>}
+                <h6 className="mb-0">{props.item.users[0]._id===props.user._id?props.item.users[1]?.name:props.item.users[0]?.name}</h6>
+                {messages[props.item._id]?.at(-1).sender?._id===props.user._id?
+                (
+                  messages[props.item._id]?.at(-1).content_type==="file"?(
+                  <span><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{<><i class="ri-image-fill ps-5"></i>Photo</>}</span>):
+                  <span><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{messages[props.item._id]?.at(-1).message}</span>
+                ):(
+                  messages[props.item._id]?.at(-1).content_type==="file"?(
+                    <span>{<><i class="ri-image-fill"></i>Photo</>}</span>
+                  ):(
+                    <span>{messages[props.item._id]?.at(-1).message}</span>
+                  )
+                  
+                )
+                }
               </div>
               <div className="chat-meta float-right text-center mt-2">
               <span className="text-nowrap">{messages[props.item._id]?.at(-1).sentAt?(last_message_time.getHours()+":"+last_message_time.getMinutes()):""}</span>
@@ -104,15 +115,17 @@ export default function SingleChat(props) {
       );
     }
     else if(props.item.chat_type==="Group"){
+      let last_message_time=new Date(messages[props.item._id]?.at(-1).sentAt)
+
       logged_in_user=props.user._id;
       this_user_id=props.item.users[0]._id===props.user._id?props.item.users[1]._id:props.item.users[0]._id;
       let profile_img;
         if(props.item.chat_img)
          {
-           profile_img="http://192.168.94.210:5000/uploads/"+props.item._id+"/"+props.item.chat_img;
+           profile_img="http://192.168.10.27:5000/uploads/"+props.item._id+"/"+props.item.chat_img;
          }
          else{
-          profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.10.27:5000/uploads/avatar.jpg"
         }
       
       return (
@@ -132,12 +145,30 @@ export default function SingleChat(props) {
               </div>
               <div className="chat-sidebar-name">
                 <h6 className="mb-0">{props.item.group_name}</h6>
+                {console.log("This is current message",messages[props.item._id]?.at(-1).content_type==="file")}
+                {messages[props.item._id]?.at(-1).sender?._id===props.user._id?(
+                  messages[props.item._id]?.at(-1).content_type==="file"?(
+                  <span><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{<><i class="ri-image-fill ps-5"></i>Photo</>}</span>):
+                  <span><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{messages[props.item._id]?.at(-1).message}</span>
+                ):(
+                  messages[props.item._id]?.at(-1).content_type==="file"?(
+                    <span>{<><i class="ri-image-fill"></i>Photo</>}</span>
+                  ):(
+                    <span>{messages[props.item._id]?.at(-1).message}</span>
+                  )
+                  
+                )}
+                
               </div>
-              {unseen_chats[props.item._id]!==0?<div className="chat-meta float-right text-center mt-2">
+              <div className="chat-meta float-right text-center mt-2">
+              <span className="text-nowrap">{messages[props.item._id]?.at(-1).sentAt?(last_message_time.getHours()+":"+last_message_time.getMinutes()):""}</span>
+              {unseen_chats[props.item._id]!==0?
                                   <div className="chat-msg-counter bg-primary text-white">
                                     {unseen_chats[props.item._id]}
-                                  </div>
-                                </div>:""}
+                                  </div>:""}
+                
+              </div>
+              
               
             </div>
           </a>
@@ -147,10 +178,10 @@ export default function SingleChat(props) {
     else{
       let profile_img;
         if(props.item.profile_img){
-          profile_img="http://192.168.94.210:5000/uploads/"+props.item._id+"/"+props.item.profile_img
+          profile_img="http://192.168.10.27:5000/uploads/"+props.item._id+"/"+props.item.profile_img
         }
         else{
-          profile_img="http://192.168.94.210:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.10.27:5000/uploads/avatar.jpg"
         }
       return (
           <li key={props.item._id} onClick={(e)=>setSelected1(props.item,e)}>

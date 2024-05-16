@@ -51,7 +51,7 @@ function Chat() {
               <div className="iq-card-body chat-page p-0">
                 <div className="chat-data-block">
                   <div className="row">
-                    <div className="col-lg-3 chat-data-left scroller">
+                    <div className="col-12 col-lg-3 chat-data-left scroller">
                       <Sidebar />
                     </div>
                     <div className="col-lg-9 chat-data p-0 chat-data-right">
@@ -77,7 +77,7 @@ function Chat() {
   </div>
   {/* Wrapper END */}
   {/* Footer */}
-  <footer className="iq-footer">
+  {/* <footer className="iq-footer">
     <div className="container-fluid">
       <div className="row">
         <div className="col-lg-6">
@@ -95,7 +95,7 @@ function Chat() {
         </div>
       </div>
     </div>
-  </footer>
+  </footer> */}
  
   </div>)};
 

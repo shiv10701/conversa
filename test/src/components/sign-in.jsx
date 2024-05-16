@@ -51,7 +51,7 @@ function SignInPage({dispatch}) {
         console.log("tried logging in ")
         try {
             set_error_msg(''); 
-            const response = await axios.post(`http://192.168.96.110/api/auth/login`, formData);
+            const response = await axios.post(`http://192.168.10.27:5000/api/auth/login`, formData);
             console.log(response.data.user_data);
             dispatch(init_user(response.data.user_data))
             localStorage.setItem("user_data",JSON.stringify(response.data.user_data))

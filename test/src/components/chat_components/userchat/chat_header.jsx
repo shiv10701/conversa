@@ -65,10 +65,10 @@ function Chat_Header(props) {
       this_user_id = props.item._id;
       let profile_img;
       if (props.item.chat_img) {
-        profile_img = "http://192.168.0.195:5000/uploads/" + props.item._id + "/" + props.item.chat_img
+        profile_img = "http://192.168.10.27:5000/uploads/" + props.item._id + "/" + props.item.chat_img
       }
       else {
-        profile_img = "http://192.168.0.195:5000/uploads/avatar.jpg"
+        profile_img = "http://192.168.10.27:5000/uploads/avatar.jpg"
       }
       return (
         <div className="chat-head">
@@ -78,7 +78,7 @@ function Chat_Header(props) {
                 id="sidebar-toggle"
                 className="sidebar-toggle"
               >
-                <i className="ri-menu-3-line" />
+                <i className="ri-arrow-left-s-line" />
               </div>
               <div className="avatar chat-user-profile m-0 mr-3">
                 <img
@@ -173,12 +173,12 @@ function Chat_Header(props) {
               >
                 <i className="ri-vidicon-line" />
               </a>
-              <a
+              {/* <a
                 href="javascript:void();"
                 className="chat-icon-delete iq-bg-primary"
               >
                 <i className="ri-delete-bin-line" />
-              </a>
+              </a> */}
               <span className="dropdown iq-bg-primary">
                 <i
                   className="ri-more-2-line cursor-pointer dropdown-toggle nav-hide-arrow cursor-pointer pr-0"
@@ -233,10 +233,10 @@ function Chat_Header(props) {
       this_user_id = props.item._id;
       let profile_img;
       if (props.item.profile_img) {
-        profile_img = "http://192.168.0.195:5000/uploads/" + props.item._id + "/" + props.item.profile_img
+        profile_img = "http://192.168.10.27:5000/uploads/" + props.item._id + "/" + props.item.profile_img
       }
       else {
-        profile_img = "http://192.168.0.195:5000/uploads/avatar.jpg"
+        profile_img = "http://192.168.10.27:5000/uploads/avatar.jpg"
       }
       return (
         <div className="chat-head">
@@ -246,7 +246,7 @@ function Chat_Header(props) {
                 id="sidebar-toggle"
                 className="sidebar-toggle"
               >
-                <i className="ri-menu-3-line" />
+                <i className="ri-arrow-left-s-line h6" />
               </div>
               <div className="avatar chat-user-profile m-0 mr-3">
                 <img
@@ -352,12 +352,12 @@ function Chat_Header(props) {
                 <i className="ri-vidicon-line" />
               </span>
               {/*-----------------------  */}
-              <a
+              {/* <a
                 href="javascript:void();"
                 className="chat-icon-delete iq-bg-primary"
               >
                 <i className="ri-delete-bin-line" />
-              </a>
+              </a> */}
               <span className="dropdown iq-bg-primary">
                 <i
                   className="ri-more-2-line cursor-pointer dropdown-toggle nav-hide-arrow cursor-pointer pr-0"
@@ -518,12 +518,12 @@ function Chat_Header(props) {
             >
               <i className="ri-vidicon-line" />
             </a>
-            <a
+            {/* <a
               href="javascript:void();"
               className="chat-icon-delete iq-bg-primary"
             >
               <i className="ri-delete-bin-line" />
-            </a>
+            </a> */}
             <span className="dropdown iq-bg-primary">
               <i
                 className="ri-more-2-line cursor-pointer dropdown-toggle nav-hide-arrow cursor-pointer pr-0"

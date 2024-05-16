@@ -8,6 +8,8 @@ import getMessages from '../utils/getMessages.js';
 import GetChats from '../utils/getChats.js';
 import setseenmessage from '../utils/setSeen.js'
 import send_message_group from '../utils/sendGroupMessage.js';
+import getSingleMessages from '../utils/getSingleMessage.js';
+import getSingleGroupMessages from '../utils/getSingleGroupMessage.js';
 
 const app = express();
 
@@ -42,7 +44,15 @@ io.on('connection', (socket) => {
 
     socket.on("send_message", (data) => {
         console.log('send_message -> data', data);
-        sendmsg(data);
+        sendmsg(data,0);
+    })
+
+    socket.on("send_image",(data)=>{
+        sendmsg(data,1);
+    })
+
+    socket.on("send_image_group",(data)=>{
+        send_group_message(data,1);
     })
     
     socket.on('get_messages_user', data => {
@@ -63,7 +73,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on("send_group_message", data => {
-        send_group_message(data);
+        send_group_message(data,0);
     })
 
     // ------------------ Video Calling --------------------------------
@@ -141,10 +151,17 @@ async function sendSearchUser(data) {
     io.to(userSocketMap[id]).emit("search_user", user);
 }
 
-async function sendmsg(data) {
-    const new_message = await send_message(data);
-    const ids = Object.values(data.ids)
-    io.to(userSocketMap[ids[0]]).to(userSocketMap[ids[1]]).emit("send_save_message", new_message)
+async function sendmsg(data,isFile) {
+    if(isFile===0){
+        const new_message = await send_message(data);
+        const ids = Object.values(data.ids)
+        io.to(userSocketMap[ids[0]]).to(userSocketMap[ids[1]]).emit("send_save_message", new_message)
+    }
+    else{
+        const new_message= await getSingleMessages(data);
+        const ids = Object.values(data.ids)
+        io.to(userSocketMap[ids[0]]).to(userSocketMap[ids[1]]).emit("send_save_message", new_message)
+    }
 }
 
 async function getmsg(data) {
@@ -173,14 +190,25 @@ async function get_new_group_chat(data) {
     })
 }
 
-async function send_group_message(data) {
-    const msg = await send_message_group(data);
-    const new_data = { new_message: msg.new_message }
-    msg.chat_users.forEach((item) => {
-        if (userSocketMap[item]) {
-            io.to(userSocketMap[item]).emit("send_save_message", new_data)
-        }
-    })
+async function send_group_message(data,isFile) {
+    if(isFile===0){
+        const msg = await send_message_group(data);
+        const new_data = { new_message: msg.new_message }
+        msg.chat_users.forEach((item) => {
+            if (userSocketMap[item]) {
+                io.to(userSocketMap[item]).emit("send_save_message", new_data)
+            }
+        })
+    }
+    else{
+        const msg = await getSingleGroupMessages(data);
+        const new_data = { new_message: msg.new_message }
+        msg.chat_users.forEach((item) => {
+            if (userSocketMap[item]) {
+                io.to(userSocketMap[item]).emit("send_save_message", new_data)
+            }
+        })
+    }
 }
 
 

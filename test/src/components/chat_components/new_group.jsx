@@ -57,7 +57,7 @@ function NewGroup(){
     }
 
     async function save_data(form_data){
-        const result=await  axios.post('http://192.168.94.210:5000/api/newgroup/create',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+        const result=await  axios.post('http://192.168.10.27:5000/api/newgroup/create',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
         socket.emit("get_new_group_chat",result.data.new_chat)
     }
 
@@ -139,18 +139,19 @@ function NewGroup(){
                         console.log("Item in newGroup:",item)
 
                         if(item.users[0]._id===user_data._id){
+                            console.log(item)
                             return (<li onClick={()=>setselchats(item,item.users[1]._id)} key={item._id}>
                             <a data-toggle="pill"  >
                             <div className="d-flex align-items-center">
                                 <div className="avatar mr-3">
                                 <img
-                                    src={"http://192.168.0.195:5000/uploads/"+item.users[1]._id+"/"+item.users[1].profile_img}
+                                    src={"http://192.168.10.27:5000/uploads/"+item.users[1]?._id+"/"+item.users[1]?.profile_img}
                                     alt="chatuserimage"
                                     className="avatar-50 "
                                 />
                                 </div>
                                 <div className="chat-sidebar-name">
-                                <h6 className="mb-0">{item.users[1].name}</h6>
+                                <h6 className="mb-0">{item.users[1]?.name}</h6>
                                 </div>
                             </div>
                             </a>
@@ -162,7 +163,7 @@ function NewGroup(){
                                 <div className="d-flex align-items-center">
                                     <div className="avatar mr-3">
                                     <img
-                                        src={"http://192.168.0.195:5000/uploads/"+item.users[0]._id+"/"+item.users[0].profile_img}
+                                        src={"http://192.168.10.27:5000/uploads/"+item.users[0]._id+"/"+item.users[0].profile_img}
                                         alt="chatuserimage"
                                         className="avatar-50 "
                                     />

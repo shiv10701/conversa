@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {Link,useNavigate} from 'react-router-dom'
 import {useSelector,useDispatch  } from 'react-redux';
 import {init_user,search_user, set_selected_chat} from '../../actions/actions.js';
@@ -21,6 +21,7 @@ function Chat_Search(){
     setSearchVal(()=>{return e.target.value})
     
   }
+  let month_val={"0":"01","1":"02","2":"03","3":"04","4":"05","5":"06","6":"07","7":"08","8":"09","9":"10","10":"11","11":"12",}
 
   let [image_dp,setImageDP]=useState("");
 
@@ -28,10 +29,10 @@ function Chat_Search(){
     const res=async()=>{
       let url_of_image;
       if(result.profile_img){
-        url_of_image="http://192.168.94.210:5000/uploads/"+result._id+"/"+result.profile_img;
+        url_of_image="http://192.168.10.27:5000/uploads/"+result._id+"/"+result.profile_img;
       }
       else{
-        url_of_image="http://192.168.94.210:5000/uploads/avatar.jpg"
+        url_of_image="http://192.168.10.27:5000/uploads/avatar.jpg"
       }
       setImageDP(url_of_image)
       // the following code is for taking the images from api call but it is not working as of now on 25-apr-24
@@ -42,6 +43,17 @@ function Chat_Search(){
       res()
     } 
   },[result])
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openFileInput = () => {
+    console.log("open file is clicked");
+    input_file_ref.current.click();
+    setIsOpen(true);
+  };
+
+  const input_file_ref=useRef(null);
+  const btn_submit_ref=useRef(null);
 
   useEffect(()=>{
     if(searchVal.length>2){
@@ -54,6 +66,21 @@ function Chat_Search(){
     }
   },[searchVal])
 
+  async function change_profile(e){
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const formDataObject = Object.fromEntries(formData.entries());
+    const data={...formDataObject,user_id:result._id}
+    const result_change=await  axios.post('http://192.168.10.27:5000/api/changeuserdetails/user_profile',{...data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+    let current_user_data=JSON.parse(localStorage.getItem("user_data"))
+    current_user_data.profile_img=result_change.data.changed_value.profile_img
+    localStorage.setItem("user_data",JSON.stringify(current_user_data))
+    dispatch(init_user(current_user_data))
+
+
+
+  }
+
 
   async function log_out(){
     const user_data=JSON.parse(localStorage.getItem("user_data"))||null;
@@ -61,7 +88,7 @@ function Chat_Search(){
        try {
          dispatch(init_user(user_data))
          localStorage.removeItem("user_data"); // Remove user data from local storage
-         const response = await axios.get("http://192.168.94.210:5000/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+         const response = await axios.get("http://192.168.10.27:5000/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
          navigate("/sign-in");
        } catch (error) {
         console.log('error at chat_search.jsx', error);
@@ -92,14 +119,11 @@ function Chat_Search(){
                               <a href="/" className="search-toggle ">
                                 <i className="ri-more-fill h3" />
                               </a>
-                              <div className="iq-sub-dropdown iq-user-dropdown">
+                              <div className="iq-sub-dropdown iq-user-dropdown" >
                                 <div className="iq-card shadow-none m-0">
                                   <div className="iq-card-body p-0 ">
-                                    <a
-                                      href="profile.html"
-                                      className="iq-sub-card iq-bg-primary-hover"
-                                    >
-                                      <div className="media align-items-center">
+                                    <div className="iq-sub-card iq-bg-primary-hover" data-toggle="modal" data-target="#modalProfile">
+                                      <div className="media align-items-center" >
                                         <div className="rounded iq-card-icon iq-bg-primary">
                                           <i className="ri-file-user-line" />
                                         </div>
@@ -107,22 +131,8 @@ function Chat_Search(){
                                           <h6 className="mb-0 ">My Profile</h6>
                                         </div>
                                       </div>
-                                    </a>
-                                    <a
-                                      href="profile-edit.html"
-                                      className="iq-sub-card iq-bg-primary-hover"
-                                    >
-                                      <div className="media align-items-center">
-                                        <div className="rounded iq-card-icon iq-bg-primary">
-                                          <i className="ri-profile-line" />
-                                        </div>
-                                        <div className="media-body ml-3">
-                                          <h6 className="mb-0 ">
-                                            Edit Profile
-                                          </h6>
-                                        </div>
                                       </div>
-                                    </a>
+                                   
                                     <div className="iq-sub-card iq-bg-primary-hover" data-toggle="modal" data-target="#exampleModalScrollable">
                                       <div className="media align-items-center">
                                         <div className="rounded iq-card-icon iq-bg-primary">
@@ -131,7 +141,6 @@ function Chat_Search(){
                                         <div className="media-body ml-3">
                                           <h6 className="mb-0 ">
                                             New Group Chat
-                                              
                                           </h6>
                                         </div>
                                       </div>
@@ -257,6 +266,63 @@ function Chat_Search(){
                                                     </div>
                                                   </div>
                                               </div>
+                                              <div class="iq-card">
+                        
+                           <div class="modal fade" id="modalProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="exampleModalScrollableTitle">My Profile </h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                       </button>
+                                    </div>
+                                    <div className="modal-body d-flex flex-column align-items-center">
+                                      <form onSubmit={change_profile} encType="multipart/form-data">
+                                      <div className="form-group row align-items-center">
+                                        <div className="col-md-12">
+                                            <div className="profile-img-edit">
+                                                <img className="profile-pic rounded-circle" style={{height:"150px",width:"150px"}} src={image_dp} alt="profile-pic" />
+                                                <div className="p-image">
+                                                <i class="ri-pencil-line upload-button" onClick={openFileInput}></i>
+                                                  <input class="file-upload" type="file" name="change_picture" accept="image/*"  ref={input_file_ref} onChange={(e)=>{btn_submit_ref.current.click()}}/>
+                                                  <input type="submit" name="btn_submit" ref={btn_submit_ref} hidden/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      </form>
+
+                                    <div className="mx-5">
+                                      <div className="form-group ">
+                                              <label for="fname">First Name:</label>
+                                              <input type="text" className="form-control" id="txt_name" name="txt_name"  value={result.name}/>
+                                      </div>
+                                      <div className="form-group ">
+                                              <label for="fname">UserName:</label>
+                                              <input type="text" className="form-control" id="txt_name" name="txt_name"  value={result.username}/>
+                                      </div>
+                                      <div class="form-group ">
+                                              <label for="fname">Email:</label>
+                                              <input type="text" disabled className="form-control" id="txt_name" name="txt_name"  value={result.email}/>
+                                      </div>
+                                      <div class="form-group ">
+                                              <label for="fname">Phone Number:</label>
+                                              <input type="text" disabled className="form-control" id="txt_name" name="txt_name"  value={result.phone_no}/>
+                                      </div>
+                                      <div class="form-group ">
+                                              <label for="fname">Date of Birth:</label>
+                                              <input type="date" disabled className="form-control" id="txt_name" name="txt_name" onChange={(e)=>{console.log(e.target.value)}}  value={new Date(result.dob).getFullYear()+"-"+month_val[new Date(result.dob).getMonth()]+"-"+new Date(result.dob).getDate()}/>
+                                      </div>
+                                    </div>
+                                      
+                                    </div>
+                                    
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                          
                       </div>
 
                       
