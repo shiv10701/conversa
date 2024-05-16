@@ -21,7 +21,7 @@ export const SocketContextProvider=({children})=>{
     let [online_users,setOnlineUsers]=useState([]);
     useEffect(()=>{
         if(Object.keys(user).length!==0){
-            const socket=io("http://192.168.10.27:5000/",{query:{UserID:user._id},extraHeaders: {
+            const socket=io("http://192.168.1.100:5000/",{query:{UserID:user._id},extraHeaders: {
                 'ngrok-skip-browser-warning': 'true' // Example of a custom header
               }});
             setSocket(socket);

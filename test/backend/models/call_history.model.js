@@ -1,31 +1,36 @@
 import Mongoose, { Schema } from 'mongoose';
-import chat from './chat.model';
-import user from './user.model';
+import chat from './chat.model.js';
+import user from './user.model.js';
 
-const call_history_schema=new Mongoose.Schema({
-    chat_id:{
-        type:Schema.Types.ObjectId,
-        ref:chat,
-        required:true
+const call_history_schema = new Mongoose.Schema({
+    chat_id: {
+        type: Schema.Types.ObjectId,
+        ref: chat,
+        required: true
     },
-    joined_users:[{
-        type:Schema.Types.ObjectId,
-        ref:user
+    // ------Added fields --------
+    caller_id: {
+        type: Schema.Types.ObjectId,
+    },
+    // --------------------------------
+    joined_users: [{
+        type: Schema.Types.ObjectId,
+        ref: user
     }],
-    call_type:{
-        type:String,
-        enum:["Voice","Video"],
-        required:true
+    call_type: {
+        type: String,
+        enum: ["Voice", "Video"],
+        required: true
     },
-    startAt:{
-        type:Date,
-        required:true
+    startAt: {
+        type: Date,
+        required: true
     },
-    endAt:{
-        type:Date
+    endAt: {
+        type: Date
     }
-},{timestamps:true})
+}, { timestamps: true })
 
-const call_history=Mongoose.model("call_history",call_history_schema);
+const call_history = Mongoose.model("call_history", call_history_schema);
 
 export default call_history;

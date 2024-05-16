@@ -25,9 +25,14 @@ function Chat_Header(props) {
   const make_video_call = (e) => {
     // e.preventDefault();
     let toId = this_user_id
+    let sent_to_user_id = this_user_id;
+    let sent_by_user_id = Local_U_data._id;
     navigate(video_url, { state: 'outgoing_video' })
     socket.emit("make_video_request", toId, video_url, Local_U_data)
     localRing.play()
+
+    const details={video_url,ids:{sent_by_user_id,sent_to_user_id}}
+    socket.emit("video_sender", details);
   }
 
   // ------------- Incomming Request  --------------------

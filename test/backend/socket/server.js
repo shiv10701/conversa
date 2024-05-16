@@ -10,6 +10,8 @@ import setseenmessage from '../utils/setSeen.js'
 import send_message_group from '../utils/sendGroupMessage.js';
 import getSingleMessages from '../utils/getSingleMessage.js';
 import getSingleGroupMessages from '../utils/getSingleGroupMessage.js';
+import video_call from '../utils/videoCall.js';
+
 
 const app = express();
 
@@ -17,6 +19,8 @@ const app = express();
 let connections = {}
 let messages = {}
 let timeOnline = {}
+let videoHistoryMap = {}
+
 // ---------------------------------
 
 const server = http.createServer(app);
@@ -78,12 +82,20 @@ io.on('connection', (socket) => {
 
     // ------------------ Video Calling --------------------------------
 
-    socket.on("join-call", (path) => {
+    socket.on("join-call", (path, Local_U_data) => {
         // console.log('video calls been started ********************************')
         // console.log('connections[path]-->',connections[path])
         if (connections[path] === undefined) {
             connections[path] = []
         }
+        // -------------------------- Custom -------------------------------------------------------
+        // Initialize videoHistoryMap[video_url] as an empty array if it doesn't exist
+        if (!videoHistoryMap[path]) {
+            videoHistoryMap[path] = [];
+        }
+        // Push Local_U_data into videoHistoryMap[video_url]
+        videoHistoryMap[path].push(Local_U_data);
+        // -------------------------------------------------------------------------- 
 
 
         connections[path].push(socket.id)
@@ -114,6 +126,13 @@ io.on('connection', (socket) => {
     socket.on("cut_video_request", (toId) => {
         const socketId = userSocketMap[toId];
         io.to(socketId).emit("cut_video_from_server", socketId);
+    })
+
+    socket.on("video_sender", (details) => {
+        // const socketId = userSocketMap[toId];
+        // videoHistoryMap[path].push(Local_U_data);
+            make_video(details);
+        // io.to(socketId).emit("cut_video_from_server", socketId);
     })
 
     //   -------------------- Disconnect --------------------
@@ -209,6 +228,14 @@ async function send_group_message(data,isFile) {
             }
         })
     }
+}
+
+// ----------------------Video call --------------------
+async function make_video( details) {
+    video_call(details);
+    // const new_video = await video_call(video_url,Local_U_data);
+    // const ids = Object.values(data.ids)
+    // io.to(userSocketMap[ids[0]]).to(userSocketMap[ids[1]]).emit("send_save_message", new_message)
 }
 
 

@@ -12,14 +12,14 @@ import { SocketContextProvider } from './socket/socketConnection';
 const store=createStore(reduce);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
     <AssignUserData />
       <SocketContextProvider>
         <App />
       </SocketContextProvider>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

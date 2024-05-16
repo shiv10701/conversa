@@ -11,7 +11,7 @@ import MicOffIcon from '@mui/icons-material/MicOff'
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import ChatIcon from '@mui/icons-material/Chat'
-import server from './environment';
+// import server from './environment';
 import { useLocation } from 'react-router-dom';
 import { useSocketContext } from "../../socket/socketConnection";
 import { useSelector } from "react-redux";
@@ -20,7 +20,7 @@ import ringging from "./audio/ring.mp3";
 import tune from "./audio/tune.mp3";
 
 
-const server_url = server;
+// const server_url = server;
 var connections = {};
 
 const peerConfigConnections = {
@@ -56,7 +56,6 @@ export default function VideoMeetComponent() {
     // TODO     
     // if(isChrome() === false) {
     // }
-
     // ------------------------------------- 1. ----------------------------------------------- 
 
     const getPermissions = async () => {
@@ -248,16 +247,18 @@ export default function VideoMeetComponent() {
     }
 
     let connectToSocketServer = () => {
-        socketRef.current = io.connect(server_url, { secure: false })
+        // socketRef.current = io.connect(server_url, { secure: false })
+        socketRef.current = socket
         socketRef.current.on('signal', gotMessageFromServer)
-        socketRef.current.on('connect', () => {
-            socketRef.current.emit('join-call', window.location.href)
+        // socketRef.current.on('connect', () => {   //********************* */
+            socketRef.current.emit('join-call', window.location.href , Local_U_data)
             socketIdRef.current = socketRef.current.id
             // socketRef.current.on('chat-message', addMessage)
             socketRef.current.on('user-left', (id) => {
                 setVideos((videos) => videos.filter((video) => video.socketId !== id))
             })
             socketRef.current.on('user-joined', (id, clients) => {
+                console.log('user-joined--->','id-->',id, 'clients-->',clients)
                 clients.forEach((socketListId) => {
                     connections[socketListId] = new RTCPeerConnection(peerConfigConnections)
                     // Wait for their ice candidate       
@@ -324,15 +325,16 @@ export default function VideoMeetComponent() {
                     }
                 }
             })
-        })
+        // })
     }
 
     let getMedia = () => {
+
         setVideo(videoAvailable);
         setAudio(audioAvailable);
         connectToSocketServer();
     }
-
+    
     let connect = () => {
         setCallEnd(!callEnd);
         setButtonClicked(true)
@@ -408,9 +410,13 @@ export default function VideoMeetComponent() {
     }, []);
     // -------------------------- Custom code ---------------------------------------------------------------
     useEffect(() => {
+        console.log('helllo--------------------------------------------------');
         if (state === 'outgoing_video') {
             connect();
         }
+    }, [])
+    useEffect(() => {
+        console.log('Yello --------------------------------------------------');
     }, [])
 
     function Accept(){
@@ -425,7 +431,7 @@ export default function VideoMeetComponent() {
             {/* style={{ width: '40rem', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} */}
             {askForUsername === true ?
                 <div >
-                    <h1 style={{ display: 'block', textAlign: 'center' }}>{state.name} </h1>
+                    {/* <h1 style={{ display: 'block', textAlign: 'center' }}>{state.name} </h1> */}
                     <h2 style={{ display: 'block', textAlign: 'center' }}>Incomming Call...  </h2>
                     <div style={{ display: 'flex', textAlign: 'center', justifyContent: 'center', gap: '2rem' }}>
                         <Button variant="contained" onClick={connect} style={{ display: 'block', textAlign: 'center', justifyContent: 'center' }}>Accept</Button>
