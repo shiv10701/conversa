@@ -11,6 +11,7 @@ import send_message_group from '../utils/sendGroupMessage.js';
 import getSingleMessages from '../utils/getSingleMessage.js';
 import getSingleGroupMessages from '../utils/getSingleGroupMessage.js';
 import video_call from '../utils/videoCall.js';
+import group_video from '../utils/groupVideo.js';
 
 
 const app = express();
@@ -48,17 +49,17 @@ io.on('connection', (socket) => {
 
     socket.on("send_message", (data) => {
         console.log('send_message -> data', data);
-        sendmsg(data,0);
+        sendmsg(data, 0);
     })
 
-    socket.on("send_image",(data)=>{
-        sendmsg(data,1);
+    socket.on("send_image", (data) => {
+        sendmsg(data, 1);
     })
 
-    socket.on("send_image_group",(data)=>{
-        send_group_message(data,1);
+    socket.on("send_image_group", (data) => {
+        send_group_message(data, 1);
     })
-    
+
     socket.on('get_messages_user', data => {
         // console.log('get_messages_user -> data', data);
         getmsg(data);
@@ -77,7 +78,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on("send_group_message", data => {
-        send_group_message(data,0);
+        send_group_message(data, 0);
     })
 
     // ------------------ Video Calling --------------------------------
@@ -117,22 +118,34 @@ io.on('connection', (socket) => {
     socket.on("signal", (toId, message) => {
         io.to(toId).emit("signal", socket.id, message);
     })
+    // **********************************************************
+    socket.on("make_video_request", (details) => {
+        const socketId = userSocketMap[details.ids.sent_to_user_id];
+        io.to(socketId).emit("video_request_from_server", details.video_url, details.Local_U_data);
+        // make_video(details);
+    })
 
-    socket.on("make_video_request", (toId, video_url, Local_U_data) => {
-        const socketId = userSocketMap[toId];
-        io.to(socketId).emit("video_request_from_server", video_url, Local_U_data);
+    socket.on("make_group_video", async (details) => {
+        const senderSocketId = userSocketMap[details.Local_U_data._id];
+        
+        console.log(details.ids.sent_to_user_id);
+        const data = await group_video(details);
+        data.chat_users.forEach((socketId) => {
+            if (userSocketMap[socketId]) {
+                if(senderSocketId === userSocketMap[socketId]){
+                    return;
+                }
+                console.log('All ids',userSocketMap[socketId] )
+                io.to(userSocketMap[socketId]).emit("video_request_from_server", details.video_url, details.Local_U_data);
+                // io.to(userSocketMap[item]).emit("send_save_message", new_data)
+            }
+        })
+
     })
 
     socket.on("cut_video_request", (toId) => {
         const socketId = userSocketMap[toId];
         io.to(socketId).emit("cut_video_from_server", socketId);
-    })
-
-    socket.on("video_sender", (details) => {
-        // const socketId = userSocketMap[toId];
-        // videoHistoryMap[path].push(Local_U_data);
-            make_video(details);
-        // io.to(socketId).emit("cut_video_from_server", socketId);
     })
 
     //   -------------------- Disconnect --------------------
@@ -170,14 +183,14 @@ async function sendSearchUser(data) {
     io.to(userSocketMap[id]).emit("search_user", user);
 }
 
-async function sendmsg(data,isFile) {
-    if(isFile===0){
+async function sendmsg(data, isFile) {
+    if (isFile === 0) {
         const new_message = await send_message(data);
         const ids = Object.values(data.ids)
         io.to(userSocketMap[ids[0]]).to(userSocketMap[ids[1]]).emit("send_save_message", new_message)
     }
-    else{
-        const new_message= await getSingleMessages(data);
+    else {
+        const new_message = await getSingleMessages(data);
         const ids = Object.values(data.ids)
         io.to(userSocketMap[ids[0]]).to(userSocketMap[ids[1]]).emit("send_save_message", new_message)
     }
@@ -209,8 +222,8 @@ async function get_new_group_chat(data) {
     })
 }
 
-async function send_group_message(data,isFile) {
-    if(isFile===0){
+async function send_group_message(data, isFile) {
+    if (isFile === 0) {
         const msg = await send_message_group(data);
         const new_data = { new_message: msg.new_message }
         msg.chat_users.forEach((item) => {
@@ -219,7 +232,7 @@ async function send_group_message(data,isFile) {
             }
         })
     }
-    else{
+    else {
         const msg = await getSingleGroupMessages(data);
         const new_data = { new_message: msg.new_message }
         msg.chat_users.forEach((item) => {
@@ -231,7 +244,7 @@ async function send_group_message(data,isFile) {
 }
 
 // ----------------------Video call --------------------
-async function make_video( details) {
+async function make_video(details) {
     video_call(details);
     // const new_video = await video_call(video_url,Local_U_data);
     // const ids = Object.values(data.ids)

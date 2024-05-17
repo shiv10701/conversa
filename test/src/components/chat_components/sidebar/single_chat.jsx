@@ -40,6 +40,10 @@ export default function SingleChat(props) {
     socket.emit("set_seen_message",data)
     dispatch(set_seen(chat_id))
     dispatch(set_selected_chat(item))
+// ---------------------------------------
+// console.log('item------------>', item)
+// ---------------------------------------
+
     dispatch(set_selected_chatid(chat_id))
     }
 

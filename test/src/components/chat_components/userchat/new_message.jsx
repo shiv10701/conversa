@@ -18,7 +18,7 @@ function New_Message(props){
   let [isEmojiShow,setEmojiShow]=useState(false)
 
   // let [isEmojiSelect,setEmojiSelect]=useState(false)
-  console.log("this is chat id:",props.item)
+  // console.log("this is chat id:",props.item)
   let sent_to_user_id=props.chat_user;
   let sent_by_user_id=props.login_user;
   let isGroupChat=props.item?.group_name??"";

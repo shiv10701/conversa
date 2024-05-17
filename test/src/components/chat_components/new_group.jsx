@@ -57,7 +57,7 @@ function NewGroup(){
     }
 
     async function save_data(form_data){
-        const result=await  axios.post('http://192.168.10.27:5000/api/newgroup/create',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+        const result=await  axios.post('http://192.168.1.100:5000/api/newgroup/create',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
         socket.emit("get_new_group_chat",result.data.new_chat)
     }
 
@@ -136,10 +136,10 @@ function NewGroup(){
                 {chats.length>0?
                 chats.map((item)=>{
                     if(item.chat_type==="Personal"){
-                        console.log("Item in newGroup:",item)
+                        // console.log("Item in newGroup:",item)
 
                         if(item.users[0]._id===user_data._id){
-                            console.log(item)
+                            // console.log(item)
                             return (<li onClick={()=>setselchats(item,item.users[1]._id)} key={item._id}>
                             <a data-toggle="pill"  >
                             <div className="d-flex align-items-center">

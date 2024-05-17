@@ -10,33 +10,48 @@ import { v4 as uuidv4 } from 'uuid'; // Import uuidv4 from uuid
 
 function Chat_Header(props) {
 
+
+
   const { online_users, socket } = useSocketContext();
   let this_user_id;
   let months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
   let [isOnline, setIsOnline] = useState(false)
   // -------------------------------------------------------------
   const navigate = useNavigate();
-  // let video_url = '/room/123';
   const video_url = `/room/${uuidv4()}`;
   const Local_U_data = useSelector(state => state.user_data);   //current Logged in user
   const localRing = new Audio(ringging);
   const remoteTune = new Audio(tune);
   // ------------------------------- Video Call ---------------------------------
-  const make_video_call = (e) => {
-    // e.preventDefault();
-    let toId = this_user_id
-    let sent_to_user_id = this_user_id;
-    let sent_by_user_id = Local_U_data._id;
-    navigate(video_url, { state: 'outgoing_video' })
-    socket.emit("make_video_request", toId, video_url, Local_U_data)
-    localRing.play()
+  let isGroupChat = props.item?.group_name ?? "";
+  let sent_to_user_id = props.chat_user;
+  let sent_by_user_id = props.login_user;
 
-    const details={video_url,ids:{sent_by_user_id,sent_to_user_id}}
-    socket.emit("video_sender", details);
+  console.log('DATA ,sent_to_user_id--->', sent_to_user_id, 'sent_by_user_id--->', sent_by_user_id);
+
+
+  console.log('isGroupChat ==>', isGroupChat)
+
+  
+
+  const make_video_call = () => {
+    navigate(video_url, { state: 'outgoing_video' })
+    localRing.play()
+    
+    if (isGroupChat === "") {
+      console.log('Its not a group chat')
+      let details={video_url,ids:{sent_by_user_id,sent_to_user_id}, Local_U_data}
+      socket.emit("make_video_request",details)
+    }else{
+      console.log('Its a group chat')
+      let details={video_url,ids:{sent_by_user_id,sent_to_user_id}, Local_U_data}
+      socket.emit("make_group_video",details)
+    }
+    
   }
 
   // ------------- Incomming Request  --------------------
-  function incommingVideoCallRequest(video_url, Local_U_data){
+  function incommingVideoCallRequest(video_url, Local_U_data) {
     console.log('Local_U_data ---> ', Local_U_data)
     navigate(video_url, { state: Local_U_data });
     remoteTune.play()
@@ -51,7 +66,7 @@ function Chat_Header(props) {
     return () => {
       socket.off("video_request_from_server", incommingVideoCallRequest);
       // socket.disconnect();
-  };
+    };
   }, [socket]);
 
   // --------------------------------------------------------------------------------
@@ -172,12 +187,18 @@ function Chat_Header(props) {
               >
                 <i className="ri-phone-line" />
               </a>
-              <a
+              {/* <a
                 href="javascript:void();"
                 className="chat-icon-video iq-bg-primary"
               >
                 <i className="ri-vidicon-line" />
-              </a>
+              </a> */}
+              <span
+                onClick={make_video_call}
+                className="chat-icon-video iq-bg-primary"
+              >
+                <i className="ri-vidicon-line" />
+              </span>
               {/* <a
                 href="javascript:void();"
                 className="chat-icon-delete iq-bg-primary"
@@ -517,12 +538,18 @@ function Chat_Header(props) {
             >
               <i className="ri-phone-line" />
             </a>
-            <a
+            {/* <a
               href="javascript:void();"
               className="chat-icon-video iq-bg-primary"
             >
               <i className="ri-vidicon-line" />
-            </a>
+            </a> */}
+            <span
+                onClick={make_video_call}
+                className="chat-icon-video iq-bg-primary"
+              >
+                <i className="ri-vidicon-line" />
+              </span>
             {/* <a
               href="javascript:void();"
               className="chat-icon-delete iq-bg-primary"
