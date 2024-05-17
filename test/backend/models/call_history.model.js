@@ -12,6 +12,10 @@ const call_history_schema = new Mongoose.Schema({
     caller_id: {
         type: Schema.Types.ObjectId,
     },
+    url_path :{
+        type: String,
+        required: true,
+    },
     // --------------------------------
     joined_users: [{
         type: Schema.Types.ObjectId,

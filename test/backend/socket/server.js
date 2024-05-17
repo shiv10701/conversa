@@ -12,6 +12,7 @@ import getSingleMessages from '../utils/getSingleMessage.js';
 import getSingleGroupMessages from '../utils/getSingleGroupMessage.js';
 import video_call from '../utils/videoCall.js';
 import group_video from '../utils/groupVideo.js';
+import store_video_joiners from '../utils/storeVideoCallUsers.js';
 
 
 const app = express();
@@ -84,18 +85,21 @@ io.on('connection', (socket) => {
     // ------------------ Video Calling --------------------------------
 
     socket.on("join-call", (path, Local_U_data) => {
-        // console.log('video calls been started ********************************')
         // console.log('connections[path]-->',connections[path])
         if (connections[path] === undefined) {
             connections[path] = []
         }
         // -------------------------- Custom -------------------------------------------------------
+
+        store_video_joiners(path, Local_U_data)
         // Initialize videoHistoryMap[video_url] as an empty array if it doesn't exist
         if (!videoHistoryMap[path]) {
             videoHistoryMap[path] = [];
         }
         // Push Local_U_data into videoHistoryMap[video_url]
         videoHistoryMap[path].push(Local_U_data);
+
+        
         // -------------------------------------------------------------------------- 
 
 
@@ -118,11 +122,11 @@ io.on('connection', (socket) => {
     socket.on("signal", (toId, message) => {
         io.to(toId).emit("signal", socket.id, message);
     })
-    // **********************************************************
+
     socket.on("make_video_request", (details) => {
         const socketId = userSocketMap[details.ids.sent_to_user_id];
         io.to(socketId).emit("video_request_from_server", details.video_url, details.Local_U_data);
-        // make_video(details);
+        make_video(details);
     })
 
     socket.on("make_group_video", async (details) => {
@@ -137,7 +141,7 @@ io.on('connection', (socket) => {
                 }
                 console.log('All ids',userSocketMap[socketId] )
                 io.to(userSocketMap[socketId]).emit("video_request_from_server", details.video_url, details.Local_U_data);
-                // io.to(userSocketMap[item]).emit("send_save_message", new_data)
+                
             }
         })
 

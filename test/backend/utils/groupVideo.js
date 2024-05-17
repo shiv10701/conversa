@@ -26,7 +26,8 @@ async function group_video(details){
         chat_id: chatid,
         caller_id: sender,
         call_type: "Video",
-        startAt: cur_date
+        startAt: cur_date,
+        url_path :details.video_url
     });
 
     let video = await make_video.save()

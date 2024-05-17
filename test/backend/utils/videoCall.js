@@ -5,12 +5,10 @@ import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
 
 async function video_call(details) {
-    console.log('details ---->', details)
 
     const cur_date = new Date();
     const ids = Object.values(details.ids).map(id => new mongoose.Types.ObjectId(id)) 
     let chat_user = await chat.findOne({ users: { $all: ids } });// Finding Chat 
-    console.log(' video Users ======> ',chat_user);
     let chatid;
 
     if (!chat_user) {
@@ -26,11 +24,12 @@ async function video_call(details) {
             chat_id: chatid,
             caller_id: details.ids.sent_by_user_id,
             call_type: "Video",
-            startAt: cur_date
+            startAt: cur_date,
+            url_path :details.video_url
         });
 
         let video = await make_video.save()
-        console.log(video)
+        // console.log(video)
         // let new_message = await insert_message.save().then((data) => { return data.populate('sender').then((data1) => { return data1 }) });
         // return { new_message: new_message, new_chat: chat_user }
     }
@@ -40,12 +39,14 @@ async function video_call(details) {
         chat_id: chatid,
         caller_id: details.ids.sent_by_user_id,
         call_type: "Video",
-        startAt: cur_date
+        startAt: cur_date,
+        url_path :details.video_url
+
     });
 
     let video = await make_video.save()
 
-    console.log(video)
+    // console.log(video)
 
     // let new_message = await insert_message.save().then((data) => { return data.populate('sender').then((data1) => { return data1 }) });
     // return { new_message: new_message }

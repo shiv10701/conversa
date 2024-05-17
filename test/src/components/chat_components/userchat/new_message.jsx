@@ -51,7 +51,7 @@ function New_Message(props){
 
   async function save_images(){
     const details={ids:{sent_by_user_id,sent_to_user_id},data:images_to_send,isGroupChat:isGroupChat}
-    const result_save_image=await axios.post('http://192.168.10.27:5000/api/saveImages/saveImages',{...details},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+    const result_save_image=await axios.post('http://192.168.1.101:5000/api/saveImages/saveImages',{...details},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
     console.log(result_save_image)
     if(result_save_image.status===200){
       console.log("inside if is ok statsu is 200")

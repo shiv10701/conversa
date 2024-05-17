@@ -47,7 +47,6 @@ function Chat_Header(props) {
       let details={video_url,ids:{sent_by_user_id,sent_to_user_id}, Local_U_data}
       socket.emit("make_group_video",details)
     }
-    
   }
 
   // ------------- Incomming Request  --------------------
@@ -85,10 +84,10 @@ function Chat_Header(props) {
       this_user_id = props.item._id;
       let profile_img;
       if (props.item.chat_img) {
-        profile_img = "http://192.168.10.27:5000/uploads/" + props.item._id + "/" + props.item.chat_img
+        profile_img = "http://192.168.1.101:5000/uploads/" + props.item._id + "/" + props.item.chat_img
       }
       else {
-        profile_img = "http://192.168.10.27:5000/uploads/avatar.jpg"
+        profile_img = "http://192.168.1.101:5000/uploads/avatar.jpg"
       }
       return (
         <div className="chat-head">
