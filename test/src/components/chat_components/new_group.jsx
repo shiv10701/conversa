@@ -57,7 +57,7 @@ function NewGroup(){
     }
 
     async function save_data(form_data){
-        const result=await  axios.post('http://192.168.1.100:5000/api/newgroup/create',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+        const result=await  axios.post('http://192.168.0.98:5000/api/newgroup/create',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
         socket.emit("get_new_group_chat",result.data.new_chat)
     }
 
@@ -145,7 +145,7 @@ function NewGroup(){
                             <div className="d-flex align-items-center">
                                 <div className="avatar mr-3">
                                 <img
-                                    src={"http://192.168.10.27:5000/uploads/"+item.users[1]?._id+"/"+item.users[1]?.profile_img}
+                                    src={"http://192.168.0.98:5000/uploads/"+item.users[1]?._id+"/"+item.users[1]?.profile_img}
                                     alt="chatuserimage"
                                     className="avatar-50 "
                                 />
@@ -163,7 +163,7 @@ function NewGroup(){
                                 <div className="d-flex align-items-center">
                                     <div className="avatar mr-3">
                                     <img
-                                        src={"http://192.168.10.27:5000/uploads/"+item.users[0]._id+"/"+item.users[0].profile_img}
+                                        src={"http://192.168.0.98:5000/uploads/"+item.users[0]._id+"/"+item.users[0].profile_img}
                                         alt="chatuserimage"
                                         className="avatar-50 "
                                     />

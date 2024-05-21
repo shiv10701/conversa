@@ -17,19 +17,19 @@ export default function SingleCall(props) {
       let profile_img;
       if(props.item.users[0]?._id===props.user._id){
         if(props.item.users[1]?.profile_img){
-          profile_img="http://192.168.10.27:5000/uploads/"+props.item.users[1]?._id+"/"+props.item.users[1]?.profile_img
+          profile_img="http://192.168.0.98:5000/uploads/"+props.item.users[1]?._id+"/"+props.item.users[1]?.profile_img
         }
         else{
-          profile_img="http://192.168.10.27:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.0.98:5000/uploads/avatar.jpg"
         }
       }
       else{
         if(props.item.users[0]?.profile_img)
          {
-           profile_img="http://192.168.10.27:5000/uploads/"+props.item.users[0]?._id+"/"+props.item.users[0]?.profile_img;
+           profile_img="http://192.168.0.98:5000/uploads/"+props.item.users[0]?._id+"/"+props.item.users[0]?.profile_img;
          }
          else{
-          profile_img="http://192.168.10.27:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.0.98:5000/uploads/avatar.jpg"
         }
       }
       return (
@@ -61,10 +61,10 @@ export default function SingleCall(props) {
     else if(props.item.chat_type==="Group"){
       let profile_img;
         if(props.item.chat_img){
-          profile_img="http://192.168.10.27:5000/uploads/"+props.item._id+"/"+props.item.chat_img
+          profile_img="http://192.168.0.98:5000/uploads/"+props.item._id+"/"+props.item.chat_img
         }
         else{
-          profile_img="http://192.168.10.27:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.0.98:5000/uploads/avatar.jpg"
         }
       return (
           <li key={props.item._id} >
@@ -95,10 +95,10 @@ export default function SingleCall(props) {
     else{
       let profile_img;
         if(props.item.profile_img){
-          profile_img="http://192.168.10.27:5000/uploads/"+props.item._id+"/"+props.item.profile_img
+          profile_img="http://192.168.0.98:5000/uploads/"+props.item._id+"/"+props.item.profile_img
         }
         else{
-          profile_img="http://192.168.10.27:5000/uploads/avatar.jpg"
+          profile_img="http://192.168.0.98:5000/uploads/avatar.jpg"
         }
       return (
           <li key={props.item._id} >

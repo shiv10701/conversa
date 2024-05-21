@@ -29,10 +29,10 @@ function Chat_Search(){
     const res=async()=>{
       let url_of_image;
       if(result.profile_img){
-        url_of_image="http://192.168.10.27:5000/uploads/"+result._id+"/"+result.profile_img;
+        url_of_image="http://192.168.0.98:5000/uploads/"+result._id+"/"+result.profile_img;
       }
       else{
-        url_of_image="http://192.168.10.27:5000/uploads/avatar.jpg"
+        url_of_image="http://192.168.0.98:5000/uploads/avatar.jpg"
       }
       setImageDP(url_of_image)
       // the following code is for taking the images from api call but it is not working as of now on 25-apr-24
@@ -71,7 +71,7 @@ function Chat_Search(){
     const formData = new FormData(e.target);
     const formDataObject = Object.fromEntries(formData.entries());
     const data={...formDataObject,user_id:result._id}
-    const result_change=await  axios.post('http://192.168.10.27:5000/api/changeuserdetails/user_profile',{...data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+    const result_change=await  axios.post('http://192.168.0.98:5000/api/changeuserdetails/user_profile',{...data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
     let current_user_data=JSON.parse(localStorage.getItem("user_data"))
     current_user_data.profile_img=result_change.data.changed_value.profile_img
     localStorage.setItem("user_data",JSON.stringify(current_user_data))
@@ -88,7 +88,7 @@ function Chat_Search(){
        try {
          dispatch(init_user(user_data))
          localStorage.removeItem("user_data"); // Remove user data from local storage
-         const response = await axios.get("http://192.168.10.27:5000/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+         const response = await axios.get("http://192.168.0.98:5000/api/auth/log-out",{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
          navigate("/sign-in");
        } catch (error) {
         console.log('error at chat_search.jsx', error);
