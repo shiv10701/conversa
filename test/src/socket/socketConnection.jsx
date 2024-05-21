@@ -21,7 +21,7 @@ export const SocketContextProvider=({children})=>{
     let [online_users,setOnlineUsers]=useState([]);
     useEffect(()=>{
         if(Object.keys(user).length!==0){
-            const socket=io("http://192.168.1.101:5000/",{query:{UserID:user._id},extraHeaders: {
+            const socket=io("http://192.168.1.105:5000/",{query:{UserID:user._id},extraHeaders: {
                 'ngrok-skip-browser-warning': 'true' // Example of a custom header
               }});
             setSocket(socket);
@@ -43,11 +43,7 @@ export const SocketContextProvider=({children})=>{
                   sound.play()
                 }
               })
-
-
-            
             return ()=>socket.close();
-            
         }
         else{
             if(socket){
@@ -58,7 +54,6 @@ export const SocketContextProvider=({children})=>{
     },[user])
 
     useEffect(()=>{dispatch(set_messages(new_msg_data));},[new_msg_data])
-    
     
     return (
         <SocketContext.Provider value={{socket,online_users}}>

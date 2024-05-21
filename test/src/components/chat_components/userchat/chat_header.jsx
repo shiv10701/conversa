@@ -37,14 +37,14 @@ function Chat_Header(props) {
   const make_video_call = () => {
     navigate(video_url, { state: 'outgoing_video' })
     localRing.play()
-    
+
+    let details={video_url,ids:{sent_by_user_id,sent_to_user_id}, Local_U_data}
+
     if (isGroupChat === "") {
-      console.log('Its not a group chat')
-      let details={video_url,ids:{sent_by_user_id,sent_to_user_id}, Local_U_data}
       socket.emit("make_video_request",details)
+      // const data ={ids:{sent_by_user_id,sent_to_user_id},msg:"🎥 𝗩𝗶𝗱𝗲𝗼 𝗰𝗮𝗹𝗹 (No answer)"}
+      // socket.emit("send_message",data);
     }else{
-      console.log('Its a group chat')
-      let details={video_url,ids:{sent_by_user_id,sent_to_user_id}, Local_U_data}
       socket.emit("make_group_video",details)
     }
   }

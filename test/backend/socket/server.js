@@ -13,6 +13,7 @@ import getSingleGroupMessages from '../utils/getSingleGroupMessage.js';
 import video_call from '../utils/videoCall.js';
 import group_video from '../utils/groupVideo.js';
 import store_video_joiners from '../utils/storeVideoCallUsers.js';
+import getAllCalls from '../utils/getCalls.js';
 
 
 const app = express();
@@ -34,7 +35,6 @@ const io = new Server(server, {
 });
 
 const userSocketMap = {};
-
 io.on('connection', (socket) => {
     console.log("A user is connecte with socket id:" + socket.id);
     const UserID = socket.handshake.query.UserID;
@@ -99,9 +99,7 @@ io.on('connection', (socket) => {
         // Push Local_U_data into videoHistoryMap[video_url]
         videoHistoryMap[path].push(Local_U_data);
 
-        
         // -------------------------------------------------------------------------- 
-
 
         connections[path].push(socket.id)
         timeOnline[socket.id] = new Date();
@@ -141,7 +139,6 @@ io.on('connection', (socket) => {
                 }
                 console.log('All ids',userSocketMap[socketId] )
                 io.to(userSocketMap[socketId]).emit("video_request_from_server", details.video_url, details.Local_U_data);
-                
             }
         })
 
@@ -150,6 +147,10 @@ io.on('connection', (socket) => {
     socket.on("cut_video_request", (toId) => {
         const socketId = userSocketMap[toId];
         io.to(socketId).emit("cut_video_from_server", socketId);
+    })
+
+    socket.on("get_call_history", data => {
+        getCallsHistory(data);
     })
 
     //   -------------------- Disconnect --------------------
@@ -209,6 +210,7 @@ async function getmsg(data) {
 
 async function getchats(data) {
     const chats = await GetChats(data);
+    // console.log('chats -->)', chats)
     io.to(userSocketMap[data]).emit("get_user_chats", chats)
 
 }
@@ -253,6 +255,14 @@ async function make_video(details) {
     // const new_video = await video_call(video_url,Local_U_data);
     // const ids = Object.values(data.ids)
     // io.to(userSocketMap[ids[0]]).to(userSocketMap[ids[1]]).emit("send_save_message", new_message)
+}
+
+
+async function getCallsHistory(data) {
+    const calls = await getAllCalls(data);
+    // console.log(calls)
+    io.to(userSocketMap[data]).emit("get_Calls_history", calls)
+
 }
 
 

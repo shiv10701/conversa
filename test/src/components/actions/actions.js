@@ -39,3 +39,9 @@ export const add_new_chat=new_chat=>({
     type:'ADDNEWCHAT',
     new_chat
 })
+
+// -------------- calling history ----------------
+export const load_call_History=(all_calls)=>({
+    type:'LOADCALLHISTORY',
+    all_calls
+})

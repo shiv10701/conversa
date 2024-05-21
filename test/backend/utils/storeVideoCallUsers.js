@@ -18,10 +18,17 @@ async function store_video_joiners(path, Local_U_data) {
             console.log('call_doc ==>', call_doc);
 
             if (call_doc) {
+
+                 // Check if the user is the caller
+                 if (call_doc.caller_id.equals(Local_U_data._id)) {
+                    console.log('User is the caller, not adding to joined_users');
+                    return;
+                }
+
                 // Check if the user is already in the joined_users array
                 const userExists = call_doc.joined_users.some(user => user.equals(Local_U_data._id));
 
-                if (!userExists) {
+                if (!userExists ) {
                     // Add the user to the joined_users array
                     call_doc.joined_users.push(Local_U_data._id);
 
@@ -38,7 +45,7 @@ async function store_video_joiners(path, Local_U_data) {
         } catch (error) {
             console.error('Error in store_video_joiners:', error);
         }
-    }, 0); // Delay for 3000 milliseconds (3 seconds)
+    }, 3000); // Delay for 3000 milliseconds (3 seconds)
 }
 
 export default store_video_joiners;

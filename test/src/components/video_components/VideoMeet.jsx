@@ -422,7 +422,8 @@ export default function VideoMeetComponent() {
     function Accept(){
         remoteTune.pause();
         localRing.pause();
-        console.log('remote utne paused //////.....')
+        connect();
+        console.log('remote utne paused .....')
     }
     // -------------------------- Return ---------------------------------------------------------------
 
@@ -431,10 +432,10 @@ export default function VideoMeetComponent() {
             {/* style={{ width: '40rem', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} */}
             {askForUsername === true ?
                 <div >
-                    {/* <h1 style={{ display: 'block', textAlign: 'center' }}>{state.name} </h1> */}
+                    <h1 style={{ display: 'block', textAlign: 'center' }}>{state.name} </h1>
                     <h2 style={{ display: 'block', textAlign: 'center' }}>Incomming Call...  </h2>
                     <div style={{ display: 'flex', textAlign: 'center', justifyContent: 'center', gap: '2rem' }}>
-                        <Button variant="contained" onClick={connect} style={{ display: 'block', textAlign: 'center', justifyContent: 'center' }}>Accept</Button>
+                        <Button variant="contained" onClick={Accept} style={{ display: 'block', textAlign: 'center', justifyContent: 'center' }}>Accept</Button>
                         <Button variant="contained" onClick={handleEndCall} style={{ display: 'block', textAlign: 'center', justifyContent: 'center', backgroundColor: 'red' }}>Decline</Button>
                     </div>
                     <div style={{ display: 'block', textAlign: 'center', justifyContent: 'center' }} >
