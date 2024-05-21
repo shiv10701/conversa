@@ -23,6 +23,7 @@ async function video_call(details) {
         const make_video = new call_history({
             chat_id: chatid,
             caller_id: details.ids.sent_by_user_id,
+            members : ids,
             call_type: "Video",
             startAt: cur_date,
             url_path :details.video_url
@@ -38,6 +39,7 @@ async function video_call(details) {
     const make_video = new call_history({
         chat_id: chatid,
         caller_id: details.ids.sent_by_user_id,
+        members : ids,
         call_type: "Video",
         startAt: cur_date,
         url_path :details.video_url
@@ -47,7 +49,6 @@ async function video_call(details) {
     let video = await make_video.save()
 
     // console.log(video)
-
     // let new_message = await insert_message.save().then((data) => { return data.populate('sender').then((data1) => { return data1 }) });
     // return { new_message: new_message }
 }

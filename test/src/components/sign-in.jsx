@@ -133,8 +133,8 @@ function SignInPage({dispatch}) {
                                     <div className="slick-slider11" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
                                         <div className="item">
                                             <img src="images/login/1.png" className="img-fluid mb-4" alt="logo" />
-                                            <h4 className="mb-1 text-white">Manage your orders</h4>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                            <h4 className="mb-1 text-white">Discover a New Way to Communicate</h4>
+                                            <p>Our innovative features and seamless design offer you a fresh and engaging way to stay in touch.</p>
                                         </div>
                                        
                                     </div>
