@@ -154,9 +154,9 @@ function SignUpPage() {
                                     <a className="sign-in-logo mb-5" href="#"><img src="images/signUpLogo.png" className="img-fluid" style={{ height: '110px', width: '120px' }} alt="logo" /></a>
                                     <div className="slick-slider11">
                                         <div className="item">
-                                            <img src="images/login/1.png" className="img-fluid mb-4" alt="logo" />
-                                            <h4 className="mb-1 text-white">Manage your orders</h4>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                        <img src="images/login/image.png" className="img-fluid mb-4" alt="logo" />
+                                            <h4 className="mb-1 text-white">Discover a New Way to Communicate</h4>
+                                            <p>Our innovative features and seamless design offer you a fresh and engaging way to stay in touch.</p>
                                         </div>
                                         {/* <div className="item">
                                             <img src="images/login/1.png" className="img-fluid mb-4" alt="logo" />

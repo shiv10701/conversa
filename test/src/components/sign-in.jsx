@@ -51,7 +51,7 @@ function SignInPage({dispatch}) {
         console.log("tried logging in ")
         try {
             set_error_msg(''); 
-            const response = await axios.post(`http://192.168.0.98:5000/api/auth/login`, formData);
+            const response = await axios.post(`http://192.168.1.103:5000/api/auth/login`, formData);
             console.log('response=>',response.data.user_data);
             dispatch(init_user(response.data.user_data))
             localStorage.setItem("user_data",JSON.stringify(response.data.user_data))
@@ -132,7 +132,7 @@ function SignInPage({dispatch}) {
                                     <a className="sign-in-logo mb-5" href="/"><img src="./images/signUpLogo.png" style={{ height: '110px', width: '120px' }} className="img-fluid" alt="logo" /></a>
                                     <div className="slick-slider11" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
                                         <div className="item">
-                                            <img src="images/login/1.png" className="img-fluid mb-4" alt="logo" />
+                                        <img src="images/login/image.png" className="img-fluid mb-4" alt="logo" />
                                             <h4 className="mb-1 text-white">Discover a New Way to Communicate</h4>
                                             <p>Our innovative features and seamless design offer you a fresh and engaging way to stay in touch.</p>
                                         </div>

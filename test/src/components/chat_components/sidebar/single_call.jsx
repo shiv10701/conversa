@@ -11,34 +11,41 @@ export default function SingleCall(props) {
 
 
   if (props.item) {
-    let result;
+    let result, key , icon;
     if (props.item.group_name === "") {
       logged_in_user = props.user._id;
       // this_user_id = props.item.users[0]._id === props.user._id ? props.item.users[1]?._id : props.item.users[0]?._id;
 
       if (props.item.type === "Outgoing call") {
         if (props.item.value === "Accepted") {
-          result = `Outgoing call (Accepted)`;
+          result = `Outgoing call (Accepted)` ;key = 1; 
+          icon = <i class="ri-arrow-right-up-line text-success ri-lg"></i> ;
         } else {
-          result = `Outgoing call (Rejected)`;
+          result = `Outgoing call (Rejected)` ;key = 2;
+          icon = <i class="ri-arrow-right-up-line text-danger ri-lg"></i> ;
         }
       } else if (props.item.type === "Incoming call") {
         if (props.item.value === "Accepted") {
-          result = `Incoming call (Accepted)`;
+          result = `Incoming call (Accepted)` ;key = 3;
+          icon = <i class="ri-arrow-left-down-line text-success ri-lg"></i>;
         } else {
-          result = `Incoming call (Rejected)`;
+          result = `Incoming call (Rejected)` ; key = 4;
+          icon = <i class="ri-arrow-left-down-line text-danger ri-lg"></i>;
         }
       }
     } else if (props.item.type === "Video call") {
-      result = `Video call (Outgoing)`;
+      result = `Video call (Outgoing)`;  key = 5;
       props.item.name = props.item.group_name
+      icon = <i class="ri-arrow-right-up-line text-success ri-lg"></i>
     } else if (props.item.type === "Group video call") {
       if (props.item.value === "Accepted") {
-        result = `Incomming call(Accepted)`;
-        props.item.name = props.item.group_name
+        result = `Incomming call(Accepted)` ; key = 6;
+        icon = <i class="ri-arrow-left-down-line text-success ri-lg"></i>;
+        props.item.name = props.item.group_name ; 
       }else{
-        result = `Incomming call(Rejected)`;
-        props.item.name = props.item.group_name
+        result = `Incomming call(Rejected)` ; key = 7;
+        props.item.name = props.item.group_name;
+        icon = <i class="ri-arrow-left-down-line text-danger ri-lg"></i>;
       }
     }
 
@@ -74,12 +81,13 @@ export default function SingleCall(props) {
               </div>
               <div className="chat-sidebar-name">
                 {/* <h6 className="mb-0">{props.item.users[0]._id === props.user._id ? props.item.users[1]?.name : props.item.users[0]?.name}</h6> */}
-                <h5 className="mb-0 fw-bold ">{props.item.name} </h5 ><h6 className="mb-0 fw-bold">{result}</h6>
+                <h6 className="mb-0 fw-bold ">{props.item.name} </h6 ><p className="mb-0 fw-bold">{result}</p>
                 {/* <span><i className='ri-arrow-right-up-line text-success'></i> {new Date().getDate() + " / " + new Date().getMonth() + " / 44 " + new Date().getFullYear()}</span> */}
-                <span ><i className='ri-arrow-right-up-line text-success'></i> {props.item.date}</span>
+                <span > {icon} {props.item.date}</span>
               </div>
               <div className="chat-meta float-right text-center mt-2 d-flex flex-column align-items-center">
-                {Math.random() * 2 < 1 ? <span><i className="ri-vidicon-line text-success h5" ></i></span> :
+                {/* {Math.random() * 2 < 1 ? <span><i className="ri-vidicon-line text-success h5" ></i></span> : */}
+                {true ? <span><i className="ri-vidicon-line text-success h5" ></i></span> :
                   <span><i className="ri-phone-fill text-success h5" ></i></span>}
               </div>
 
