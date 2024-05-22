@@ -8,6 +8,7 @@ import {createStore} from 'redux';
 import reduce from './components/reducers/reducer';
 import AssignUserData from './components/local_storage_function';
 import { SocketContextProvider } from './socket/socketConnection';
+import { FontProvider } from './utils/fonts';
 
 const store=createStore(reduce);
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,7 +17,9 @@ root.render(
     <Provider store={store}>
     <AssignUserData />
       <SocketContextProvider>
+        <FontProvider>
         <App />
+        </FontProvider>
       </SocketContextProvider>
     </Provider>
   // </React.StrictMode>

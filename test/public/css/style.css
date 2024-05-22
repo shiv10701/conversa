@@ -861,7 +861,7 @@ span.avatar-status { position: absolute; bottom: -5px; top: auto; left: auto; ri
 .chat-data { background: url(../images/page-img/100.jpg) no-repeat scroll center center; background-size: cover; }
 .chat-header-icons .dropdown-toggle:empty::after { display: none; }
 .chat-header-icons > a, .chat-header-icons > span { width: 40px; height: 40px; font-size: 20px; margin: 0 5px 0 0; color: var(--iq-primary); display: inline-block; text-align: center; line-height: 40px; border-radius: 8px; cursor: pointer; }
-.chat-content { position: relative; height: calc(100vh - 17rem); text-align: center; padding: 1.4rem; overflow-y: scroll; overflow-x: hidden; }
+.chat-content { position: relative; height: calc(100vh - 13rem); text-align: center; padding: 1.4rem; overflow-y: scroll; overflow-x: hidden; }
 .chat-user { float: right; text-align: center; }
 .chat-user span.chat-time { display: block; font-size: 12px; font-weight: 500; }
 .chat-detail { overflow: hidden; }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSocketContext } from "../../../socket/socketConnection";
 // ----------------------------------------------
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +6,8 @@ import ringging from "../../video_components/audio/ring.mp3";
 import tune from "../../video_components/audio/tune.mp3";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from 'uuid'; // Import uuidv4 from uuid
+import { FontFamily } from "../../../utils/fonts";
+import { Country,State,City } from "country-state-city";
 
 
 function Chat_Header(props) {
@@ -27,12 +29,8 @@ function Chat_Header(props) {
   let sent_to_user_id = props.chat_user;
   let sent_by_user_id = props.login_user;
 
-  console.log('DATA ,sent_to_user_id--->', sent_to_user_id, 'sent_by_user_id--->', sent_by_user_id);
+  const {Font}=useContext(FontFamily);
 
-
-  console.log('isGroupChat ==>', isGroupChat)
-
-  
 
   const make_video_call = () => {
     navigate(video_url, { state: 'outgoing_video' })
@@ -90,7 +88,7 @@ function Chat_Header(props) {
         profile_img = "http://192.168.0.98:5000/uploads/avatar.jpg"
       }
       return (
-        <div className="chat-head">
+        <div className="chat-head" style={{fontFamily:Font}}>
           <header className="d-flex justify-content-between align-items-center bg-white pt-3 pr-3 pb-3">
             <div className="d-flex align-items-center">
               <div
@@ -109,12 +107,12 @@ function Chat_Header(props) {
                                     <i className="ri-checkbox-blank-circle-fill text-success" />
                                   </span> */}
               </div>
-              <div className="d-flex flex-column">
-                <h5 className="mb-0">{props.item.group_name}</h5>
+              <div className="d-flex flex-column" style={{fontFamily:Font}}>
+                <h5 className="mb-0" style={{fontFamily:Font}}>{props.item.group_name}</h5>
               </div>
 
             </div>
-            <div className="chat-user-detail-popup scroller">
+            <div className="chat-user-detail-popup scroller" style={{fontFamily:Font}}>
               <div className="user-profile text-center">
                 <button
                   type="submit"
@@ -131,40 +129,22 @@ function Chat_Header(props) {
                       width={"125px"}
                     />
                   </a>
-                  <div className="user-name mt-4">
-                    <h4>{props.item.group_name}</h4>
+                  <div className="user-name mt-4" style={{fontFamily:Font}}>
+                    <h4 style={{fontFamily:Font}}>{props.item.group_name}</h4>
                   </div>
-                  <div className="user-desc">
+                  <div className="user-desc" style={{fontFamily:Font}}>
                     <p>Cape Town, RSA</p>
                   </div>
                 </div>
                 <hr />
-                <div className="chatuser-detail text-left mt-4">
+                <div className="chatuser-detail text-left mt-4" style={{fontFamily:Font}}>
+                 
                   <div className="row">
                     <div className="col-6 col-md-6 title">
-                      Nik Name:
+                      Date Of Creation:
                     </div>
                     <div className="col-6 col-md-6 text-right">
-                      Nik
-                    </div>
-                  </div>
-                  <hr />
-                  <hr />
-                  <div className="row">
-                    <div className="col-6 col-md-6 title">
-                      Date Of Birth:
-                    </div>
-                    <div className="col-6 col-md-6 text-right">
-                      {new Date(props.item.createdAt).getDate() + "-" + months[new Date(props.item.createdAt).getMonth()] + "-" + new Date(props.item.createdAt).getFullYear()}
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-6 col-md-6 title">
-                      Gender:
-                    </div>
-                    <div className="col-6 col-md-6 text-right">
-                      Male
+                      {months[new Date(props.item.createdAt).getMonth()]+" "+new Date(props.item.createdAt).getDate()+ ", " + new Date(props.item.createdAt).getFullYear()}
                     </div>
                   </div>
                   <hr />
@@ -173,7 +153,28 @@ function Chat_Header(props) {
                       Language:
                     </div>
                     <div className="col-6 col-md-6 text-right">
-                      Engliah
+                      English
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row" style={{overflowY:"scroll",height:"250px"}}>
+                    <div className="col-12 col-md-12 title pb-4">
+                      Participants
+                    </div>
+                    <div className="col-12 col-md-12">
+                      <ul >
+                        {props.item.users.map((item,i)=>{
+                           return <li>
+                            <div className="row">
+                              <div className="col-4">
+                                <img src={"http://192.168.0.98:5000/uploads/" + item._id + "/" + item.profile_img} height={"50px"} width={"50px"} />
+                              </div>
+                              <div className="col-8 text-center">{item.name}</div>
+                            </div>
+                            {i<props.item.users.length-1?<hr />:""}
+                          </li>
+                        })}
+                        </ul>
                     </div>
                   </div>
                 </div>
@@ -264,7 +265,7 @@ function Chat_Header(props) {
         profile_img = "http://192.168.0.98:5000/uploads/avatar.jpg"
       }
       return (
-        <div className="chat-head">
+        <div className="chat-head" style={{fontFamily:Font}}>
           <header className="d-flex justify-content-between align-items-center bg-white pt-3 pr-3 pb-3">
             <div className="d-flex align-items-center">
               <div
@@ -283,9 +284,9 @@ function Chat_Header(props) {
                                     <i className="ri-checkbox-blank-circle-fill text-success" />
                                   </span> */}
               </div>
-              <div className="d-flex flex-column">
-                <h5 className="mb-0">{props.item.name}</h5>
-                {isOnline ? <span className="text-success">Online</span> : ""}
+              <div className="d-flex flex-column" style={{fontFamily:Font}}>
+                <h5 className="mb-0" style={{fontFamily:Font}}>{props.item.name}</h5>
+                {isOnline ? <span className="text-success" style={{fontFamily:Font}}>Online</span> : ""}
               </div>
 
             </div>
@@ -306,24 +307,15 @@ function Chat_Header(props) {
                       width={"125px"}
                     />
                   </a>
-                  <div className="user-name mt-4">
-                    <h4>{props.item.name}</h4>
+                  <div className="user-name mt-4" style={{fontFamily:Font}}>
+                    <h4 style={{fontFamily:Font}}>{props.item.name}</h4>
                   </div>
-                  <div className="user-desc">
-                    <p>Cape Town, RSA</p>
+                  <div className="user-desc" style={{fontFamily:Font}}>
+                    <p >{Country.getCountryByCode(props.item.country).name}</p>
                   </div>
                 </div>
                 <hr />
                 <div className="chatuser-detail text-left mt-4">
-                  <div className="row">
-                    <div className="col-6 col-md-6 title">
-                      Nik Name:
-                    </div>
-                    <div className="col-6 col-md-6 text-right">
-                      Nik
-                    </div>
-                  </div>
-                  <hr />
                   <div className="row">
                     <div className="col-6 col-md-6 title">
                       Tel:
@@ -338,7 +330,7 @@ function Chat_Header(props) {
                       Date Of Birth:
                     </div>
                     <div className="col-6 col-md-6 text-right">
-                      July 12, 1989
+                      {months[new Date(props.item.dob).getMonth()]+" "+new Date(props.item.dob).getDate()+", "+new Date(props.item.dob).getFullYear()}
                     </div>
                   </div>
                   <hr />
@@ -356,7 +348,7 @@ function Chat_Header(props) {
                       Language:
                     </div>
                     <div className="col-6 col-md-6 text-right">
-                      Engliah
+                      English
                     </div>
                   </div>
                 </div>
@@ -438,7 +430,7 @@ function Chat_Header(props) {
   }
   else {
     return (
-      <div className="chat-head">
+      <div className="chat-head" style={{fontFamily:Font}}>
         <header className="d-flex justify-content-between align-items-center bg-white pt-3 pr-3 pb-3">
           <div className="d-flex align-items-center">
             <div

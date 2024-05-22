@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {Link,useNavigate} from 'react-router-dom'
 import {useSelector,useDispatch  } from 'react-redux';
 import {init_user,search_user, set_selected_chat} from '../../actions/actions.js';
 import axios from 'axios';
 import { useSocketContext } from "../../../socket/socketConnection.jsx";
 import NewGroup from "../new_group.jsx";
+import { FontFamily } from "../../../utils/fonts.jsx";
 
 function Chat_Search(){
   const result=useSelector(state=>state.user_data)
@@ -15,6 +16,10 @@ function Chat_Search(){
   const {socket}=useSocketContext();
 
   let [searchVal,setSearchVal]=useState("")
+
+  let [font,setLocalFont]=useState("Roboto")
+
+  const {Font,setFont}=useContext(FontFamily);
 
   function submit_search(e){
     e.preventDefault();
@@ -97,7 +102,7 @@ function Chat_Search(){
 }
 
     return (
-        <div className="chat-search pt-3 pl-3">
+        <div className="chat-search pt-3 pl-3"  >
                         <div className="d-flex align-items-center justify-content-between">
                           <div className="d-flex ">
                             <div className="chat-profile mr-3">
@@ -107,8 +112,8 @@ function Chat_Search(){
                                 className="avatar-60 "
                               />
                             </div>
-                            <div className="chat-caption align-self-center">
-                              <h5>{result.name}</h5>
+                            <div className="chat-caption align-self-center" >
+                              <h5 style={{fontFamily:Font}}>{result.name}</h5>
                             </div>
                           </div>
                           <button type="submit" className="close-btn-res p-3">
@@ -122,30 +127,42 @@ function Chat_Search(){
                               <div className="iq-sub-dropdown iq-user-dropdown" >
                                 <div className="iq-card shadow-none m-0">
                                   <div className="iq-card-body p-0 ">
-                                    <div className="iq-sub-card iq-bg-primary-hover" data-toggle="modal" data-target="#modalProfile">
+                                    <div className="iq-sub-card iq-bg-primary-hover" data-toggle="modal" data-target="#modalProfile" style={{cursor:"pointer"}}>
                                       <div className="media align-items-center" >
                                         <div className="rounded iq-card-icon iq-bg-primary">
                                           <i className="ri-file-user-line" />
                                         </div>
                                         <div className="media-body ml-3">
-                                          <h6 className="mb-0 ">My Profile</h6>
+                                          <h6 className="mb-0 " style={{fontFamily:Font}}>My Profile</h6>
                                         </div>
                                       </div>
                                       </div>
                                    
-                                    <div className="iq-sub-card iq-bg-primary-hover" data-toggle="modal" data-target="#exampleModalScrollable">
+                                    <div className="iq-sub-card iq-bg-primary-hover" data-toggle="modal" data-target="#exampleModalScrollable" style={{cursor:"pointer"}}>
                                       <div className="media align-items-center">
                                         <div className="rounded iq-card-icon iq-bg-primary">
                                           <i className="ri-user-add-fill" />
                                         </div>
                                         <div className="media-body ml-3">
-                                          <h6 className="mb-0 ">
+                                          <h6 className="mb-0 " style={{fontFamily:Font}}>
                                             New Group Chat
                                           </h6>
                                         </div>
                                       </div>
                                     </div>
-                                    <a
+                                    <div className="iq-sub-card iq-bg-primary-hover" data-toggle="modal" data-target="#modalSettings" style={{cursor:"pointer"}}>
+                                      <div className="media align-items-center">
+                                        <div className="rounded iq-card-icon iq-bg-primary">
+                                          <i className="ri-settings-3-fill" />
+                                        </div>
+                                        <div className="media-body ml-3">
+                                          <h6 className="mb-0 " style={{fontFamily:Font}}>
+                                            Settings
+                                          </h6>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {/* <a
                                       href="account-setting.html"
                                       className="iq-sub-card iq-bg-primary-hover"
                                     >
@@ -159,7 +176,7 @@ function Chat_Search(){
                                           </h6>
                                         </div>
                                       </div>
-                                    </a>
+                                    </a> */}
                                     <a
                                       href="privacy-setting.html"
                                       className="iq-sub-card iq-bg-primary-hover"
@@ -169,7 +186,7 @@ function Chat_Search(){
                                           <i className="ri-lock-line" />
                                         </div>
                                         <div className="media-body ml-3">
-                                          <h6 className="mb-0 ">
+                                          <h6 className="mb-0 " style={{fontFamily:Font}}>
                                             Privacy Settings
                                           </h6>
                                         </div>
@@ -234,7 +251,7 @@ function Chat_Search(){
                           </div>
                         </div>
                         <div className="chat-searchbar mt-4">
-                          <div className="form-group chat-search-data m-0">
+                          <div className="form-group chat-search-data m-0" style={{fontFamily:Font}}>
                             <input
                               type="text"
                               className="form-control round"
@@ -242,6 +259,7 @@ function Chat_Search(){
                               placeholder="Search"
                               onChange={submit_search}
                               value={searchVal}
+                              style={{fontFamily:Font}}
                             />
                             <i className="ri-search-line" />
                           </div>
@@ -251,7 +269,7 @@ function Chat_Search(){
                                                   <div class="modal-dialog modal-dialog-scrollable" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                          <h5 class="modal-title" id="exampleModalScrollableTitle">New Group Chat</h5>
+                                                          <h5 class="modal-title" id="exampleModalScrollableTitle" style={{fontFamily:Font}}>New Group Chat</h5>
                                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                           <span aria-hidden="true">&times;</span>
                                                           </button>
@@ -272,7 +290,7 @@ function Chat_Search(){
                               <div class="modal-dialog modal-dialog-scrollable" role="document">
                                  <div class="modal-content">
                                     <div class="modal-header">
-                                       <h5 class="modal-title" id="exampleModalScrollableTitle">My Profile </h5>
+                                       <h5 class="modal-title" id="exampleModalScrollableTitle" style={{fontFamily:Font}}>My Profile </h5>
                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                        <span aria-hidden="true">&times;</span>
                                        </button>
@@ -295,24 +313,24 @@ function Chat_Search(){
 
                                     <div className="mx-5">
                                       <div className="form-group ">
-                                              <label for="fname">First Name:</label>
-                                              <input type="text" className="form-control" id="txt_name" name="txt_name"  value={result.name}/>
+                                              <label for="fname" style={{fontFamily:Font}} >First Name:</label>
+                                              <input type="text" className="form-control" id="txt_name" name="txt_name"  value={result.name} style={{fontFamily:Font}}/>
                                       </div>
                                       <div className="form-group ">
-                                              <label for="fname">UserName:</label>
-                                              <input type="text" className="form-control" id="txt_name" name="txt_name"  value={result.username}/>
+                                              <label for="fname" style={{fontFamily:Font}}>UserName:</label>
+                                              <input type="text" className="form-control" id="txt_name" name="txt_name"  value={result.username} style={{fontFamily:Font}}/>
                                       </div>
                                       <div class="form-group ">
-                                              <label for="fname">Email:</label>
-                                              <input type="text" disabled className="form-control" id="txt_name" name="txt_name"  value={result.email}/>
+                                              <label for="fname" style={{fontFamily:Font}}>Email:</label>
+                                              <input type="text" disabled className="form-control" id="txt_name" name="txt_name"  value={result.email} style={{fontFamily:Font}}/>
+                                      </div>
+                                      <div class="form-group " >
+                                              <label for="fname" style={{fontFamily:Font}}>Phone Number:</label>
+                                              <input type="text" disabled className="form-control" id="txt_name" name="txt_name"  value={result.phone_no} style={{fontFamily:Font}}/>
                                       </div>
                                       <div class="form-group ">
-                                              <label for="fname">Phone Number:</label>
-                                              <input type="text" disabled className="form-control" id="txt_name" name="txt_name"  value={result.phone_no}/>
-                                      </div>
-                                      <div class="form-group ">
-                                              <label for="fname">Date of Birth:</label>
-                                              <input type="date" disabled className="form-control" id="txt_name" name="txt_name" onChange={(e)=>{console.log(e.target.value)}}  value={new Date(result.dob).getFullYear()+"-"+month_val[new Date(result.dob).getMonth()]+"-"+new Date(result.dob).getDate()}/>
+                                              <label for="fname" style={{fontFamily:Font}}>Date of Birth:</label>
+                                              <input type="date" disabled className="form-control" style={{fontFamily:Font}} id="txt_name" name="txt_name" onChange={(e)=>{console.log(e.target.value)}}  value={new Date(result.dob).getFullYear()+"-"+month_val[new Date(result.dob).getMonth()]+"-"+new Date(result.dob).getDate()}/>
                                       </div>
                                     </div>
                                       
@@ -321,6 +339,38 @@ function Chat_Search(){
                                  </div>
                               </div>
                            </div>
+
+                           <div className="modal fade bd-example-modal-xl" id="modalSettings" tabindex="-1" role="dialog"   aria-hidden="true">
+                              <div className="modal-dialog modal-xl">
+                                 <div className="modal-content">
+                                    
+                                    <div className="modal-body">
+                                      <div className="d-flex flex-column">
+                                        <span style={{fontFamily:Font}}>Select Font :</span>
+                                        <select className="form-select" onChange={(e)=>{setLocalFont(()=>e.target.value);}} defaultValue={Font} style={{fontFamily:Font}}>
+                                          <option >Default</option>
+                                          <option className="p-3" value="'Roboto', sans-serif" style={{fontFamily:"'Roboto', sans-serif",}}>Roboto</option>
+                                          <option value="'Pacifico', cursive" style={{fontFamily:"'Pacifico', cursive"}}>Pacifico</option>
+                                          <option value="'IBM Plex Mono', monospace" style={{fontFamily:"'IBM Plex Mono', monospace"}}>IBM Plex Mono</option>
+                                          <option value="'Kaushan Script', cursive" style={{fontFamily:"'Kaushan Script', cursive"}}>Kaushan Script</option>
+                                          <option value="'Geologica', sans-serif" style={{fontFamily:"'Geologica', sans-serif"}}>Geologica</option>
+                                          
+                                        </select>
+                                        
+                                        <span style={{fontFamily:Font}}>Font Preview:</span>
+                                        <span className="p-3" style={{fontFamily:font,fontSize:"18px"}}>You might belong in Gryffindor, Where dwell the brave at heart,Their daring, nerve, and chivalry Set Gryffindors apart.</span>
+                                        <button className="btn btn-success mx-auto" style={{fontFamily:Font}} onClick={()=>{
+                                          setFont(font);
+                                          localStorage.setItem("choosenFontFam",font)
+                                        }}>Save</button>        
+                                      </div>
+                                    </div>
+                                    
+                                 </div>
+                              </div>
+                           </div>
+
+                           
                         </div>
                           
                       </div>

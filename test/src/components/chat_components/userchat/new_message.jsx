@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSocketContext } from "../../../socket/socketConnection";
 import { useDispatch } from "react-redux";
 import { add_new_chat, set_messages, set_selected_chatid } from "../../actions/actions";
@@ -7,13 +7,14 @@ import EmojiPicker from 'emoji-picker-react'
 import ImageGallery from "react-image-gallery";
 import Resizer from "react-image-file-resizer";
 import axios from "axios";
+import { FontFamily } from "../../../utils/fonts";
 
 
 
 
 function New_Message(props){
   const {socket}=useSocketContext();
-
+  const {Font}=useContext(FontFamily);
   let [message,setMessage]=useState("");
   let [isEmojiShow,setEmojiShow]=useState(false)
 
@@ -156,6 +157,7 @@ function New_Message(props){
                               <button
                                 type="submit"
                                 className="btn btn-primary d-flex align-items-center p-2"
+                                style={{fontFamily:Font}}
                               >
                                 <i
                                   className="fa fa-paper-plane-o"

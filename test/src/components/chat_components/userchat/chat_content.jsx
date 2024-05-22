@@ -13,9 +13,7 @@ function Chat_Content(props){
     setTimeout(()=>{lastmessage.current?.scrollIntoView({behaviour:"smooth"})},500)
   },[messages,current_chat])
 
-  console.log('current_chat-->', current_chat)
-  console.log('lastmessage -->', lastmessage);
-  console.log('messages-->', messages)
+
 
   if(props.item?.group_name??false){
     isGroupChat=true

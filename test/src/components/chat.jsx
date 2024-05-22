@@ -50,14 +50,14 @@ function Chat() {
             <div className="iq-card">
               <div className="iq-card-body chat-page p-0">
                 <div className="chat-data-block">
-                  <div className="row">
-                    <div className="col-12 col-lg-3 chat-data-left scroller">
+                  <div className="row" style={{height:"95vh"}}>
+                    <div className="col-12 col-lg-3 chat-data-left scroller active show">
                       <Sidebar />
                     </div>
                     <div className="col-lg-9 chat-data p-0 chat-data-right">
                       <div className="tab-content">
                         <div
-                          className="tab-pane fade active show"
+                          className="tab-pane fade  show"
                           id="default-block"
                           role="tabpanel"
                         >

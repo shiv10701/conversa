@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { set_messages, set_selected_chat, set_selected_chatid,set_seen } from '../../actions/actions';
 import { useSocketContext } from '../../../socket/socketConnection';
+import { useColorScheme } from '@mui/material';
+import { FontFamily } from '../../../utils/fonts';
 
 export default function SingleChat(props) {
   const dispatch=useDispatch();
   const {socket,online_users}=useSocketContext();
   const messages=useSelector(state=>state.messages)
-
+  const {Font}=useContext(FontFamily);
 
   
 
@@ -27,7 +29,6 @@ export default function SingleChat(props) {
   
   function setSelected1(item,e){
     e.preventDefault();
-    console.log("insidde set selected 2")
     // const data={chat_id:chat_id,user:logged_in_user,other_user:this_user_id}
     // socket.emit("set_seen_message",data)
     // dispatch(set_seen(chat_id))
@@ -70,7 +71,6 @@ export default function SingleChat(props) {
         }
 
       }
-      console.log(messages[props.item._id]?.at(-1)?.receivedAt?"text-primary":"tetx-light")
       let last_message_time=new Date(messages[props.item._id]?.at(-1).sentAt)
       return (
           <li key={props.item._id} onClick={(e)=>setSelected(props.item.users[0]._id===props.user._id?props.item.users[1]:props.item.users[0],props.item._id,e)}>
@@ -88,17 +88,17 @@ export default function SingleChat(props) {
                 
               </div>
               <div className="chat-sidebar-name">
-                <h6 className="mb-0">{props.item.users[0]._id===props.user._id?props.item.users[1]?.name:props.item.users[0]?.name}</h6>
+                <h6 className="mb-0" style={{fontFamily:Font}}>{props.item.users[0]._id===props.user._id?props.item.users[1]?.name:props.item.users[0]?.name}</h6>
                 {messages[props.item._id]?.at(-1).sender?._id===props.user._id?
                 (
                   messages[props.item._id]?.at(-1).content_type==="file"?(
-                  <span><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{<><i class="ri-image-fill ps-5"></i>Photo</>}</span>):
-                  <span><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{messages[props.item._id]?.at(-1).message}</span>
+                  <span style={{fontFamily:Font}}><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{<><i class="ri-image-fill ps-5"></i>Photo</>}</span>):
+                  <span style={{fontFamily:Font}}><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{messages[props.item._id]?.at(-1).message}</span>
                 ):(
                   messages[props.item._id]?.at(-1).content_type==="file"?(
-                    <span>{<><i class="ri-image-fill"></i>Photo</>}</span>
+                    <span style={{fontFamily:Font}}>{<><i class="ri-image-fill"></i>Photo</>}</span>
                   ):(
-                    <span>{messages[props.item._id]?.at(-1).message}</span>
+                    <span style={{fontFamily:Font}}>{messages[props.item._id]?.at(-1).message}</span>
                   )
                   
                 )
@@ -148,17 +148,16 @@ export default function SingleChat(props) {
                 
               </div>
               <div className="chat-sidebar-name">
-                <h6 className="mb-0">{props.item.group_name}</h6>
-                {console.log("This is current message",messages[props.item._id]?.at(-1).content_type==="file")}
+                <h6 className="mb-0" style={{fontFamily:Font}}>{props.item.group_name}</h6>
                 {messages[props.item._id]?.at(-1).sender?._id===props.user._id?(
                   messages[props.item._id]?.at(-1).content_type==="file"?(
-                  <span><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{<><i class="ri-image-fill ps-5"></i>Photo</>}</span>):
-                  <span><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{messages[props.item._id]?.at(-1).message}</span>
+                  <span style={{fontFamily:Font}}><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{<><i class="ri-image-fill ps-5"></i>Photo</>}</span>):
+                  <span style={{fontFamily:Font}}><i class={`ri-check-double-line pe-5 ${messages[props.item._id]?.at(-1)?.receivedAt?"text-info":"text-dark"}`}></i>{messages[props.item._id]?.at(-1).message}</span>
                 ):(
                   messages[props.item._id]?.at(-1).content_type==="file"?(
-                    <span>{<><i class="ri-image-fill"></i>Photo</>}</span>
+                    <span style={{fontFamily:Font}}>{<><i class="ri-image-fill"></i>Photo</>}</span>
                   ):(
-                    <span>{messages[props.item._id]?.at(-1).message}</span>
+                    <span style={{fontFamily:Font}}>{messages[props.item._id]?.at(-1).message}</span>
                   )
                   
                 )}

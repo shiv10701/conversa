@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useSelector } from 'react-redux'
+import { FontFamily } from '../../../utils/fonts'
 
 export default function Message(props) {   // props =  all messages present in chat 
   // console.log(props)
+
+  const {Font,setFont}=useContext(FontFamily);
     if(props.item && props.item.message &&props.item.content_type==="message"){
       if(props.group){
         if(props.item.sender._id===props.current_user )
         {
             return (
-                <div className="chat" key={props.item._id}>
+                <div className="chat" key={props.item._id} style={{fontFamily:Font}}>
                                         
                                         <div className="chat-detail">
                                           <div className="chat-message">
-                                            <p>
+                                            <p style={{fontFamily:Font}}>
                                               {props.item.message}
                                             <span className="chat-time">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
                                             </p>
@@ -34,6 +37,7 @@ export default function Message(props) {   // props =  all messages present in c
                                         <div className="chat-detail">
                                           <div className="chat-message">
                                             <p>
+                                            <div className='text-primary' style={{fontSize:"10px"}}>{props.item.sender.name}</div>
                                               {props.item.message}
                                               <span className="chat-time text-start w-100 text-start">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
                                             </p>
