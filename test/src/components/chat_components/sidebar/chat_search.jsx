@@ -343,26 +343,31 @@ function Chat_Search(){
                            <div className="modal fade bd-example-modal-xl" id="modalSettings" tabindex="-1" role="dialog"   aria-hidden="true">
                               <div className="modal-dialog modal-xl">
                                  <div className="modal-content">
+                                  <div>
+                                    <button type="button" className="btn btn-primary float-right m-2" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                                  </div>
                                     
                                     <div className="modal-body">
-                                      <div className="d-flex flex-column">
-                                        <span style={{fontFamily:Font}}>Select Font :</span>
-                                        <select className="form-select" onChange={(e)=>{setLocalFont(()=>e.target.value);}} defaultValue={Font} style={{fontFamily:Font}}>
-                                          <option >Default</option>
+                                      <div className="d-flex flex-column border p-2">
+                                        <span style={{fontFamily:Font}} className="p-3">Select Font :</span>
+                                        <select className="form-control" onChange={(e)=>{setLocalFont(()=>e.target.value);}} defaultValue={Font} style={{fontFamily:Font}}>
+                                          <option style={{fontFamily:""}}>Default</option>
                                           <option className="p-3" value="'Roboto', sans-serif" style={{fontFamily:"'Roboto', sans-serif",}}>Roboto</option>
                                           <option value="'Pacifico', cursive" style={{fontFamily:"'Pacifico', cursive"}}>Pacifico</option>
                                           <option value="'IBM Plex Mono', monospace" style={{fontFamily:"'IBM Plex Mono', monospace"}}>IBM Plex Mono</option>
                                           <option value="'Kaushan Script', cursive" style={{fontFamily:"'Kaushan Script', cursive"}}>Kaushan Script</option>
-                                          <option value="'Geologica', sans-serif" style={{fontFamily:"'Geologica', sans-serif"}}>Geologica</option>
-                                          
+                                          <option value="'Geologica', sans-serif" style={{fontFamily:"'Geologica', sans-serif"}}>Geologica</option>    
                                         </select>
                                         
-                                        <span style={{fontFamily:Font}}>Font Preview:</span>
+                                        <span style={{fontFamily:Font}} className="p-3">Font Preview:</span>
                                         <span className="p-3" style={{fontFamily:font,fontSize:"18px"}}>You might belong in Gryffindor, Where dwell the brave at heart,Their daring, nerve, and chivalry Set Gryffindors apart.</span>
                                         <button className="btn btn-success mx-auto" style={{fontFamily:Font}} onClick={()=>{
                                           setFont(font);
                                           localStorage.setItem("choosenFontFam",font)
                                         }}>Save</button>        
+                                      </div>
+                                      <div className="d-flex flex-column border p-2 mt-3">
+                                        <span style={{fontFamily:Font}} className="p-3">Change Theme : </span>
                                       </div>
                                     </div>
                                     

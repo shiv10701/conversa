@@ -157,11 +157,11 @@ function Chat_Header(props) {
                     </div>
                   </div>
                   <hr />
-                  <div className="row" style={{overflowY:"scroll",height:"250px"}}>
+                  <div className="row" >
                     <div className="col-12 col-md-12 title pb-4">
                       Participants
                     </div>
-                    <div className="col-12 col-md-12">
+                    <div className="col-12 col-md-12 pb-5" style={{overflowY:"auto",height:"250px"}}>
                       <ul >
                         {props.item.users.map((item,i)=>{
                            return <li>
