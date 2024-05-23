@@ -311,7 +311,7 @@ function Chat_Header(props) {
                     <h4 style={{fontFamily:Font}}>{props.item.name}</h4>
                   </div>
                   <div className="user-desc" style={{fontFamily:Font}}>
-                    <p >{Country.getCountryByCode(props.item.country).name}</p>
+                    <p >{Country.getCountryByCode(props.item.country)?.name}</p>
                   </div>
                 </div>
                 <hr />
