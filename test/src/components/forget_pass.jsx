@@ -45,7 +45,7 @@ function ForgetPassword() {
         try {
             set_error_msg('');
             set_succ_msg('')            
-            const response = await axios.post("http://192.168.0.98:5000/api/forgot-pass/link", formData);
+            const response = await axios.post("https://9w1r6qz3-5000.inc1.devtunnels.ms/api/forgot-pass/link", formData);
             set_succ_msg(response.data.ans)
             console.log('response => ',response);
 

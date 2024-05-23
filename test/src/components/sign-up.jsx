@@ -43,7 +43,7 @@ function SignUpPage() {
     }
 
     async function save_data(form_data){
-        const result=await  axios.post('http://192.168.0.98:5000/api/auth/signup',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+        const result=await  axios.post('https://9w1r6qz3-5000.inc1.devtunnels.ms/api/auth/signup',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
         console.log(result);
     }
     return (

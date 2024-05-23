@@ -29,7 +29,7 @@ export default function Message(props) {   // props =  all messages present in c
                 <div className="chat chat-left" key={props.item._id}>
                                     <div className="chat-user">
                                         <img
-                                          src={"http://192.168.1.103:5000/uploads/"+props.item.sender._id+"/"+props.item.sender.profile_img}
+                                          src={"https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/"+props.item.sender._id+"/"+props.item.sender.profile_img}
                                           alt="avatar"
                                           className="avatar-35 "
                                         />
@@ -93,7 +93,7 @@ export default function Message(props) {   // props =  all messages present in c
                                         <div className="chat-detail">
                                           <div className="chat-message">
                                             <p>
-                                            <img src={"http://192.168.1.103:5000/uploads/"+props.item.chat_id+"/"+props.item.message} className='img-thumbnail' style={{height:"100px",width:"100px"}} />
+                                            <img src={"https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/"+props.item.chat_id+"/"+props.item.message} className='img-thumbnail' style={{height:"100px",width:"100px"}} />
 
                                             <span className="chat-time">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
                                             </p>
@@ -107,7 +107,7 @@ export default function Message(props) {   // props =  all messages present in c
                 <div className="chat chat-left" key={props.item._id}>
                                     <div className="chat-user">
                                         <img
-                                          src={"http://192.168.1.103:5000/uploads/"+props.item.sender._id+"/"+props.item.sender.profile_img}
+                                          src={"https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/"+props.item.sender._id+"/"+props.item.sender.profile_img}
                                           alt="avatar"
                                           className="avatar-35 "
                                         />
@@ -115,7 +115,7 @@ export default function Message(props) {   // props =  all messages present in c
                                         <div className="chat-detail">
                                           <div className="chat-message">
                                             <p>
-                                            <img src={"http://192.168.1.103:5000/uploads/"+props.item.chat_id+"/"+props.item.message} className='img-thumbnail' style={{height:"100px",width:"100px"}} />
+                                            <img src={"https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/"+props.item.chat_id+"/"+props.item.message} className='img-thumbnail' style={{height:"100px",width:"100px"}} />
 
                                               <span className="chat-time text-start w-100 text-start">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
                                             </p>
@@ -135,7 +135,7 @@ export default function Message(props) {   // props =  all messages present in c
                                         <div className="chat-detail">
                                           <div className="chat-message">
                                             <p>
-                                              <img src={"http://192.168.1.103:5000/uploads/"+props.item.chat_id+"/"+props.item.message} className='img-thumbnail' style={{height:"100px",width:"100px"}} />
+                                              <img src={"https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/"+props.item.chat_id+"/"+props.item.message} className='img-thumbnail' style={{height:"100px",width:"100px"}} />
                                             <span className="chat-time">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
                                             </p>
                                           </div>
@@ -150,7 +150,7 @@ export default function Message(props) {   // props =  all messages present in c
                                         <div className="chat-detail">
                                           <div className="chat-message">
                                             <p>
-                                            <img src={"http://192.168.1.103:5000/uploads/"+props.item.chat_id+"/"+props.item.message} className='img-thumbnail' style={{height:"100px",width:"100px"}} />
+                                            <img src={"https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/"+props.item.chat_id+"/"+props.item.message} className='img-thumbnail' style={{height:"100px",width:"100px"}} />
                                               <span className="chat-time text-start w-100 text-start">{ (""+new Date(props.item.sentAt).getHours().toString()+":"+new Date(props.item.sentAt).getMinutes().toString())}</span>
                                             </p>
                                             
