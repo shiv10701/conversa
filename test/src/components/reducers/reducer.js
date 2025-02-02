@@ -63,7 +63,7 @@ const reduce = (state = initial_state, action) => {
             if (action.set_messages.length) {
                 (action.set_messages).forEach(item => {
                     if (!item.receivedAt) {
-                        if (item.sender._id !== state.user_data._id) {
+                        if (item.sender?._id !== state.user_data?._id) {
                             new_unseen_chats = new_unseen_chats + 1;
                         }
                     }
