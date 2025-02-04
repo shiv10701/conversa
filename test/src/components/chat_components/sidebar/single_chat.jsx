@@ -55,19 +55,19 @@ export default function SingleChat(props) {
       let profile_img;
       if(props.item.users[0]?._id===props.user._id){
         if(props.item.users[1]?.profile_img){
-          profile_img="http://localhost:5000/uploads/"+props.item.users[1]?._id+"/"+props.item.users[1]?.profile_img
+          profile_img="https://conversa-3.onrender.com/uploads/"+props.item.users[1]?._id+"/"+props.item.users[1]?.profile_img
         }
         else{
-          profile_img="http://localhost:5000/uploads/avatar.jpg"
+          profile_img="https://conversa-3.onrender.com/uploads/avatar.jpg"
         }
       }
       else{
         if(props.item.users[0].profile_img)
          {
-           profile_img="http://localhost:5000/uploads/"+props.item.users[0]?._id+"/"+props.item.users[0]?.profile_img;
+           profile_img="https://conversa-3.onrender.com/uploads/"+props.item.users[0]?._id+"/"+props.item.users[0]?.profile_img;
          }
          else{
-          profile_img="http://localhost:5000/uploads/avatar.jpg"
+          profile_img="https://conversa-3.onrender.com/uploads/avatar.jpg"
         }
 
       }
@@ -126,10 +126,10 @@ export default function SingleChat(props) {
       let profile_img;
         if(props.item.chat_img)
          {
-           profile_img="http://localhost:5000/uploads/"+props.item._id+"/"+props.item.chat_img;
+           profile_img="https://conversa-3.onrender.com/uploads/"+props.item._id+"/"+props.item.chat_img;
          }
          else{
-          profile_img="http://localhost:5000/uploads/avatar.jpg"
+          profile_img="https://conversa-3.onrender.com/uploads/avatar.jpg"
         }
       
       return (
@@ -181,10 +181,10 @@ export default function SingleChat(props) {
     else{
       let profile_img;
         if(props.item.profile_img){
-          profile_img="http://localhost:5000/uploads/"+props.item._id+"/"+props.item.profile_img
+          profile_img="https://conversa-3.onrender.com/uploads/"+props.item._id+"/"+props.item.profile_img
         }
         else{
-          profile_img="http://localhost:5000/uploads/avatar.jpg"
+          profile_img="https://conversa-3.onrender.com/uploads/avatar.jpg"
         }
       return (
           <li key={props.item._id} onClick={(e)=>setSelected1(props.item,e)}>
