@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import  User from '../models/user.model.js';
 import crypto from 'crypto';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import  transporter from './mail.js';
 
 

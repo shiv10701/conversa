@@ -2,7 +2,7 @@ import express from 'express';
 import user from '../models/user.model.js';
 import formidable from 'formidable';
 import passport from 'passport';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import generateTokenAndSetCookie from './generateToken.js';
 import path from 'path';
 import { dirname } from 'path';
