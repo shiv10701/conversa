@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-const result = dotenv.config();
-  console.error(JSON.stringify(result.error));
 import mydb from "./db.js"
 import express from 'express'
 import bodyParser from "body-parser";
